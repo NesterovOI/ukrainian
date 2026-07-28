@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "210487299073",
+    "project_id": "ukrainian-d9d27",
+    "storage_bucket": "ukrainian-d9d27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210487299073:android:72785c1d0de04ee9230400",
+        "android_client_info": {
+          "package_name": "com.example.nesterov.ukrainian.ukrainian"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB038YwFnmVJnc9LBupdTbZ3L2of04sQqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
