@@ -23,7 +23,7 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
   FirebaseAuthRemoteDataSourceImpl({firebase_auth.FirebaseAuth? firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
+    : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
   @override
   Future<AuthModel> signUpWithEmail({
@@ -48,11 +48,9 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final updatedUser = _firebaseAuth.currentUser ?? user;
 
       return AuthModel.fromFirebaseUser(updatedUser);
-
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw _handleFirebaseAuthException(e);
     }
-
   }
 
   @override
@@ -62,8 +60,8 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email.trim(),
-          password: password.trim(),
+        email: email.trim(),
+        password: password.trim(),
       );
 
       final user = userCredential.user;
@@ -78,19 +76,21 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
 
   @override
   Stream<AuthModel?> get authStateChange {
-    return _firebaseAuth.authStateChanges().map((firebaseUser){
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
       if (firebaseUser == null) return null;
       return AuthModel.fromFirebaseUser(firebaseUser);
     });
   }
 
-  Exception _handleFirebaseAuthException(firebase_auth.FirebaseAuthException e) {
+  Exception _handleFirebaseAuthException(
+    firebase_auth.FirebaseAuthException e,
+  ) {
     switch (e.code) {
       case 'weak-password':
         return Exception(AppStrings.weakPassword);
