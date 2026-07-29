@@ -1,4 +1,4 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/auth/data/datasources/firebase_auth_remote_data_source.dart';
 import 'package:ukrainian/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ukrainian/features/auth/domain/repositories/auth_repository.dart';

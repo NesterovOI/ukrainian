@@ -1,4 +1,4 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/auth/domain/entities/user_entity.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_providers.dart';
 

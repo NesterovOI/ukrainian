@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_providers.dart';
 
 class AuthController extends AsyncNotifier<void> {
@@ -28,8 +28,7 @@ class AuthController extends AsyncNotifier<void> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => authRepository.signOut());
   }
-
-  final authControllerProvider = AsyncNotifierProvider<AuthController, void>(
-    AuthController.new,
-  );
 }
+
+final authControllerProvider =
+AsyncNotifierProvider<AuthController, void>(AuthController.new);
