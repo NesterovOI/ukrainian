@@ -16,7 +16,7 @@ abstract class AuthRemoteDataSource {
 
   Future<void> signOut();
 
-  Stream<AuthModel?> get authStateChange;
+  Stream<AuthModel?> get authStateChanges;
 }
 
 class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -81,7 +81,7 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Stream<AuthModel?> get authStateChange {
+  Stream<AuthModel?> get authStateChanges {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       if (firebaseUser == null) return null;
       return AuthModel.fromFirebaseUser(firebaseUser);
@@ -94,7 +94,7 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     switch (e.code) {
       case 'weak-password':
         return Exception(AppStrings.weakPassword);
-      case 'email-already-in_use':
+      case 'email-already-in-use':
         return Exception(AppStrings.emailAlreadyInUse);
       case 'invalid-email':
         return Exception(AppStrings.invalidEmail);
