@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_dimensions.dart';
+import 'theme.dart';
 
 abstract class AppTheme {
   // --- СВІТЛА ТЕМА ---
@@ -36,6 +35,32 @@ abstract class AppTheme {
           side: const BorderSide(color: AppColors.lightBorder, width: 1.5),
         ),
       ),
+      //Налаштування віджета TextFromField
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.disabled,
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppDimensions.spaceM, vertical: AppDimensions.spaceM),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide(color: AppColors.primaryShadow),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide(color: AppColors.primary),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide(color: AppColors.error),
+        ),
+      ),
+      //Колір курсора віджета TextFromField
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: AppColors.primary,
+      ),
     );
   }
 
@@ -69,6 +94,32 @@ abstract class AppTheme {
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           side: const BorderSide(color: AppColors.darkBorder, width: 1.5),
         ),
+      ),
+      //Налаштування віджета TextFromField
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.darkTextSecondary,
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppDimensions.spaceM, vertical: AppDimensions.spaceM),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide(color: AppColors.darkTextSecondary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide(color: AppColors.disabled),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          borderSide: BorderSide(color: AppColors.error),
+        ),
+      ),
+      //Колір курсора віджета TextFromField
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: AppColors.darkBorder,
       ),
     );
   }

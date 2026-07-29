@@ -11,7 +11,8 @@ abstract class AppDimensions {
   static const double spaceXXXL = 48.0;
 
   //  ЗАОКРУГЛЕННЯ (Border Radius)
-  static const double radiusS = 8.0;
+  static const double radiusXS = 8.0;
+  static const double radiusS = 12.0;
   static const double radiusM = 16.0;  // Стандарт для картки/кнопки
   static const double radiusL = 24.0;
   static const double radiusRound = 999.0; // Повністю кругла форма (аватарка, серце)
