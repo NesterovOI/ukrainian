@@ -61,6 +61,16 @@ abstract class AppTheme {
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.primary,
       ),
+      //Налаштування віджета TextButton
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.lightTextPrimary,
+          textStyle: const TextStyle(
+            fontSize: AppDimensions.fontBody,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 
@@ -120,6 +130,16 @@ abstract class AppTheme {
       //Колір курсора віджета TextFromField
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.darkBorder,
+      ),
+      //Налаштування віджета TextButton
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.darkTextPrimary,
+          textStyle: const TextStyle(
+            fontSize: AppDimensions.fontBody,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

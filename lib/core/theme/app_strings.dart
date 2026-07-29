@@ -6,7 +6,7 @@ abstract class AppStrings {
   static const String checkButton = 'ПЕРЕВІРИТИ';
   static const String nextLesson = 'НАСТУПНИЙ УРОК';
   static const String signIn = 'УВІЙТИ';
-  static const String register = 'ЗАРЕЄСТРУВАТИ';
+  static const String register = 'РЕЄСТРАЦІЯ';
   static const String emailHintText = 'Email';
   static const String passwordHintText = 'Пароль';
 
