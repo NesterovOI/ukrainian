@@ -10,7 +10,7 @@ import 'package:ukrainian/features/profile/presentation/pages/profile_page.dart'
 
 class AppRouters {
   static const String splash = '/';
-  static const String createPassword = '/create_password';
+  static const String registerPage = '/register_page';
   static const String loginPage = '/login_page';
   static const String homePage = '/home_page';
   static const String dictionary = '/dictionary_page';
@@ -26,8 +26,8 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(path: AppRouters.splash, builder: (context, state) => const SplashPage()),
       GoRoute(
-        path: AppRouters.createPassword,
-        builder: (context, state) => const CreatePasswordPage(),
+        path: AppRouters.registerPage,
+        builder: (context, state) => const RegisterPage(),
       ),
       GoRoute(
         path: AppRouters.loginPage,
@@ -79,7 +79,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         data: (user) {
           final isAuthPage =
               state.matchedLocation == AppRouters.loginPage ||
-                  state.matchedLocation == AppRouters.createPassword;
+                  state.matchedLocation == AppRouters.registerPage;
           // 1. Якщо користувач АВТОРИЗОВАНИЙ і знаходиться на сторінці
           // входу/реєстрації
           // -> Відправляємо його на головну сторінку
