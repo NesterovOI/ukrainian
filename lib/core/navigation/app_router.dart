@@ -8,7 +8,7 @@ import 'package:ukrainian/features/leaderboard/presentation/pages/leaderboard_pa
 import 'package:ukrainian/features/main_navigation/presentation/pages/main_page.dart';
 import 'package:ukrainian/features/profile/presentation/pages/profile_page.dart';
 
-class AppRouter {
+class AppRouters {
   static const String splash = '/';
   static const String createPassword = '/create_password';
   static const String loginPage = '/login_page';
@@ -17,87 +17,87 @@ class AppRouter {
   static const String leaderboard = '/leaderboard_page';
   static const String mainPage = '/main_page';
   static const String profilePage = '/profile_page';
-
-  final routerProvider = Provider<GoRouter>((ref) {
-    final authState = ref.watch(authStateProvider);
-    return GoRouter(
-      initialLocation: splash,
-      routes: [
-        GoRoute(path: splash, builder: (context, state) => const SplashPage()),
-        GoRoute(
-          path: createPassword,
-          builder: (context, state) => const CreatePasswordPage(),
-        ),
-        GoRoute(
-          path: loginPage,
-          builder: (context, state) => const LoginPage(),
-        ),
-
-        StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) {
-            return MainPage(navigationShell: navigationShell);
-          },
-          branches: [
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: homePage,
-                  builder: (context, state) => const HomePage(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: dictionary,
-                  builder: (context, state) => const DictionaryPage(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: leaderboard,
-                  builder: (context, state) => const LeaderboardPage(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: profilePage,
-                  builder: (context, state) => const ProfilePage(),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-      redirect: (context, state) {
-        return authState.when(
-          data: (user) {
-            final isAuthPage =
-                state.matchedLocation == AppRouter.loginPage ||
-                state.matchedLocation == AppRouter.createPassword;
-            // 1. Якщо користувач АВТОРИЗОВАНИЙ і знаходиться на сторінці
-            // входу/реєстрації
-            // -> Відправляємо його на головну сторінку
-            if (user != null && isAuthPage) {
-              return AppRouter.homePage;
-            }
-            // 2. Якщо користувач НЕ АВТОРИЗОВАНИЙ і намагається зайти на закриті екрани
-            // -> Відправляємо його на сторінку входу
-            if (user == null &&
-                !isAuthPage &&
-                state.matchedLocation != AppRouter.splash) {
-              return AppRouter.loginPage;
-            }
-            return null;
-          },
-          loading: () => null,
-          error: (_, __) => AppRouter.loginPage,
-        );
-      },
-    );
-  });
 }
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authStateProvider);
+  return GoRouter(
+    initialLocation: AppRouters.splash,
+    routes: [
+      GoRoute(path: AppRouters.splash, builder: (context, state) => const SplashPage()),
+      GoRoute(
+        path: AppRouters.createPassword,
+        builder: (context, state) => const CreatePasswordPage(),
+      ),
+      GoRoute(
+        path: AppRouters.loginPage,
+        builder: (context, state) => const LoginPage(),
+      ),
+
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return MainPage(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouters.homePage,
+                builder: (context, state) => const HomePage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouters.dictionary,
+                builder: (context, state) => const DictionaryPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouters.leaderboard,
+                builder: (context, state) => const LeaderboardPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouters.profilePage,
+                builder: (context, state) => const ProfilePage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+    redirect: (context, state) {
+      return authState.when(
+        data: (user) {
+          final isAuthPage =
+              state.matchedLocation == AppRouters.loginPage ||
+                  state.matchedLocation == AppRouters.createPassword;
+          // 1. Якщо користувач АВТОРИЗОВАНИЙ і знаходиться на сторінці
+          // входу/реєстрації
+          // -> Відправляємо його на головну сторінку
+          if (user != null && isAuthPage) {
+            return AppRouters.homePage;
+          }
+          // 2. Якщо користувач НЕ АВТОРИЗОВАНИЙ і намагається зайти на закриті екрани
+          // -> Відправляємо його на сторінку входу
+          if (user == null &&
+              !isAuthPage &&
+              state.matchedLocation != AppRouters.splash) {
+            return AppRouters.loginPage;
+          }
+          return null;
+        },
+        loading: () => null,
+        error: (_, __) => AppRouters.loginPage,
+      );
+    },
+  );
+});

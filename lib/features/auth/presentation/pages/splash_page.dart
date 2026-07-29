@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
 
     if (!mounted) return;
 
-    context.go(AppRouter.createPassword);
+    context.go(AppRouters.createPassword);
   }
 
   @override
