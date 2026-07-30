@@ -22,6 +22,7 @@ abstract class AppStrings {
   static const String passwordShort = 'Мінімальна дліна пароля повина бути 6 символів';
   static const String enterName = 'Введіть ваше ім\'я';
   static const String enterEmail = 'Введіть коректний Email';
+  static const String errorSharedPreferences = 'SharedPreferences не ініціалізовано';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
