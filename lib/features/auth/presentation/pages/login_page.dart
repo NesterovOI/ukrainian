@@ -5,7 +5,6 @@ import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_controller.dart';
 import 'package:ukrainian/features/auth/presentation/widget/custom_text_from_field.dart';
 import 'package:ukrainian/core/theme/theme.dart';
-import 'package:ukrainian/core/widgets/neobrutal_3d_button.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +16,7 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isPasswordHidden = true;
 
   @override
   void dispose() {
@@ -28,13 +28,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(authControllerProvider, (previous, next) {
-      if (next.hasError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.error.toString().replaceAll('Exception: ', '')),
-            backgroundColor: AppColors.error,
-          ),
-        );
+      if (next?.hasError == true && !next!.isLoading) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                next.error.toString().replaceAll('Exception: ', ''),
+              ),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        });
       }
     });
 
@@ -42,51 +46,78 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final isLoading = authState.isLoading;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(AppDimensions.spaceM),
-        child: Column(
-          children: [
-            CustomTextFromField(
-              controller: _emailController,
-              hintText: AppStrings.emailHintText,
-            ),
-            const SizedBox(height: AppDimensions.spaceS),
-            CustomTextFromField(
-              controller: _passwordController,
-              hintText: AppStrings.passwordHintText,
-              isPassword: true,
-            ),
-            const SizedBox(height: AppDimensions.spaceL),
-            const Text(AppStrings.notHaveAccount),
-            const SizedBox(height: AppDimensions.spaceS),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppDimensions.spaceM),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomTextFromField(
+                controller: _emailController,
+                labelText: AppStrings.emailLabelText,
+                hintText: AppStrings.emailHintText,
+                prefixIcon: const Icon(Icons.email),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _emailController.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.clear),
+                ),
+              ),
+              const SizedBox(height: AppDimensions.spaceS),
+              CustomTextFromField(
+                controller: _passwordController,
+                labelText: AppStrings.passwordLabelText,
+                hintText: AppStrings.passwordHintText,
+                isPassword: _isPasswordHidden,
+                prefixIcon: const Icon(Icons.password),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordHidden = !_isPasswordHidden;
+                    });
+                  },
+                  icon: Icon(
+                    _isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppDimensions.spaceL),
+              const Text(AppStrings.notHaveAccount),
+              const SizedBox(height: AppDimensions.spaceS),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
                     onPressed: () {
                       context.go(AppRouters.registerPage);
                     },
                     child: Text(AppStrings.register),
-                ),
-                const SizedBox(width: AppDimensions.spaceXS,),
-                Neobrutal3DButton(
-                  onTap: isLoading
-                      ? null
-                      : () {
-                    ref
-                        .read(authControllerProvider.notifier)
-                        .signIn(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
-                  },
-                  child: isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text(AppStrings.signIn),
-                ),
-              ],
-            ),
-          ],
+                  ),
+                  const SizedBox(width: AppDimensions.spaceXS),
+                  ElevatedButton(
+                    onPressed: () {
+                      isLoading
+                          ? null
+                          : () {
+                              ref
+                                  .read(authControllerProvider.notifier)
+                                  .signIn(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                            };
+                    },
+                    child: isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text(AppStrings.signIn),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

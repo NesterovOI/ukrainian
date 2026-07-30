@@ -5,11 +5,23 @@ abstract class AppStrings {
   static const String continueButton = 'ПРОДОВЖИТИ';
   static const String checkButton = 'ПЕРЕВІРИТИ';
   static const String nextLesson = 'НАСТУПНИЙ УРОК';
+
+  // ДЛЯ РЕГІСТРАЦІЇ КОРИСТУВАЧА
   static const String signIn = 'УВІЙТИ';
   static const String register = 'РЕЄСТРАЦІЯ';
-  static const String notHaveAccount = 'Ще не має акаунта?';
-  static const String emailHintText = 'Email';
-  static const String passwordHintText = 'Пароль';
+  static const String notHaveAccount = 'Ще не маєте акаунта?';
+  static const String alreadyHaveAccount = 'Вже маєте акаунт?';
+  static const String nameLabelText = 'Нікнейм';
+  static const String nameHintText = 'alex_dev';
+  static const String emailLabelText = 'Email';
+  static const String emailHintText = 'example@email.com';
+  static const String passwordLabelText = 'Пароль';
+  static const String passwordLabelText2 = 'Підтвердити пароль';
+  static const String passwordHintText = '******';
+  static const String passwordMatch = 'Паролі не співпадають';
+  static const String passwordShort = 'Мінімальна дліна пароля повина бути 6 символів';
+  static const String enterName = 'Введіть ваше ім\'я';
+  static const String enterEmail = 'Введіть коректний Email';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';

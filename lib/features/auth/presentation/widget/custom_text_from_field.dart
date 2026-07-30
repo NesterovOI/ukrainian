@@ -24,15 +24,18 @@ class CustomTextFromField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomTextFromField(
+    return TextFormField(
       controller: controller,
-      hintText: hintText,
-      labelText: labelText,
-      isPassword: isPassword,
+      obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
-      prefixIcon: prefixIcon,
-      suffixIcon: suffixIcon,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        border: const OutlineInputBorder(),
+      ),
     );
   }
 }
