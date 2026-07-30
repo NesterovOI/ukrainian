@@ -67,7 +67,7 @@ abstract class AppTheme {
           foregroundColor: AppColors.lightTextPrimary,
           textStyle: const TextStyle(
             fontSize: AppDimensions.fontBody,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
@@ -137,7 +137,7 @@ abstract class AppTheme {
           foregroundColor: AppColors.darkTextPrimary,
           textStyle: const TextStyle(
             fontSize: AppDimensions.fontBody,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

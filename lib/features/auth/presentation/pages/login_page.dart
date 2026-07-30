@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_controller.dart';
 import 'package:ukrainian/features/auth/presentation/widget/custom_text_from_field.dart';
 import 'package:ukrainian/core/theme/theme.dart';
@@ -55,20 +57,34 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               isPassword: true,
             ),
             const SizedBox(height: AppDimensions.spaceL),
-            Neobrutal3DButton(
-              onTap: isLoading
-                  ? null
-                  : () {
-                      ref
-                          .read(authControllerProvider.notifier)
-                          .signIn(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
+            const Text(AppStrings.notHaveAccount),
+            const SizedBox(height: AppDimensions.spaceS),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      context.go(AppRouters.registerPage);
                     },
-              child: isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text(AppStrings.signIn),
+                    child: Text(AppStrings.register),
+                ),
+                const SizedBox(width: AppDimensions.spaceXS,),
+                Neobrutal3DButton(
+                  onTap: isLoading
+                      ? null
+                      : () {
+                    ref
+                        .read(authControllerProvider.notifier)
+                        .signIn(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                  },
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(AppStrings.signIn),
+                ),
+              ],
             ),
           ],
         ),
