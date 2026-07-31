@@ -28,7 +28,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(authControllerProvider, (previous, next) {
-      if (next?.hasError == true && !next!.isLoading) {
+      if (next != null && next.hasError && !next.isLoading) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -98,20 +98,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   const SizedBox(width: AppDimensions.spaceXS),
                   ElevatedButton(
-                    onPressed: () {
-                      isLoading
-                          ? null
-                          : () {
-                              ref
-                                  .read(authControllerProvider.notifier)
-                                  .signIn(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                  );
-                            };
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                      ref.read(authControllerProvider.notifier).signIn(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text,
+                      );
                     },
                     child: isLoading
-                        ? const CircularProgressIndicator()
+                        ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                         : const Text(AppStrings.signIn),
                   ),
                 ],

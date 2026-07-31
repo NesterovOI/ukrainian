@@ -5,8 +5,7 @@ import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukrainian/core/prorvider/shared_preferences_provider.dart';
+import 'package:ukrainian/core/provider/shared_preferences_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

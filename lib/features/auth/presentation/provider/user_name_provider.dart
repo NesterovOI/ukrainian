@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukrainian/core/prorvider/shared_preferences_provider.dart';
+import 'package:ukrainian/core/provider/shared_preferences_provider.dart';
 
 const String kUserNameKey = 'user_name';
 final userNameProvider = NotifierProvider<UserNameNotifier, String>(UserNameNotifier.new);
