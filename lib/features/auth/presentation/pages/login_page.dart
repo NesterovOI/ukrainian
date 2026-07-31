@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ukrainian/core/errors/exceptions.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_controller.dart';
 import 'package:ukrainian/features/auth/presentation/widget/custom_text_from_field.dart';
@@ -28,13 +29,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(authControllerProvider, (previous, next) {
-      if (next != null && next.hasError && !next.isLoading) {
+      if (next case AsyncError(:final error) when !next.isLoading) {
+        final String errorMessage = error is AuthException
+        ? error.message
+        : error.toString().replaceAll('Exception: ', '');
+
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                next.error.toString().replaceAll('Exception: ', ''),
-              ),
+              content: Text(errorMessage),
               backgroundColor: AppColors.error,
             ),
           );
