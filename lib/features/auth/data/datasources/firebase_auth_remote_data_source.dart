@@ -18,6 +18,8 @@ abstract class AuthRemoteDataSource {
   Future<void> signOut();
 
   Stream<AuthModel?> get authStateChanges;
+
+  Future<void> sendPasswordResetEmail({required String email});
 }
 
 class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -89,6 +91,15 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     });
   }
 
+  @override
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email.trim());
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw _handleFirebaseAuthException(e);
+    }
+  }
+
   Exception _handleFirebaseAuthException(
     firebase_auth.FirebaseAuthException e,
   ) {
@@ -100,6 +111,7 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       case 'invalid-email':
         return const InvalidEmailOrPasswordAuthException();
       case 'user-not-found':
+        return const UserNotFoundAuthException();
       case 'wrong-password':
       case 'invalid-credential':
         return const InvalidEmailOrPasswordAuthException();

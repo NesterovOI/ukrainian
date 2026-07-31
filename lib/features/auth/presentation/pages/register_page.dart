@@ -96,8 +96,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: AppDimensions.spaceL),
-                const Text(AppStrings.alreadyHaveAccount),
+                const SizedBox(height: AppDimensions.spaceXS),
+                Align(
+                 alignment: Alignment.topLeft,
+                 child: const Text(AppStrings.alreadyHaveAccount,),
+                ),
                 const SizedBox(height: AppDimensions.spaceS),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

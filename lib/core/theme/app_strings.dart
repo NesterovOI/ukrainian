@@ -19,9 +19,16 @@ abstract class AppStrings {
   static const String passwordLabelText2 = 'Підтвердити пароль';
   static const String passwordHintText = '******';
   static const String passwordMatch = 'Паролі не співпадають';
-  static const String passwordShort = 'Мінімальна дліна пароля повина бути 6 символів';
+  static const String passwordShort = 'Мінімальна довжина пароля повинна бути 6 символів';
   static const String enterName = 'Введіть ваше ім\'я';
   static const String enterEmail = 'Введіть коректний Email';
+  static const String sentLetterOnEmail = 'Лист із відновленням пароля надіслано на ваш Email!';
+  static const String forgotPassword = 'Забули пароль?';
+  static const String restorationPassword = 'Відновлення пароля';
+  static const String enterYourEmail = 'Введіть ваш Email, і ми надішлемо інструкції для скидання пароля.';
+  static const String enterYourEmailCorrect = 'Введіть ваш Email';
+  static const String cancel = 'Скасувати';
+  static const String send = 'Надіслати';
   static const String errorSharedPreferences = 'SharedPreferences не ініціалізовано';
 
   //  ТЕСТИ ТА ГРА

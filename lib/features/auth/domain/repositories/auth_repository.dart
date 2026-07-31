@@ -15,4 +15,6 @@ abstract class AuthRepository {
   Future<void> signOut();
 
   Stream<UserEntity?> get authStateChanges;
+
+  Future<void> sendPasswordResetEmail({required String email});
 }

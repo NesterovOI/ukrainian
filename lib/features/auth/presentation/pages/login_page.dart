@@ -31,8 +31,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen<AsyncValue<void>>(authControllerProvider, (previous, next) {
       if (next case AsyncError(:final error) when !next.isLoading) {
         final String errorMessage = error is AuthException
-        ? error.message
-        : error.toString().replaceAll('Exception: ', '');
+            ? error.message
+            : error.toString().replaceAll('Exception: ', '');
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -42,6 +42,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
           );
         });
+      }
+
+      if (previous?.isLoading == true && !next.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(AppStrings.sentLetterOnEmail),
+            backgroundColor: AppColors.success,
+          ),
+        );
       }
     });
 
@@ -87,8 +96,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: AppDimensions.spaceL),
-              const Text(AppStrings.notHaveAccount),
+              const SizedBox(height: AppDimensions.spaceXS),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    _showForgotPasswordDialog(context, ref);
+                  },
+                  child: const Text(AppStrings.forgotPassword),
+                ),
+              ),
               const SizedBox(height: AppDimensions.spaceS),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -104,17 +121,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     onPressed: isLoading
                         ? null
                         : () {
-                      ref.read(authControllerProvider.notifier).signIn(
-                        email: _emailController.text.trim(),
-                        password: _passwordController.text,
-                      );
-                    },
+                            ref
+                                .read(authControllerProvider.notifier)
+                                .signIn(
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text,
+                                );
+                          },
                     child: isLoading
                         ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : const Text(AppStrings.signIn),
                   ),
                 ],
@@ -125,4 +144,66 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ),
     );
   }
+}
+
+void _showForgotPasswordDialog(BuildContext context, WidgetRef ref) {
+  final emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  showDialog(
+    context: context,
+    builder: (dialogContext) {
+      return AlertDialog(
+        title: const Text(AppStrings.restorationPassword),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(AppStrings.enterYourEmail),
+              const SizedBox(height: AppDimensions.spaceM),
+              CustomTextFromField(
+                controller: emailController,
+                labelText: AppStrings.emailLabelText,
+                hintText: AppStrings.enterYourEmailCorrect,
+                keyboardType: TextInputType.emailAddress,
+                prefixIcon: Icon(Icons.email_outlined),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    emailController.clear();
+                  },
+                  icon: Icon(Icons.clear),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return AppStrings.enterYourEmailCorrect;
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text(AppStrings.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                final email = emailController.text.trim();
+                Navigator.pop(dialogContext);
+
+                await ref
+                    .read(authControllerProvider.notifier)
+                    .sendPasswordResetEmail(email: email);
+              }
+            },
+            child: const Text(AppStrings.send),
+          ),
+        ],
+      );
+    },
+  );
 }

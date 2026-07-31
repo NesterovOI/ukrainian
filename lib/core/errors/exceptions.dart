@@ -23,3 +23,7 @@ class GenericAuthException extends AuthException {
   const GenericAuthException([String? message])
     : super(message ?? AppStrings.invalidAuth);
 }
+
+class UserNotFoundAuthException extends AuthException {
+  const UserNotFoundAuthException(): super(AppStrings.userNotFound);
+}
