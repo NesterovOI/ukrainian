@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:ukrainian/core/errors/exceptions.dart';
 import 'package:ukrainian/features/auth/data/models/auth_model.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 
@@ -93,17 +94,17 @@ class FirebaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   ) {
     switch (e.code) {
       case 'weak-password':
-        return Exception(AppStrings.weakPassword);
+        return const WeakPasswordAuthException();
       case 'email-already-in-use':
-        return Exception(AppStrings.emailAlreadyInUse);
+        return const EmailAlreadyInUseAuthException();
       case 'invalid-email':
-        return Exception(AppStrings.invalidEmail);
+        return const InvalidEmailOrPasswordAuthException();
       case 'user-not-found':
       case 'wrong-password':
       case 'invalid-credential':
-        return Exception(AppStrings.invalidEmailOrPassword);
+        return const InvalidEmailOrPasswordAuthException();
       default:
-        return Exception(e.message ?? AppStrings.invalidAuth);
+        return GenericAuthException(e.message);
     }
   }
 }
