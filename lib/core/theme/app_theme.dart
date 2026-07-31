@@ -39,6 +39,9 @@ abstract class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.disabled,
+        labelStyle: const TextStyle(
+          color: AppColors.lightTextSecondary,
+        ),
         contentPadding: const EdgeInsets.symmetric(horizontal: AppDimensions.spaceM, vertical: AppDimensions.spaceM),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -50,11 +53,17 @@ abstract class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(color: AppColors.primary),
+          borderSide: BorderSide(
+              color: AppColors.primary,
+              width: 3,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(color: AppColors.error),
+          borderSide: BorderSide(
+              color: AppColors.error,
+              width: 2,
+          ),
         ),
       ),
       //Колір курсора віджета TextFromField
@@ -70,6 +79,23 @@ abstract class AppTheme {
             fontWeight: FontWeight.w600,
           ),
         ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        indicatorColor: AppColors.primary,
+        labelTextStyle: WidgetStateProperty.resolveWith((state) {
+          if (state.contains(WidgetState.selected)) {
+            return const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: AppDimensions.fontBody,
+              color: AppColors.lightTextPrimary,
+            );
+          } else {
+            return const TextStyle(
+              fontSize: AppDimensions.fontCaption,
+              color: AppColors.lightTextSecondary,
+            );
+          }
+        }),
       ),
     );
   }
@@ -120,11 +146,17 @@ abstract class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(color: AppColors.disabled),
+          borderSide: BorderSide(
+            color: AppColors.disabled,
+            width: 3,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(color: AppColors.error),
+          borderSide: BorderSide(
+              color: AppColors.error,
+              width: 2,
+          ),
         ),
       ),
       //Колір курсора віджета TextFromField
@@ -140,6 +172,23 @@ abstract class AppTheme {
             fontWeight: FontWeight.w600,
           ),
         ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        indicatorColor: AppColors.primary,
+        labelTextStyle: WidgetStateProperty.resolveWith((state) {
+          if (state.contains(WidgetState.selected)) {
+            return const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: AppDimensions.fontBody,
+              color: AppColors.darkTextPrimary,
+            );
+          } else {
+            return const TextStyle(
+              fontSize: AppDimensions.fontCaption,
+              color: AppColors.darkTextSecondary,
+            );
+          }
+        }),
       ),
     );
   }
