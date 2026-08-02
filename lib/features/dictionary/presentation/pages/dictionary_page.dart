@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
-import 'package:ukrainian/features/dictionary/presentation/pages/rule_detail_page.dart';
 import 'package:ukrainian/features/dictionary/presentation/providers/dictionary_controller.dart';
+import 'package:ukrainian/features/dictionary/presentation/widgets/rule_card.dart';
 
 class DictionaryPage extends ConsumerWidget {
   const DictionaryPage({super.key});
@@ -71,7 +70,7 @@ class DictionaryPage extends ConsumerWidget {
                         itemCount: rules.length,
                         itemBuilder: (context, index) {
                           final rule = rules[index];
-                          return _RuleCart();
+                          return RuleCard(rule: rule);
                         },
                     );
                   },

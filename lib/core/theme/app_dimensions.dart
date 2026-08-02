@@ -27,6 +27,7 @@ abstract class AppDimensions {
   //  ВІДЖЕТИ ТА 3D
   static const double buttonHeight = 56.0;      // Комфортна висота для натискання пальцем
   static const double buttonShadowHeight = 6.0; // Висота 3D-грані
+  static const double iconSizeS = 16;
   static const double iconSizeM = 24.0;
   static const double iconSizeL = 32.0;
   static const double sizeBoxHeight = 60;

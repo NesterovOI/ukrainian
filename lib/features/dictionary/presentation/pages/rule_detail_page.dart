@@ -4,7 +4,8 @@ import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
 
 class RuleDetailPage extends StatelessWidget {
-  const RuleDetailPage({super.key});
+  final RuleEntity rule;
+  const RuleDetailPage({super.key, required this.rule});
 
   @override
   Widget build(BuildContext context) {
