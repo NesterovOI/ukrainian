@@ -31,6 +31,10 @@ abstract class AppStrings {
   static const String send = 'Надіслати';
   static const String errorSharedPreferences = 'SharedPreferences не ініціалізовано';
 
+  // ДЛЯ DICTIONARY
+  static const String notHaveRule = 'Правил у цій категорії поки немає.';
+  static const String errorDownloadDictionary = 'Помилка завантаження:';
+
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';
@@ -40,7 +44,7 @@ abstract class AppStrings {
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
-  static const String navDictionary = 'Словник';
+  static const String navDictionary = 'Правила';
   static const String navLeaderboard = 'Рейтинг';
   static const String navProfile = 'Профіль';
 
