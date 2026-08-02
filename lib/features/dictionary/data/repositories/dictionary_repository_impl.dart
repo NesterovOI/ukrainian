@@ -1,8 +1,8 @@
 import 'package:ukrainian/features/dictionary/data/datasources/dictionary_local_data_source.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
-import 'package:ukrainian/features/dictionary/domain/repositories/dictionary_repositories.dart';
+import 'package:ukrainian/features/dictionary/domain/repositories/dictionary_repository.dart';
 
-class DictionaryRepositoryImpl implements DictionaryRepositories {
+class DictionaryRepositoryImpl implements DictionaryRepository {
   final DictionaryLocalDataSource localDataSource;
 
   DictionaryRepositoryImpl({required this.localDataSource});
