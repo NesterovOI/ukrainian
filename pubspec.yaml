@@ -41,6 +41,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
   shared_preferences: ^2.5.5
+  flutter_markdown: ^0.7.7+1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
      - assets/icons/
      - assets/sounds/
      - assets/animations/
+     - assets/data/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,0 +1,75 @@
+[
+  {
+    "id": "apostrophe_rule",
+    "title": "Правила вживання апострова",
+    "categoryId": "orthography",
+    "categoryName": "Орфографія",
+    "summary": "Апостроф пишється перед я, ю, є, ї після губних та інших приголосних.",
+    "contentMarkdown": "### Апостроф пишеться:\\n\\n1. Після губних букв (**б, п, в, м, ф**) перед **я, ю, є, ї**:\\n   * Якщо перед ними немає іншого приголосного (крім *р*), який належить до кореня.\\n2. Після букв **р, к, п, т, ф, х** у деяких випадках.\\n3. Після префіксів та першої частини складних слів, що закінчуються на твердий приголосний:\\n   * *з'їхати, під'їзд, екс'президент*.\\n\\n> **Важливо:** Якщо перед губним є приголосний (крім *р*), що належить до кореня, апостроф **не пишеться** (наприклад: *свято, духмяний*).",
+    "examples": [
+      "б'ю",
+      "п'ять",
+      "м'ята",
+      "солов'ї",
+      "міжгір'я",
+      "об'єкт"
+    ],
+    "exceptions": [
+      "свято",
+      "духмяний",
+      "морквяний",
+      "тмяний",
+      "мавпячий"
+    ]
+  },
+  {
+    "id": "",
+    "title": "",
+    "categoryId": "",
+    "categoryName": "",
+    "summary": "",
+    "contentMarkdown": "",
+    "examples": [],
+    "exceptions": []
+  },
+  {
+    "id": "",
+    "title": "",
+    "categoryId": "",
+    "categoryName": "",
+    "summary": "",
+    "contentMarkdown": "",
+    "examples": [],
+    "exceptions": []
+  },
+  {
+    "id": "",
+    "title": "",
+    "categoryId": "",
+    "categoryName": "",
+    "summary": "",
+    "contentMarkdown": "",
+    "examples": [],
+    "exceptions": []
+  },
+  {
+    "id": "",
+    "title": "",
+    "categoryId": "",
+    "categoryName": "",
+    "summary": "",
+    "contentMarkdown": "",
+    "examples": [],
+    "exceptions": []
+  },
+  {
+    "id": "",
+    "title": "",
+    "categoryId": "",
+    "categoryName": "",
+    "summary": "",
+    "contentMarkdown": "",
+    "examples": [],
+    "exceptions": []
+  }
+]
