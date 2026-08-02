@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:ukrainian/features/dictionary/data/models/rule_model.dart';
 
-abstract class DictionaryLocalDataSources {
+abstract class DictionaryLocalDataSource {
   Future<List<RuleModel>> getAllRules();
 }
 
-class DictionaryLocalDataSourceImpl implements DictionaryLocalDataSources {
+class DictionaryLocalDataSourceImpl implements DictionaryLocalDataSource {
   final String jsonPath;
 
   DictionaryLocalDataSourceImpl({this.jsonPath = 'assets/data/rules.json'});
