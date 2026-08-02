@@ -4,7 +4,7 @@ class RuleEntity {
   final String categoryId;
   final String categoryName;
   final String summary;
-  final String contentMarkDown;
+  final String contentMarkdown;
   final List<String> examples;
   final List<String>? exceptions;
 
@@ -14,7 +14,7 @@ class RuleEntity {
     required this.categoryId,
     required this.categoryName,
     required this.summary,
-    required this.contentMarkDown,
+    required this.contentMarkdown,
     required this.examples,
     this.exceptions,
 });
