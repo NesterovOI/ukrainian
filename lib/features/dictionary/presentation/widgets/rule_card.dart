@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
 import 'package:ukrainian/features/dictionary/presentation/pages/pages.dart';
@@ -18,11 +20,10 @@ class RuleCard extends StatelessWidget {
       child: InkWell(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(
-                builder: (_) => RuleDetailPage(rule: rule),
-            ),
-            );
+              context.pushNamed(
+                AppRouters.ruleDetailName,
+                extra: rule,
+              );
           },
         child: Padding(
             padding: const EdgeInsets.all(AppDimensions.spaceM),
