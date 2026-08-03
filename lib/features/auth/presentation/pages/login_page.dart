@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ukrainian/core/errors/exceptions.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_controller.dart';
-import 'package:ukrainian/features/auth/presentation/widget/custom_text_from_field.dart';
+import 'package:ukrainian/core/widgets/custom_text_from_field.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
