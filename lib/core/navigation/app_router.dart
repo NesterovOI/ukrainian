@@ -2,7 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ukrainian/features/auth/presentation/pages/pages.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_state_provider.dart';
+import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
 import 'package:ukrainian/features/dictionary/presentation/pages/dictionary_page.dart';
+import 'package:ukrainian/features/dictionary/presentation/pages/pages.dart';
 import 'package:ukrainian/features/home_lessons/presentation/pages/pages.dart';
 import 'package:ukrainian/features/leaderboard/presentation/pages/leaderboard_page.dart';
 import 'package:ukrainian/features/main_navigation/presentation/pages/main_page.dart';
@@ -14,6 +16,9 @@ class AppRouters {
   static const String loginPage = '/login_page';
   static const String homePage = '/home_page';
   static const String dictionary = '/dictionary_page';
+  static const String dictionaryName = 'dictionary';
+  static const String detailPath = 'detail';
+  static const String ruleDetailName = 'ruleDetail';
   static const String leaderboard = '/leaderboard_page';
   static const String mainPage = '/main_page';
   static const String profilePage = '/profile_page';
@@ -51,7 +56,18 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRouters.dictionary,
+                name: AppRouters.dictionaryName,
                 builder: (context, state) => const DictionaryPage(),
+                routes: [
+                  GoRoute(
+                      path: AppRouters.detailPath,
+                      name: AppRouters.ruleDetailName,
+                      builder: (context, state) {
+                        final rule = state.extra as RuleEntity;
+                        return RuleDetailPage(rule: rule);
+                      }
+                  ),
+                ],
               ),
             ],
           ),
