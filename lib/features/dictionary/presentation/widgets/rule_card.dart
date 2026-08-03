@@ -43,10 +43,7 @@ class RuleCard extends StatelessWidget {
                         ),
                         child: Text(
                           rule.categoryName,
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     const Icon(Icons.arrow_forward_ios, size: AppDimensions.iconSizeS,),
@@ -55,9 +52,7 @@ class RuleCard extends StatelessWidget {
               const SizedBox(height: AppDimensions.spaceS,),
               Text(
                   rule.title,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.lightTextSecondary,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),

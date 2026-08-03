@@ -15,14 +15,33 @@ abstract class AppTheme {
       ),
       // Налаштування текстів за замовчуванням
       textTheme: const TextTheme(
-        bodyMedium: TextStyle(
-          fontSize: AppDimensions.fontBody,
-          color: AppColors.lightTextPrimary,
-          height: 1.4, // Зручний інтервал між рядками для читання
-        ),
+        // Великі цифри (наприклад, бали у рейтингу)
         titleLarge: TextStyle(
-          fontSize: AppDimensions.fontTitle,
+          fontSize: AppDimensions.fontDisplay, // Розмір шрифта 28.0
           fontWeight: FontWeight.bold,
+          color: AppColors.lightTextPrimary,
+        ),
+        // Для назви уроків, заголовки екранів
+        titleMedium: TextStyle(
+          fontSize: AppDimensions.fontTitle, // Розмір шрифта 22.0
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightTextPrimary,
+        ),
+        // Текст для запитань під час уроків
+        bodyLarge: TextStyle(
+          fontSize: AppDimensions.fontSubheading, // Розмір шрифта 18.0
+          color: AppColors.lightTextPrimary,
+          height: AppDimensions.spaceXXXXS,
+        ),
+        // Основний текст правил, відповідей
+        bodyMedium: TextStyle(
+          fontSize: AppDimensions.fontBody, // Розмір шрифта 16.0
+          color: AppColors.lightTextPrimary,
+          height: AppDimensions.spaceXXXXS,
+        ),
+        // Маленький текст, підписи, дрібні підказки
+        bodySmall: TextStyle(
+          fontSize: AppDimensions.fontCaption, // Розмір шрифта 12.0
           color: AppColors.lightTextPrimary,
         ),
       ),
@@ -39,10 +58,11 @@ abstract class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.disabled,
-        labelStyle: const TextStyle(
-          color: AppColors.lightTextSecondary,
+        labelStyle: const TextStyle(color: AppColors.lightTextSecondary),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.spaceM,
+          vertical: AppDimensions.spaceM,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: AppDimensions.spaceM, vertical: AppDimensions.spaceM),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           borderSide: BorderSide.none,
@@ -53,17 +73,11 @@ abstract class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(
-              color: AppColors.primary,
-              width: 3,
-          ),
+          borderSide: BorderSide(color: AppColors.primary, width: 3),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(
-              color: AppColors.error,
-              width: 2,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: 2),
         ),
       ),
       //Колір курсора віджета TextFromField
@@ -97,6 +111,9 @@ abstract class AppTheme {
           }
         }),
       ),
+      chipTheme: ChipThemeData(
+        backgroundColor: AppColors.lightBorder,
+      ),
     );
   }
 
@@ -112,14 +129,33 @@ abstract class AppTheme {
         error: AppColors.error,
       ),
       textTheme: const TextTheme(
+        // Великі цифри (наприклад, бали у рейтингу)
+        titleLarge: TextStyle(
+          fontSize: AppDimensions.fontDisplay,
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkTextPrimary,
+        ),
+        // Для назви уроків, заголовки екранів
+        titleMedium: TextStyle(
+          fontSize: AppDimensions.fontTitle,
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkTextPrimary,
+        ),
+        // Текст для запитань під час уроків
+        bodyLarge: TextStyle(
+          fontSize: AppDimensions.fontSubheading,
+          color: AppColors.darkTextPrimary,
+          height: AppDimensions.spaceXXXXS,
+        ),
+        // Основний текст правил, відповідей
         bodyMedium: TextStyle(
           fontSize: AppDimensions.fontBody,
           color: AppColors.darkTextPrimary,
-          height: 1.4,
+          height: AppDimensions.spaceXXXXS,
         ),
-        titleLarge: TextStyle(
-          fontSize: AppDimensions.fontTitle,
-          fontWeight: FontWeight.bold,
+        // Маленький текст, підписи, дрібні підказки
+        bodySmall: TextStyle(
+          fontSize: AppDimensions.fontCaption,
           color: AppColors.darkTextPrimary,
         ),
       ),
@@ -135,7 +171,10 @@ abstract class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.darkTextSecondary,
-        contentPadding: const EdgeInsets.symmetric(horizontal: AppDimensions.spaceM, vertical: AppDimensions.spaceM),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.spaceM,
+          vertical: AppDimensions.spaceM,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           borderSide: BorderSide.none,
@@ -146,17 +185,11 @@ abstract class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(
-            color: AppColors.disabled,
-            width: 3,
-          ),
+          borderSide: BorderSide(color: AppColors.disabled, width: 3),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: BorderSide(
-              color: AppColors.error,
-              width: 2,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: 2),
         ),
       ),
       //Колір курсора віджета TextFromField
@@ -189,6 +222,9 @@ abstract class AppTheme {
             );
           }
         }),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: AppColors.darkBorder,
       ),
     );
   }

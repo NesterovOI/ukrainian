@@ -13,16 +13,21 @@ class RuleModel extends RuleEntity {
   });
 
   factory RuleModel.fromJson(Map<String, dynamic> json) {
-    return RuleModel(id: json['id'] as String,
-      title: json['title'] as String,
-      categoryId: json['categoryId'] as String,
-      categoryName: json['categoryName'] as String,
-      summary: json['summary'] as String,
-      contentMarkdown: json['contentMarkDown'] as String,
-      examples: List<String>.from(['examples'] as List),
-      exceptions: json['exceptions'] != null
-          ? List<String>.from(['exceptions'] as List)
-          : null,
+    return RuleModel(
+      id: json['id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      categoryId: json['categoryId'] as String? ?? '',
+      categoryName: json['categoryName'] as String? ?? '',
+      summary: json['summary'] as String? ?? '',
+      contentMarkdown: json['contentMarkdown'] as String? ?? '',
+        examples: (json['examples'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+            const [],
+
+        exceptions: (json['exceptions'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList(),
     );
   }
 

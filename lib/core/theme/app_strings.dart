@@ -34,6 +34,8 @@ abstract class AppStrings {
   // ДЛЯ DICTIONARY
   static const String notHaveRule = 'Правил у цій категорії поки немає.';
   static const String errorDownloadDictionary = 'Помилка завантаження:';
+  static const String ruleExamplesDictionary = '📌 Приклади:';
+  static const String ruleExceptionsDictionary = '⚠️ Винятки (Зверни увагу на НМТ!):';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
