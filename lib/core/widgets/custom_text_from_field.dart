@@ -7,6 +7,7 @@ class CustomTextFromField extends StatelessWidget {
   final bool isPassword;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
 
@@ -18,6 +19,7 @@ class CustomTextFromField extends StatelessWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.validator,
+    this.onChanged,
     this.prefixIcon,
     this.suffixIcon,
   });
@@ -29,6 +31,7 @@ class CustomTextFromField extends StatelessWidget {
       obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
+      onChanged: onChanged,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

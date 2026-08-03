@@ -33,6 +33,7 @@ abstract class AppStrings {
 
   // ДЛЯ DICTIONARY
   static const String notHaveRule = 'Правил у цій категорії поки немає.';
+  static const String searchRules = 'Пошук правил чи прикладів...';
   static const String errorDownloadDictionary = 'Помилка завантаження:';
   static const String ruleExamplesDictionary = '📌 Приклади:';
   static const String ruleExceptionsDictionary = '⚠️ Винятки (Зверни увагу на НМТ!):';

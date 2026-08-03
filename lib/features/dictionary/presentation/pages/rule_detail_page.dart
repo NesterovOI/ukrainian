@@ -43,6 +43,8 @@ class RuleDetailPage extends StatelessWidget {
                       items: rule.examples
                   ),
                 ],
+
+                const SizedBox(height: AppDimensions.spaceXS,),
                 // Блок Винятків
                 if (rule.exceptions != null && rule.exceptions!.isNotEmpty) ...[
                   BuildSectionBox(
