@@ -1,4 +1,4 @@
-import 'package:ukrainian/features/home_lessons/domain/entities/quiz_question_entity.dart';
+import 'entities_home_export.dart';
 
 class LessonEntity {
   final String id;
