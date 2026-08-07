@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/widgets/custom_text_from_field.dart';
@@ -14,6 +15,7 @@ class DictionaryPage extends ConsumerStatefulWidget {
 
 class _DictionaryPageState extends ConsumerState<DictionaryPage> {
   late final TextEditingController _searchController;
+  Timer? _debounceTimer;
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class _DictionaryPageState extends ConsumerState<DictionaryPage> {
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -35,16 +38,26 @@ class _DictionaryPageState extends ConsumerState<DictionaryPage> {
     {'id': 'grafika', 'name': 'Графіка'},
     {'id': 'orfoepia', 'name': 'Орфоепія'},
     {'id': 'orthography', 'name': 'Орфографія'},
-    {'id': 'leksukologia', 'name': 'Лексикологія'},
-    {'id': 'frazeologia', 'name': 'Фразеологія'},
-    {'id': 'build_word', 'name': 'Будова слова і словотвір'},
+    {'id': 'lexicology', 'name': 'Лексикологія'},
+    {'id': 'phraseology', 'name': 'Фразеологія'},
+    {'id': 'morphemics_word_building', 'name': 'Будова слова і словотвір'},
     {'id': 'morphology', 'name': 'Морфологія'},
-    {'id': 'suntaksus', 'name': 'Синтаксис'},
-    {'id': 'pynktyacia', 'name': 'Пунктуація'},
-    {'id': 'stulistuka', 'name': 'Стилістика'},
-    {'id': 'kyltyra_movlena', 'name': 'Культура мовлення'},
-    {'id': 'tekstoznavstvo', 'name': 'Текстознавство'},
+    {'id': 'syntax', 'name': 'Синтаксис'},
+    {'id': 'punctuation', 'name': 'Пунктуація'},
+    {'id': 'stylistics', 'name': 'Стилістика'},
+    {'id': 'culture_of_speech', 'name': 'Культура мовлення'},
+    {'id': 'text_linguistics', 'name': 'Текстознавство'},
   ];
+
+  void _onSearchChanged(String query) {
+    if (_debounceTimer?.isActive ?? false) {
+      _debounceTimer?.cancel();
+    }
+
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      ref.read(searchQueryProvider.notifier).state = query;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +80,13 @@ class _DictionaryPageState extends ConsumerState<DictionaryPage> {
               controller: _searchController,
               hintText: AppStrings.searchRules,
               prefixIcon: const Icon(Icons.search),
-              onChanged: (value) {
-                ref.read(searchQueryProvider.notifier).state = value;
-              },
+              onChanged: _onSearchChanged,
               suffixIcon: ref.watch(searchQueryProvider).isNotEmpty
                   ? IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         _searchController.clear();
+                        _debounceTimer?.cancel();
                         ref.read(searchQueryProvider.notifier).state = '';
                       },
                     )

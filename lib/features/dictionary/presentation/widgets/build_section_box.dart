@@ -35,17 +35,40 @@ class BuildSectionBox extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: AppDimensions.spaceS,),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: items.map((item) {
-              return Chip(
-                  label: Text(
-                    item,
-                    style: Theme.of(context).textTheme.bodyLarge,
+          ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 200,
+              ),
+            child: Scrollbar(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Wrap(
+                    spacing: AppDimensions.spaceXS,
+                    runSpacing: AppDimensions.spaceXS,
+                    children: items.map((item){
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppDimensions.spaceS,
+                          vertical: AppDimensions.spaceXXS,
+                        ),
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+                          border: Border.all(
+                            color: borderColor,
+                            width: 2,
+                          ),
+                        ),
+                        child: Text(
+                          item,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          softWrap: true,
+                        ),
+                      );
+                    }).toList(),
                   ),
-              );
-            }).toList(),
+                ),
+            ),
           ),
         ],
       ),
