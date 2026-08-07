@@ -9,9 +9,9 @@ class QuoteModel extends QuoteEntity {
 
   factory QuoteModel.fromJson(Map<String, dynamic> json) {
     return QuoteModel(
-      id: json['id'] as String ?? '',
-      text: json['text'] as String ?? '',
-      author: json['author'] as String ?? '',
+      id: json['id'] as String? ?? '',
+      text: json['text'] as String? ?? '',
+      author: json['author'] as String? ?? '',
     );
   }
 
