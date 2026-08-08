@@ -1,7 +1,7 @@
 import 'package:ukrainian/features/home_lessons/domain/entities/entities_home_export.dart';
 
 class QuizQuestionModel extends QuizQuestionEntity {
-  QuizQuestionModel({
+  const QuizQuestionModel({
     required super.id,
     required super.question,
     required super.options,
