@@ -1,5 +1,5 @@
 import 'package:ukrainian/features/home_lessons/data/models/quiz_question_model.dart';
-import 'package:ukrainian/features/home_lessons/domain/entities/entities_home_export.dart';
+import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 
 class LessonModel extends LessonEntity {
   const LessonModel({

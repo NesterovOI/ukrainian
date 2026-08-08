@@ -1,10 +1,16 @@
 
 abstract class AppAssets {
-  // ШЛЯХ ДО ІКОНОК, ЗОБРАЖЕННЯ, АНІМАЦІЇ ТА МУЗИКИ
+  // ШЛЯХ ДО ІКОНОК, ЗОБРАЖЕННЯ, АНІМАЦІЇ, МУЗИКИ, JSON
   static const String _iconsPath = 'assets/icons';
   static const String _imagesPath = 'assets/images';
   static const String _soundPath = 'assets/sounds';
   static const String _animationPath = 'assets/animations';
+  static const String _dataPath = 'assets/data';
+
+  //JSON
+  static const String jsonQuotes = '$_dataPath/quotes.json';
+  static const String jsonLessons = '$_dataPath/lessons.json';
+  static const String jsonRules = '$_dataPath/rules.json';
 
   //ІКОНКИ
   static const String iconCoin = '$_iconsPath/coin.svg';

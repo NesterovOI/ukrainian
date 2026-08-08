@@ -38,6 +38,11 @@ abstract class AppStrings {
   static const String ruleExamplesDictionary = '📌 Приклади:';
   static const String ruleExceptionsDictionary = '⚠️ Винятки (Зверни увагу на НМТ!):';
 
+  // ДЛЯ HOME_LESSONS
+  static const String defaultQuote = 'default';
+  static const String textDefaultQuote = 'Мова — душа нації.';
+  static const String authorDefaultQuote = 'Народна мудрість';
+
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';

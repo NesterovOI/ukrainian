@@ -1,4 +1,4 @@
-import 'entities_home_export.dart';
+import 'export_entities.dart';
 
 class LessonEntity {
   final String id;
