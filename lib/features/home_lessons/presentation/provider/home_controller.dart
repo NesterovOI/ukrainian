@@ -52,7 +52,6 @@ class HomeController extends AsyncNotifier<HomeState> {
   }
 
   // Оновлення прогресу (наприклад, зменшення життів або додавання балів)
-
   Future<void> updateProgress(UserProgressEntity newProgress) async {
     final repository = ref.read(homeRepositoryProvider);
     await repository.updateUserProgress(newProgress);
