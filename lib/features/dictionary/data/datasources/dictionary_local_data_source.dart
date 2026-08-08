@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:ukrainian/features/dictionary/data/models/rule_model.dart';
+import 'package:ukrainian/core/theme/theme.dart';
 
 abstract class DictionaryLocalDataSource {
   Future<List<RuleModel>> getAllRules();
@@ -9,7 +10,7 @@ abstract class DictionaryLocalDataSource {
 class DictionaryLocalDataSourceImpl implements DictionaryLocalDataSource {
   final String jsonPath;
 
-  DictionaryLocalDataSourceImpl({this.jsonPath = 'assets/data/rules.json'});
+  DictionaryLocalDataSourceImpl({this.jsonPath = AppAssets.jsonRules});
 
   @override
   Future<List<RuleModel>> getAllRules() async {
