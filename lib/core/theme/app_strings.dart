@@ -42,6 +42,9 @@ abstract class AppStrings {
   static const String defaultQuote = 'default';
   static const String textDefaultQuote = 'Мова — душа нації.';
   static const String authorDefaultQuote = 'Народна мудрість';
+  static const String dayLabelHomeLessons = 'Днів';
+  static const String pointsLabelHomeLessons = 'Бали';
+  static const String livesLabelHomeLessons = 'Життя';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';

@@ -28,7 +28,10 @@ abstract class AppColors {
   static const Color error = Color(0xFFEF4444);           // Соковитий червоний
   static const Color errorShadow = Color(0xFFB91C1C);     // 3D-грань для червоної кнопки
 
-  // 4. Неактивний стан (Disabled)
+  // 4. Колір безперервних днів використання
+  static const Color streakDays = Color(0xFFF68616);
+
+  // 5. Неактивний стан (Disabled)
   static const Color disabled = Color(0xFFCBD5E1);
   static const Color disabledShadow = Color(0xFF94A3B8);
 }
