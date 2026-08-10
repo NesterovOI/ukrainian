@@ -45,6 +45,7 @@ abstract class AppStrings {
   static const String dayLabelHomeLessons = 'Днів';
   static const String pointsLabelHomeLessons = 'Бали';
   static const String livesLabelHomeLessons = 'Життя';
+  static const String quoteDay = '💬 Цитата дня';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
