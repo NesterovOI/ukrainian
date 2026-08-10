@@ -1,6 +1,6 @@
 abstract class AppDimensions {
   //  ВІДСТУПИ (Paddings & Margins)
-  static const double spaceXXXXS = 1.5;
+  static const double spaceXXXXS = 1.2;
   static const double spaceXXXS = 2.0;
   static const double spaceXXS = 4.0;
   static const double spaceXS = 8.0;
