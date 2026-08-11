@@ -31,6 +31,7 @@ abstract class AppDimensions {
   static const double iconSizeS = 16;
   static const double iconSizeM = 24.0;
   static const double iconSizeL = 32.0;
+  static const double iconSizeXXL = 80.0;
   static const double sizeBoxHeight = 60;
 
   // Прозорість Opacity

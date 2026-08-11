@@ -1,7 +1,7 @@
 
 abstract class AppStrings {
   //  ЗАГАЛЬНІ ЕЛЕМЕНТИ
-  static const String appTitle = 'НМТ Експрес';
+  static const String appTitle = 'НМТ Українська мова';
   static const String continueButton = 'ПРОДОВЖИТИ';
   static const String checkButton = 'ПЕРЕВІРИТИ';
   static const String nextLesson = 'НАСТУПНИЙ УРОК';
@@ -47,9 +47,12 @@ abstract class AppStrings {
   static const String livesLabelHomeLessons = 'Життя';
   static const String quoteDay = '💬 Цитата дня';
   static const String lessonProgram = 'Навчальна програма';
+  static const String questionLesson = 'Питання';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
+  static const String lessonFine = 'Урок успішно пройдено!';
+  static const String lessonPoints = 'Зароблено балів: ';
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';
   static const String outOfLivesTitle = 'Ой, життя закінчилися!';
   static const String outOfLivesSub = 'Зачекай відновлення або подивись відео, щоб отримати +1 ❤️';
