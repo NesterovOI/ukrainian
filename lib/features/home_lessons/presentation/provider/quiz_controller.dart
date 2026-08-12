@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
-import 'package:ukrainian/features/home_lessons/presentation/provider/home_controller.dart';
 
 enum QuizPageStep { theory, questions, result }
 
@@ -11,7 +10,7 @@ class QuizState {
   final int? selectedOptionIndex;
   final bool? isAnswerCorrect;
   final int earnedScore;
-  final bool? isQuizFinished;
+  final bool isQuizFinished;
 
   const QuizState({
     required this.lesson,
@@ -27,8 +26,10 @@ class QuizState {
     LessonEntity? lesson,
     QuizPageStep? step,
     int? currentQuestionIndex,
-    int? selectionOptionIndex,
+    int? selectedOptionIndex,
+    bool clearSelectedOption = false,
     bool? isAnswerCorrect,
+    bool clearAnswerCorrect = false,
     int? earnedScore,
     bool? isQuizFinished,
   }) {
@@ -36,8 +37,12 @@ class QuizState {
       lesson: lesson ?? this.lesson,
       step: step ?? this.step,
       currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
-      selectedOptionIndex: selectionOptionIndex ?? this.selectedOptionIndex,
-      isAnswerCorrect: isAnswerCorrect ?? this.isAnswerCorrect,
+      selectedOptionIndex: clearSelectedOption
+          ? null
+          : (selectedOptionIndex ?? this.selectedOptionIndex),
+      isAnswerCorrect: clearAnswerCorrect
+          ? null
+          : (isAnswerCorrect ?? this.isAnswerCorrect),
       earnedScore: earnedScore ?? this.earnedScore,
       isQuizFinished: isQuizFinished ?? this.isQuizFinished,
     );
@@ -56,7 +61,7 @@ class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
 
   void selectOption(int index) {
     if (state.selectedOptionIndex != null) return;
-    state = state.copyWith(selectionOptionIndex: index);
+    state = state.copyWith(selectedOptionIndex: index);
   }
 
   bool answerQuestion() {
@@ -74,8 +79,8 @@ class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
     if (state.currentQuestionIndex + 1 < state.lesson.question.length) {
       state = state.copyWith(
         currentQuestionIndex: state.currentQuestionIndex + 1,
-        selectionOptionIndex: null,
-        isAnswerCorrect: null,
+        clearSelectedOption: true,
+        clearAnswerCorrect: true,
       );
       return false;
     } else {
@@ -86,6 +91,6 @@ class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
 }
 
 final quizControllerProvider =
-    NotifierProvider.family<QuizController, QuizState, LessonEntity>(
-      QuizController.new,
-    );
+NotifierProvider.family<QuizController, QuizState, LessonEntity>(
+  QuizController.new,
+);

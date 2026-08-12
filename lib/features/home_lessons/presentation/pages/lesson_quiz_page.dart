@@ -53,7 +53,7 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                     children: [
                       Expanded(
                         child: SingleChildScrollView(
-                          child: Markdown(
+                          child: MarkdownBody(
                             data: widget.lesson.theoryMarkdown,
                             styleSheet: MarkdownStyleSheet.fromTheme(
                               Theme.of(context),

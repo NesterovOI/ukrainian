@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/core/theme/theme.dart';
+import 'package:ukrainian/features/home_lessons/presentation/pages/lesson_quiz_page.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/home_controller.dart';
 import 'package:ukrainian/features/home_lessons/presentation/widgets/widgets.dart';
 
@@ -55,9 +56,10 @@ class HomePage extends ConsumerWidget {
                             isLocked: isLocked,
                             isCompleted: isCompleted,
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Відкриваємо: ${lesson.title}'),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => LessonQuizPage(lesson: lesson),
                                   ),
                               );
                             }
