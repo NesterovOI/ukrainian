@@ -4,19 +4,49 @@ class QuizQuestionModel extends QuizQuestionEntity {
   const QuizQuestionModel({
     required super.id,
     required super.question,
-    required super.options,
-    required super.correctOptionIndex,
+    super.type,
+    super.options,
+    super.correctOptionIndex,
+    super.leftItems,
+    super.rightItems,
+    super.correctPairis,
     required super.explanation,
   });
 
-  factory QuizQuestionModel.fromJson(Map<String, dynamic> json){
+  factory QuizQuestionModel.fromJson(Map<String, dynamic> json) {
+    QuestionType type = QuestionType.multipleChoice;
+    if (json['type'] == 'matching') {
+      type = QuestionType.matching;
+    } else if (json['type'] == 'findError') {
+      type = QuestionType.findError;
+    }
+
+    Map<int, int>? pairs;
+    if (json['correctPairs'] != null) {
+      final rewPairs = json['correctPairs'] as Map<String, dynamic>;
+      pairs = rewPairs.map(
+        (key, value) => MapEntry(int.parse(key), value as int),
+      );
+    }
+
     return QuizQuestionModel(
-        id: json['id'] as String? ?? '',
-        question: json['question'] as String? ?? '',
-        options: (json['options'] as List<dynamic>?)?.map((e) => e.toString())
-        .toList() ?? const [],
-        correctOptionIndex: json['correctOptionIndex'] as int? ?? 0,
-        explanation: json['explanation'] as String? ?? '',
+      id: json['id'] as String? ?? '',
+      question: json['question'] as String? ?? '',
+      type: type,
+      options:
+          (json['options'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      correctOptionIndex: json['correctOptionIndex'] as int?,
+      leftItems: (json['leftItems'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      rightItems: (json['rightItems'] as List<dynamic>)
+          ?.map((e) => e as String)
+          .toList(),
+      correctPairis: pairs,
+      explanation: json['explanation'] as String? ?? '',
     );
   }
 
