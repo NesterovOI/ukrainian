@@ -56,7 +56,8 @@ abstract class AppStrings {
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';
   static const String outOfLivesTitle = 'Ой, життя закінчилися!';
   static const String outOfLivesSub = 'Зачекай відновлення або подивись відео, щоб отримати +1 ❤️';
-  static const String watchAdButton = 'Отримати життя за рекламу';
+  static const String watchAdButton = 'Дивитися рекламу (+1 ❤️)';
+  static const String cancelButton = 'Повернутися на головну';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
