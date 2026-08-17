@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:ukrainian/core/services/service.dart';
 import 'package:ukrainian/core/services/audio_service.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
