@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ukrainian/core/services/service.dart';
 import 'package:ukrainian/core/theme/theme.dart';
@@ -281,11 +282,11 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         ElevatedButton(
                           onPressed: () async {
                             if (homeState != null) {
-                              //await AdService.showRewardedAd(context);
+                              await AdService.showRewardedAd(context);
                             }
                             if (context.mounted) {
                               _audioService.playClick();
-                              Navigator.pop(context);
+                              context.pop();
                             }
                           },
                           child: const Text(AppStrings.nextLesson),

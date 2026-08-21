@@ -26,6 +26,7 @@ class LessonCartWidget extends StatelessWidget {
       opacity: opacity,
       child: Card(
         margin: EdgeInsets.only(bottom: AppDimensions.spaceM),
+        elevation: 2,
         child: InkWell(
           onTap: isLocked ? null : onTap,
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),

@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:ukrainian/features/auth/presentation/pages/pages.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_state_provider.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
-import 'package:ukrainian/features/dictionary/presentation/pages/dictionary_page.dart';
 import 'package:ukrainian/features/dictionary/presentation/pages/pages.dart';
 import 'package:ukrainian/features/home_lessons/presentation/pages/pages.dart';
+import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/leaderboard/presentation/pages/leaderboard_page.dart';
 import 'package:ukrainian/features/main_navigation/presentation/pages/main_page.dart';
 import 'package:ukrainian/features/profile/presentation/pages/profile_page.dart';
@@ -15,6 +15,8 @@ class AppRouters {
   static const String registerPage = '/register_page';
   static const String loginPage = '/login_page';
   static const String homePage = '/home_page';
+  static const String lessonQuizPage = 'lesson_quiz_page';
+  static const String lessonQuizName = 'lessonQuiz';
   static const String dictionary = '/dictionary_page';
   static const String dictionaryName = 'dictionary';
   static const String detailPath = 'detail';
@@ -29,7 +31,10 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: AppRouters.splash,
     routes: [
-      GoRoute(path: AppRouters.splash, builder: (context, state) => const SplashPage()),
+      GoRoute(
+        path: AppRouters.splash,
+        builder: (context, state) => const SplashPage(),
+      ),
       GoRoute(
         path: AppRouters.registerPage,
         builder: (context, state) => const RegisterPage(),
@@ -49,6 +54,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: AppRouters.homePage,
                 builder: (context, state) => const HomePage(),
+                routes: [
+                  GoRoute(
+                    path: AppRouters.lessonQuizPage,
+                    name: AppRouters.lessonQuizName,
+                    builder: (context, state) {
+                      final lesson = state.extra as LessonEntity;
+                      return LessonQuizPage(lesson: lesson);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -60,12 +75,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const DictionaryPage(),
                 routes: [
                   GoRoute(
-                      path: AppRouters.detailPath,
-                      name: AppRouters.ruleDetailName,
-                      builder: (context, state) {
-                        final rule = state.extra as RuleEntity;
-                        return RuleDetailPage(rule: rule);
-                      }
+                    path: AppRouters.detailPath,
+                    name: AppRouters.ruleDetailName,
+                    builder: (context, state) {
+                      final rule = state.extra as RuleEntity;
+                      return RuleDetailPage(rule: rule);
+                    },
                   ),
                 ],
               ),
@@ -95,7 +110,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         data: (user) {
           final isAuthPage =
               state.matchedLocation == AppRouters.loginPage ||
-                  state.matchedLocation == AppRouters.registerPage;
+              state.matchedLocation == AppRouters.registerPage;
           // 1. Якщо користувач АВТОРИЗОВАНИЙ і знаходиться на сторінці
           // входу/реєстрації
           // -> Відправляємо його на головну сторінку
