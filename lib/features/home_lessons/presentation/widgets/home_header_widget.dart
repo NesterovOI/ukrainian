@@ -24,24 +24,24 @@ class HomeHeaderWidget extends StatelessWidget {
         children: [
           // 1. Дні поспіль (Streak)
           _StatItem(
-              icon: Icons.local_fire_department_rounded,
-              iconColor: AppColors.streakDays,
-              value: '${progress.streakDays}',
-              label: AppStrings.dayLabelHomeLessons
+            icon: Icons.local_fire_department_rounded,
+            iconColor: AppColors.streakDays,
+            value: '${progress.streakDays}',
+            label: AppStrings.dayLabelHomeLessons,
           ),
 
           // 2. Бали (Score)
           _StatItemSvg(
-              assetName: AppAssets.iconTrophy,
-              value: '${progress.score}',
-              label: AppStrings.pointsLabelHomeLessons,
+            assetName: AppAssets.iconTrophy,
+            value: '${progress.score}',
+            label: AppStrings.pointsLabelHomeLessons,
           ),
 
           // 3. Життя (Lives)
           _StatItemSvg(
-              assetName: AppAssets.iconHeart,
-              value: '${progress.lives}',
-              label: AppStrings.livesLabelHomeLessons,
+            assetName: AppAssets.iconHeart,
+            value: '${progress.lives}',
+            label: AppStrings.livesLabelHomeLessons,
           ),
         ],
       ),
@@ -56,7 +56,6 @@ class _StatItem extends StatelessWidget {
   final String label;
 
   const _StatItem({
-    super.key,
     required this.icon,
     required this.iconColor,
     required this.value,
@@ -73,8 +72,8 @@ class _StatItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(value, style: Theme.of(context).textTheme.titleMedium,),
-            Text(label, style: Theme.of(context).textTheme.bodySmall,)
+            Text(value, style: Theme.of(context).textTheme.titleMedium),
+            Text(label, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ],
@@ -88,7 +87,6 @@ class _StatItemSvg extends StatelessWidget {
   final String label;
 
   const _StatItemSvg({
-    super.key,
     required this.assetName,
     required this.value,
     required this.label,
@@ -99,21 +97,20 @@ class _StatItemSvg extends StatelessWidget {
     return Row(
       children: [
         SvgPicture.asset(
-            assetName,
-            width: AppDimensions.iconSizeM,
-            height: AppDimensions.iconSizeM,
+          assetName,
+          width: AppDimensions.iconSizeM,
+          height: AppDimensions.iconSizeM,
         ),
-        const SizedBox(width: AppDimensions.spaceXS,),
+        const SizedBox(width: AppDimensions.spaceXS),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(value, style: Theme.of(context).textTheme.titleMedium),
-            Text(label, style: Theme.of(context).textTheme.bodySmall,),
+            Text(label, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ],
     );
   }
 }
-
