@@ -19,5 +19,10 @@ class AudioService {
     await _player.play(AssetSource(AppAssets.soundGameSuccess));
   }
 
+  Future<void> playClick() async {
+    await _player.stop();
+    await _player.play(AssetSource(AppAssets.soundClick));
+  }
+
   void dispose() => _player.dispose();
 }

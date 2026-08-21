@@ -62,7 +62,8 @@ class QuizState {
   }
 }
 
-class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
+class QuizController
+    extends AutoDisposeFamilyNotifier<QuizState, LessonEntity> {
   @override
   QuizState build(LessonEntity arg) {
     final shuffled = List<QuizQuestionEntity>.from(arg.questions)
@@ -146,7 +147,5 @@ class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
   }
 }
 
-final quizControllerProvider =
-    NotifierProvider.family<QuizController, QuizState, LessonEntity>(
-      QuizController.new,
-    );
+final quizControllerProvider = NotifierProvider.family
+    .autoDispose<QuizController, QuizState, LessonEntity>(QuizController.new);
