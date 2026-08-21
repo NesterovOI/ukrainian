@@ -8,6 +8,7 @@ import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/home_controller.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/quiz_controller.dart';
+import 'package:ukrainian/features/home_lessons/presentation/widgets/widgets.dart';
 
 class LessonQuizPage extends ConsumerStatefulWidget {
   final LessonEntity lesson;
@@ -31,6 +32,35 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
   void dispose() {
     _audioService.dispose();
     super.dispose();
+  }
+
+  void _showOutOfLivesModel() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => OutOfLivesDialog(
+        onWatchAd: () async {
+          Navigator.pop(dialogContext);
+          final success = await AdService.showRewardedAd(context);
+          if (success) {
+            final homeState = ref.read(homeControllerProvider).value;
+            if (homeState != null) {
+              ref
+                  .read(homeControllerProvider.notifier)
+                  .updateProgress(
+                    homeState.userProgress.copyWith(
+                      lives: homeState.userProgress.lives + 1,
+                    ),
+                  );
+            }
+          }
+        },
+        onCancel: () {
+          Navigator.pop(dialogContext);
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 
   @override
@@ -77,7 +107,7 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                 // 2.Екран питань та відповідей
                 case QuizPageStep.questions:
                   final currentQ =
-                      widget.lesson.question[quizState.currentQuestionIndex];
+                      quizState.activeQuestions[quizState.currentQuestionIndex];
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,56 +115,31 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                       LinearProgressIndicator(
                         value:
                             (quizState.currentQuestionIndex + 1) /
-                            widget.lesson.question.length,
+                            quizState.activeQuestions.length,
                       ),
                       const SizedBox(height: AppDimensions.spaceM),
                       Text(
-                        '${AppStrings.questionLesson} ${quizState.currentQuestionIndex + 1} з ${widget.lesson.question.length}',
+                        '${AppStrings.questionLesson} ${quizState.currentQuestionIndex + 1} з ${quizState.activeQuestions.length}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(height: AppDimensions.spaceS),
                       Text(
-                        currentQ.question,
+                        currentQ.questions,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      const SizedBox(height: AppDimensions.spaceL),
+                      const SizedBox(height: AppDimensions.spaceM),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: currentQ.options.length,
-                          itemBuilder: (context, index) {
-                            final option = currentQ.options[index];
-                            final isSelected =
-                                quizState.selectedOptionIndex == index;
-
-                            Color cardColor = Theme.of(context).cardColor;
-                            if (quizState.isAnswerCorrect != null) {
-                              if (index == currentQ.correctOptionIndex) {
-                                cardColor = AppColors.success.withValues(
-                                  alpha: AppDimensions.opacityXXXS,
-                                );
-                              } else if (isSelected) {
-                                cardColor = AppColors.error.withValues(
-                                  alpha: AppDimensions.opacityXXXS,
-                                );
-                              }
-                            } else if (isSelected) {
-                              cardColor = Theme.of(
-                                context,
-                              ).colorScheme.primaryContainer;
-                            }
-
-                            return Card(
-                              color: cardColor,
-                              margin: const EdgeInsets.only(
-                                bottom: AppDimensions.spaceS,
+                        child: currentQ.type == QuestionType.matching
+                            ? _buildMatchingView(
+                                currentQ,
+                                quizState,
+                                quizNotifier,
+                              )
+                            : _buildOptionsView(
+                                currentQ,
+                                quizState,
+                                quizNotifier,
                               ),
-                              child: ListTile(
-                                title: Text(option),
-                                onTap: () => quizNotifier.selectOption(index),
-                              ),
-                            );
-                          },
-                        ),
                       ),
                       // Пояснення при помилці / успіху
                       if (quizState.isAnswerCorrect != null)
@@ -167,9 +172,8 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         width: double.infinity,
                         height: AppDimensions.buttonHeight,
                         child: ElevatedButton(
-                          onPressed: quizState.selectedOptionIndex == null
-                              ? null
-                              : () {
+                          onPressed: _isButtonEnabled(currentQ, quizState)
+                              ? () {
                                   if (quizState.isAnswerCorrect == null) {
                                     // Перевіряємо відповідь
                                     final isCorrect = quizNotifier
@@ -183,7 +187,7 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                                           !homeState.userProgress.isPremium) {
                                         final currentLives =
                                             homeState.userProgress.lives;
-                                        if (currentLives > 0) {
+                                        if (currentLives > 1) {
                                           ref
                                               .read(
                                                 homeControllerProvider.notifier,
@@ -193,6 +197,18 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                                                   lives: currentLives - 1,
                                                 ),
                                               );
+                                        } else {
+                                          // Життя закінчилися! Показуємо модальне вікно
+                                          ref
+                                              .read(
+                                                homeControllerProvider.notifier,
+                                              )
+                                              .updateProgress(
+                                                homeState.userProgress.copyWith(
+                                                  lives: 0,
+                                                ),
+                                              );
+                                          _showOutOfLivesModel();
                                         }
                                       }
                                     }
@@ -204,12 +220,12 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                                       _audioService.playSuccess();
                                       // Зберігаємо пройдений урок та додаємо бали
                                       if (homeState != null) {
-                                        final updatedCompleted = [
+                                        final updatedCompleted = {
                                           ...homeState
                                               .userProgress
                                               .completedLessonIds,
                                           widget.lesson.id,
-                                        ];
+                                        }.toList();
                                         ref
                                             .read(
                                               homeControllerProvider.notifier,
@@ -228,7 +244,8 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                                       }
                                     }
                                   }
-                                },
+                                }
+                              : null,
                           child: Text(
                             quizState.isAnswerCorrect == null
                                 ? AppStrings.checkButton
@@ -245,10 +262,11 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.stars_rounded,
-                          size: AppDimensions.iconSizeXXL,
-                          color: AppColors.streakDays,
+                        Lottie.asset(
+                          AppAssets.animationCelebrationCat,
+                          width: 200,
+                          height: 200,
+                          repeat: true,
                         ),
                         const SizedBox(height: AppDimensions.spaceM),
                         Text(
@@ -262,7 +280,14 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         ),
                         const SizedBox(height: AppDimensions.spaceXL),
                         ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () async {
+                            if (homeState != null) {
+                              await AdService.showRewardedAd(context);
+                            }
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          },
                           child: const Text(AppStrings.nextLesson),
                         ),
                       ],
@@ -275,4 +300,119 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
       ),
     );
   }
+}
+
+// Віджет для звичайного вибору / вибору помилки
+Widget _buildOptionsView(
+  QuizQuestionEntity question,
+  QuizState state,
+  QuizController notifier,
+) {
+  return ListView.builder(
+    itemCount: question.options.length,
+    itemBuilder: (context, index) {
+      final option = question.options[index];
+      final isSelected = state.selectedOptionIndex == index;
+
+      Color cardColor = Theme.of(context).cardColor;
+      if (state.isAnswerCorrect != null) {
+        if (index == question.correctOptionIndex) {
+          cardColor = AppColors.success.withValues(
+            alpha: AppDimensions.opacityXXXS,
+          );
+        } else if (isSelected) {
+          cardColor = AppColors.error.withValues(
+            alpha: AppDimensions.opacityXXXS,
+          );
+        }
+      } else if (isSelected) {
+        cardColor = Theme.of(context).colorScheme.primaryContainer;
+      }
+      return Card(
+        color: cardColor,
+        margin: const EdgeInsets.only(bottom: AppDimensions.spaceS),
+        child: ListTile(
+          title: Text(option),
+          onTap: () => notifier.selectOption(index),
+        ),
+      );
+    },
+  );
+}
+
+// Віджет для завдань НА ВІДПОВІДНОСТІ (Matching)
+Widget _buildMatchingView(
+  QuizQuestionEntity question,
+  QuizState state,
+  QuizController notifier,
+) {
+  final lefts = question.leftItems ?? [];
+  final rights = question.rightItems ?? [];
+  return Row(
+    children: [
+      // Ліва колонка
+      Expanded(
+        child: ListView.builder(
+          itemCount: lefts.length,
+          itemBuilder: (context, index) {
+            final isSelected = state.activeLeftMatchingIndex == index;
+            final isPaired = state.selectedMatchingPairs.containsKey(index);
+
+            return Card(
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : isPaired
+                  ? AppColors.success.withValues(
+                      alpha: AppDimensions.opacityXXXXS,
+                    )
+                  : Theme.of(context).cardColor,
+              child: ListTile(
+                dense: true,
+                title: Text(
+                  lefts[index],
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                onTap: () => notifier.selectedMatchingLeft(index),
+              ),
+            );
+          },
+        ),
+      ),
+      const SizedBox(width: AppDimensions.spaceXS),
+      // Права колонка
+      Expanded(
+        child: ListView.builder(
+          itemCount: rights.length,
+          itemBuilder: (context, index) {
+            final isPaired = state.selectedMatchingPairs.containsValue(index);
+
+            return Card(
+              color: isPaired
+                  ? AppColors.success.withValues(
+                      alpha: AppDimensions.opacityXXXXS,
+                    )
+                  : Theme.of(context).cardColor,
+              child: ListTile(
+                dense: true,
+                title: Text(
+                  rights[index],
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                onTap: () => notifier.selectedMatchingRight(index),
+              ),
+            );
+          },
+        ),
+      ),
+    ],
+  );
+}
+
+bool _isButtonEnabled(QuizQuestionEntity question, QuizState state) {
+  if (state.isAnswerCorrect != null) return true;
+  if (question.type == QuestionType.matching) {
+    return state.selectedMatchingPairs.length ==
+        (question.leftItems?.length ?? 0);
+  }
+  return state.selectedOptionIndex != null;
 }

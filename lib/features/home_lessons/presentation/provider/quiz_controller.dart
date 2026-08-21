@@ -49,10 +49,11 @@ class QuizState {
       selectedOptionIndex: clearSelectedOption
           ? null
           : (selectedOptionIndex ?? this.selectedOptionIndex),
-      selectedMatchingPairs: selectedMatchingPairs ?? this.selectedMatchingPairs,
+      selectedMatchingPairs:
+          selectedMatchingPairs ?? this.selectedMatchingPairs,
       activeLeftMatchingIndex: clearActiveLeft
-      ? null
-      : (activeLeftMatchingIndex ?? this.activeLeftMatchingIndex),
+          ? null
+          : (activeLeftMatchingIndex ?? this.activeLeftMatchingIndex),
       isAnswerCorrect: clearAnswerCorrect
           ? null
           : (isAnswerCorrect ?? this.isAnswerCorrect),
@@ -64,13 +65,11 @@ class QuizState {
 class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
   @override
   QuizState build(LessonEntity arg) {
-    final shuffled = List<QuizQuestionEntity>.from(arg.question)..shuffle(Random());
+    final shuffled = List<QuizQuestionEntity>.from(arg.questions)
+      ..shuffle(Random());
     final selectedQuestions = shuffled.take(5).toList();
 
-    return QuizState(
-        lesson: arg,
-        activeQuestions: selectedQuestions,
-    );
+    return QuizState(lesson: arg, activeQuestions: selectedQuestions);
   }
 
   void startQuiz() {
@@ -101,21 +100,22 @@ class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
   }
 
   bool answerQuestion() {
-    final currentQ = state.lesson.question[state.currentQuestionIndex];
+    final currentQ = state.activeQuestions[state.currentQuestionIndex];
     bool isCorrect = false;
 
     if (currentQ.type == QuestionType.matching) {
-      final correctPairs = currentQ.correctPairis ?? {};
-      if (state.selectedMatchingPairs.length == correctPairs.length) {
-          isCorrect = true;
-          state.selectedMatchingPairs.forEach((left, right) {
-            if (correctPairs[left] != right) {
-              isCorrect = false;
-            }
-          });
-      } else {
-        isCorrect = state.selectedOptionIndex == currentQ.correctOptionIndex;
+      final correctPairs = currentQ.correctPairs ?? {};
+      if (state.selectedMatchingPairs.length == correctPairs.length &&
+          correctPairs.isNotEmpty) {
+        isCorrect = true;
+        state.selectedMatchingPairs.forEach((left, right) {
+          if (correctPairs[left] != right) {
+            isCorrect = false;
+          }
+        });
       }
+    } else {
+      isCorrect = state.selectedOptionIndex == currentQ.correctOptionIndex;
     }
 
     state = state.copyWith(
@@ -126,23 +126,27 @@ class QuizController extends FamilyNotifier<QuizState, LessonEntity> {
   }
 
   bool nextQuestion() {
-    if (state.currentQuestionIndex + 1 < state.lesson.question.length) {
+    if (state.currentQuestionIndex < state.activeQuestions.length - 1) {
       state = state.copyWith(
         currentQuestionIndex: state.currentQuestionIndex + 1,
+        clearAnswerCorrect: true,
         clearSelectedOption: true,
         selectedMatchingPairs: {},
         clearActiveLeft: true,
-        clearAnswerCorrect: true,
       );
       return false;
     } else {
-      state = state.copyWith(step: QuizPageStep.result);
+      state = state.copyWith(
+        step: QuizPageStep.result,
+        clearAnswerCorrect: true,
+        clearSelectedOption: true,
+      );
       return true;
     }
   }
 }
 
 final quizControllerProvider =
-NotifierProvider.family<QuizController, QuizState, LessonEntity>(
-  QuizController.new,
-);
+    NotifierProvider.family<QuizController, QuizState, LessonEntity>(
+      QuizController.new,
+    );

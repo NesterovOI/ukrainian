@@ -3,7 +3,7 @@ abstract class AppAssets {
   // ШЛЯХ ДО ІКОНОК, ЗОБРАЖЕННЯ, АНІМАЦІЇ, МУЗИКИ, JSON
   static const String _iconsPath = 'assets/icons';
   static const String _imagesPath = 'assets/images';
-  static const String _soundPath = 'assets/sounds';
+  static const String _soundPath = 'sounds';
   static const String _animationPath = 'assets/animations';
   static const String _dataPath = 'assets/data';
 

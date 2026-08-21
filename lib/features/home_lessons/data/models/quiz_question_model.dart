@@ -3,13 +3,13 @@ import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.
 class QuizQuestionModel extends QuizQuestionEntity {
   const QuizQuestionModel({
     required super.id,
-    required super.question,
+    required super.questions,
     super.type,
     super.options,
     super.correctOptionIndex,
     super.leftItems,
     super.rightItems,
-    super.correctPairis,
+    super.correctPairs,
     required super.explanation,
   });
 
@@ -25,27 +25,29 @@ class QuizQuestionModel extends QuizQuestionEntity {
     if (json['correctPairs'] != null) {
       final rewPairs = json['correctPairs'] as Map<String, dynamic>;
       pairs = rewPairs.map(
-        (key, value) => MapEntry(int.parse(key), value as int),
+            (key, value) => MapEntry(int.parse(key), value as int),
       );
     }
 
     return QuizQuestionModel(
       id: json['id'] as String? ?? '',
-      question: json['question'] as String? ?? '',
+      // Зчитаємо текст питання з json['question']
+      questions: json['question'] as String? ?? json['questions'] as String? ?? '',
       type: type,
       options:
-          (json['options'] as List<dynamic>?)
-              ?.map((e) => e.toString())
-              .toList() ??
+      (json['options'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList() ??
           const [],
       correctOptionIndex: json['correctOptionIndex'] as int?,
       leftItems: (json['leftItems'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      rightItems: (json['rightItems'] as List<dynamic>)
+      // ДОДАНО знак '?' після List<dynamic>
+      rightItems: (json['rightItems'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      correctPairis: pairs,
+      correctPairs: pairs,
       explanation: json['explanation'] as String? ?? '',
     );
   }
@@ -53,7 +55,7 @@ class QuizQuestionModel extends QuizQuestionEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'question': question,
+      'question': questions,
       'options': options,
       'correctOptionIndex': correctOptionIndex,
       'explanation': explanation,
