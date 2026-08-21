@@ -1,9 +1,10 @@
 import 'package:ukrainian/features/home_lessons/data/local/app_database.dart';
+import 'package:ukrainian/features/home_lessons/domain/repositories/user_progress_repository.dart';
 
-class UserProgressRepositoryIml implements UserProgressRepository {
+class UserProgressRepositoryImpl implements UserProgressRepository {
   final AppDatabase _db;
 
-  UserProgressRepositoryIml(this._db);
+  UserProgressRepositoryImpl(this._db);
 
   @override
   Future<void> logAnswer({
