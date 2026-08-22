@@ -125,7 +125,7 @@ class QuizController
 
     _logAnswerUseCase.call(
       lessonId: state.lesson.id,
-      subcategory: state.lesson.categoryTitle,
+      subcategory: state.lesson.title,
       questionId: currentQ.id,
       isCorrect: isCorrect,
     );
