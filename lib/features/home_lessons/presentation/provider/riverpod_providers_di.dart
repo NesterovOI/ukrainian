@@ -21,6 +21,12 @@ final getAnalyticsUseCaseProvider = Provider<GetAnalyticsUseCase>((ref) {
   return GetAnalyticsUseCase(ref.watch(userProgressRepositoryProvider));
 });
 
+final getFailedQuestionsUseCaseProvider = Provider<GetFailedQuestionsUsecase>((
+  ref,
+) {
+  return GetFailedQuestionsUsecase(ref.watch(userProgressRepositoryProvider));
+});
+
 final analyticsFutureProvider =
     FutureProvider<List<SubcategoryAnalyticsEntity>>((ref) async {
       final getAnalytics = ref.watch(getAnalyticsUseCaseProvider);
