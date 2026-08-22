@@ -1,4 +1,3 @@
-
 abstract class AppStrings {
   //  ЗАГАЛЬНІ ЕЛЕМЕНТИ
   static const String appTitle = 'НМТ Українська мова';
@@ -19,24 +18,29 @@ abstract class AppStrings {
   static const String passwordLabelText2 = 'Підтвердити пароль';
   static const String passwordHintText = '******';
   static const String passwordMatch = 'Паролі не співпадають';
-  static const String passwordShort = 'Мінімальна довжина пароля повинна бути 6 символів';
+  static const String passwordShort =
+      'Мінімальна довжина пароля повинна бути 6 символів';
   static const String enterName = 'Введіть ваше ім\'я';
   static const String enterEmail = 'Введіть коректний Email';
-  static const String sentLetterOnEmail = 'Лист із відновленням пароля надіслано на ваш Email!';
+  static const String sentLetterOnEmail =
+      'Лист із відновленням пароля надіслано на ваш Email!';
   static const String forgotPassword = 'Забули пароль?';
   static const String restorationPassword = 'Відновлення пароля';
-  static const String enterYourEmail = 'Введіть ваш Email, і ми надішлемо інструкції для скидання пароля.';
+  static const String enterYourEmail =
+      'Введіть ваш Email, і ми надішлемо інструкції для скидання пароля.';
   static const String enterYourEmailCorrect = 'Введіть ваш Email';
   static const String cancel = 'Скасувати';
   static const String send = 'Надіслати';
-  static const String errorSharedPreferences = 'SharedPreferences не ініціалізовано';
+  static const String errorSharedPreferences =
+      'SharedPreferences не ініціалізовано';
 
   // ДЛЯ DICTIONARY
   static const String notHaveRule = 'Правил у цій категорії поки немає.';
   static const String searchRules = 'Пошук правил чи прикладів...';
   static const String errorDownloadDictionary = 'Помилка завантаження:';
   static const String ruleExamplesDictionary = '📌 Приклади:';
-  static const String ruleExceptionsDictionary = '⚠️ Винятки (Зверни увагу на НМТ!):';
+  static const String ruleExceptionsDictionary =
+      '⚠️ Винятки (Зверни увагу на НМТ!):';
 
   // ДЛЯ HOME_LESSONS
   static const String defaultQuote = 'default';
@@ -48,6 +52,13 @@ abstract class AppStrings {
   static const String quoteDay = '💬 Цитата дня';
   static const String lessonProgram = 'Навчальна програма';
   static const String questionLesson = 'Питання';
+  static const String lessonEntityId = 'Файл запитання урока';
+  static const String lessonEntityCategoryTitle = 'Робота над помилками';
+  static const String lessonEntityTitle = 'Експрес-тренування слабких місць';
+  static const String lessonEntityDescription =
+      'Тест на основі ваших частих помилок';
+  static const String lessonEntityTheoryMarkdown =
+      'Освіжіть знання перед виконанням тесту.';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
@@ -55,7 +66,8 @@ abstract class AppStrings {
   static const String lessonPoints = 'Зароблено балів: ';
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';
   static const String outOfLivesTitle = 'Ой, життя закінчилися!';
-  static const String outOfLivesSub = 'Зачекай відновлення або подивись відео, щоб отримати +1 ❤️';
+  static const String outOfLivesSub =
+      'Зачекай відновлення або подивись відео, щоб отримати +1 ❤️';
   static const String watchAdButton = 'Дивитися рекламу (+1 ❤️)';
   static const String cancelButton = 'Повернутися на головну';
 
@@ -66,7 +78,8 @@ abstract class AppStrings {
   static const String navProfile = 'Профіль';
 
   // ОБРОБКА ПОМИЛОК АВТОРИЗАЦІЇ
-  static const String weakPassword = 'Пароль занадто простий (мінімум 6 символів).';
+  static const String weakPassword =
+      'Пароль занадто простий (мінімум 6 символів).';
   static const String emailAlreadyInUse = 'Акаунт з цим Email вже існує.';
   static const String invalidEmail = 'Некоректна електронна адреса.';
   static const String invalidEmailOrPassword = 'Неправильний Email або пароль.';
