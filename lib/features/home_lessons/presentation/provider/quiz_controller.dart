@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
+import 'package:ukrainian/features/home_lessons/domain/usecases/export_usecases.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/riverpod_providers_di.dart';
 
 enum QuizPageStep { theory, questions, result }
 
@@ -64,6 +66,8 @@ class QuizState {
 
 class QuizController
     extends AutoDisposeFamilyNotifier<QuizState, LessonEntity> {
+  late final LogAnswerUseCase _logAnswerUseCase;
+
   @override
   QuizState build(LessonEntity arg) {
     final shuffled = List<QuizQuestionEntity>.from(arg.questions)
@@ -118,6 +122,13 @@ class QuizController
     } else {
       isCorrect = state.selectedOptionIndex == currentQ.correctOptionIndex;
     }
+
+    _logAnswerUseCase.call(
+      lessonId: state.lesson.id,
+      subcategory: state.lesson.categoryTitle,
+      questionId: currentQ.id,
+      isCorrect: isCorrect,
+    );
 
     state = state.copyWith(
       isAnswerCorrect: isCorrect,
