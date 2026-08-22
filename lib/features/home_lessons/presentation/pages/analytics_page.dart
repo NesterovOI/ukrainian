@@ -5,6 +5,8 @@ import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.
 import 'package:ukrainian/features/home_lessons/presentation/provider/riverpod_providers_di.dart';
 
 class AnalyticsPage extends ConsumerWidget {
+  const AnalyticsPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final analyticsAsync = ref.watch(analyticsFutureProvider);
