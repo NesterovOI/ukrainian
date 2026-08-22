@@ -59,6 +59,13 @@ abstract class AppStrings {
       'Тест на основі ваших частих помилок';
   static const String lessonEntityTheoryMarkdown =
       'Освіжіть знання перед виконанням тесту.';
+  static const String titleAppBarAnaluticsPage = 'Аналітика ваших помилок';
+  static const String testAnalyticsPage =
+      'Пройдіть хоча б один тест,\n щоб тут з з\'явився аналіз ваших слабких місць.';
+  static const String errorAnalyticsPage = 'Помилка завантаження:';
+  static const String bagAnalyticsPage = 'Слабке місце (потрібно повторити)';
+  static const String normalAnalyticsPage = 'Варто закріпити';
+  static const String goodAnalyticsPage = 'Ви добре знаєте цю тему';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
