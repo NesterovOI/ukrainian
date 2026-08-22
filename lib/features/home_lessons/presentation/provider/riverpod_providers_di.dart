@@ -12,7 +12,7 @@ final userProgressRepositoryProvider = Provider<UserProgressRepository>((ref) {
   return UserProgressRepositoryImpl(ref.watch(appDatabaseProvider));
 });
 
-final logAnswerProvider = Provider<LogAnswerUseCase>((ref) {
+final logAnswerUseCaseProvider = Provider<LogAnswerUseCase>((ref) {
   return LogAnswerUseCase(ref.watch(userProgressRepositoryProvider));
 });
 

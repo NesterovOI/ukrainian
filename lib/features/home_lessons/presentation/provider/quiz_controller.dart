@@ -70,6 +70,8 @@ class QuizController
 
   @override
   QuizState build(LessonEntity arg) {
+    _logAnswerUseCase = ref.watch(logAnswerUseCaseProvider);
+
     final shuffled = List<QuizQuestionEntity>.from(arg.questions)
       ..shuffle(Random());
     final selectedQuestions = shuffled.take(5).toList();
