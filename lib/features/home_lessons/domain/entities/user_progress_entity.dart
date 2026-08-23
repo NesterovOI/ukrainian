@@ -25,6 +25,7 @@ class UserProgressEntity {
   }) {
     return UserProgressEntity(
       lives: lives ?? this.lives,
+      maxLives: maxLives ?? this.maxLives,
       score: score ?? this.score,
       streakDays: streakDays ?? this.streakDays,
       isPremium: isPremium ?? this.isPremium,
