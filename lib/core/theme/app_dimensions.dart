@@ -47,4 +47,9 @@ abstract class AppDimensions {
   static const double opacityXXXS = 0.2;
   static const double opacityXXS = 0.5;
   static const double opacityXXXL = 1.0;
+  static const double opasityXM = 1.25;
+  static const double opasityM = 1.5;
+
+  //Анамація
+  static const animXXXXS = 800;
 }
