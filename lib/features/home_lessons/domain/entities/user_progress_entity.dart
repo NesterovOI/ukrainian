@@ -5,6 +5,7 @@ class UserProgressEntity {
   final int streakDays;
   final bool isPremium;
   final List<String> completedLessonIds;
+  final DateTime? lastActiveDate;
 
   const UserProgressEntity({
     required this.lives,
@@ -13,6 +14,7 @@ class UserProgressEntity {
     required this.streakDays,
     required this.isPremium,
     required this.completedLessonIds,
+    this.lastActiveDate,
   });
 
   UserProgressEntity copyWith({
@@ -22,6 +24,7 @@ class UserProgressEntity {
     int? streakDays,
     bool? isPremium,
     List<String>? completedLessonIds,
+    DateTime? lastActiveDate,
   }) {
     return UserProgressEntity(
       lives: lives ?? this.lives,
@@ -30,6 +33,7 @@ class UserProgressEntity {
       streakDays: streakDays ?? this.streakDays,
       isPremium: isPremium ?? this.isPremium,
       completedLessonIds: completedLessonIds ?? this.completedLessonIds,
+      lastActiveDate: lastActiveDate ?? this.lastActiveDate,
     );
   }
 }

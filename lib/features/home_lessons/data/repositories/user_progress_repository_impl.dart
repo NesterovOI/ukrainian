@@ -60,6 +60,7 @@ class UserProgressRepositoryImpl implements UserProgressRepository {
       streakDays: 0,
       isPremium: false,
       completedLessonIds: completedIds,
+      lastActiveDate: data.lastActiveDate,
     );
   }
 
