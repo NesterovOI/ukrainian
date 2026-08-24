@@ -4,6 +4,9 @@ import 'package:ukrainian/features/home_lessons/domain/repositories/user_progres
 import 'package:ukrainian/features/home_lessons/data/repositories/user_progress_repository_impl.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/home_lessons/domain/usecases/export_usecases.dart';
+import 'package:ukrainian/features/home_lessons/domain/usecases/get_user_progress_usecase.dart';
+import 'package:ukrainian/features/home_lessons/domain/usecases/save_user_progress_usecase.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/user_progress_notifier.dart';
 
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
   return AppDatabase();
@@ -41,3 +44,23 @@ final failedQuestionsFutureProvider =
       final useCase = ref.watch(getFailedQuestionsUseCaseProvider);
       return await useCase.call(allLessons);
     });
+
+final getUserProgressUseCaseProvider = Provider<GetUserProgressUseCase>((ref) {
+  return GetUserProgressUseCase(ref.watch(userProgressRepositoryProvider));
+});
+
+final saveUserProgressUseCaseProvider = Provider<SaveUserProgressUseCase>((
+  ref,
+) {
+  return SaveUserProgressUseCase(ref.watch(userProgressRepositoryProvider));
+});
+
+final userProgressNotifierProvider =
+    StateNotifierProvider<UserProgressNotifier, AsyncValue<UserProgressEntity>>(
+      (ref) {
+        return UserProgressNotifier(
+          ref.watch(getUserProgressUseCaseProvider),
+          ref.watch(saveUserProgressUseCaseProvider),
+        );
+      },
+    );
