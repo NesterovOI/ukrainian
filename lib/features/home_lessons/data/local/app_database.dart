@@ -30,6 +30,30 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  // Отримати або створити початковий прогрес (ID = 1)
+  Future<UserProgressTableData> getUserProgress() async {
+    final progress = await (select(
+      userProgressTable,
+    )..where((tbl) => tbl.id.equals(1))).getSingleOrNull();
+    if (progress != null) return progress;
+
+    await into(userProgressTable).insert(
+      UserProgressTableCompanion.insert(
+        lives: const Value(5),
+        score: const Value(0),
+        completedLessonIds: const Value('[]'),
+      ),
+    );
+    return getUserProgress();
+  }
+
+  // Оновити прогрес
+  Future<void> updateUserProgress(UserProgressTableCompanion companion) async {
+    await (update(
+      userProgressTable,
+    )..where((tbl) => tbl.id.equals(1))).write(companion);
+  }
 }
 
 LazyDatabase _openConnection() {

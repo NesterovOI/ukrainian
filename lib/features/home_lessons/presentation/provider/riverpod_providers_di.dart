@@ -21,14 +21,23 @@ final getAnalyticsUseCaseProvider = Provider<GetAnalyticsUseCase>((ref) {
   return GetAnalyticsUseCase(ref.watch(userProgressRepositoryProvider));
 });
 
-final getFailedQuestionsUseCaseProvider = Provider<GetFailedQuestionsUsecase>((
+final getFailedQuestionsUseCaseProvider = Provider<GetFailedQuestionsUseCase>((
   ref,
 ) {
-  return GetFailedQuestionsUsecase(ref.watch(userProgressRepositoryProvider));
+  return GetFailedQuestionsUseCase(ref.watch(userProgressRepositoryProvider));
 });
 
 final analyticsFutureProvider =
     FutureProvider<List<SubcategoryAnalyticsEntity>>((ref) async {
       final getAnalytics = ref.watch(getAnalyticsUseCaseProvider);
       return await getAnalytics.call();
+    });
+
+final failedQuestionsFutureProvider =
+    FutureProvider.family<LessonEntity?, List<LessonEntity>>((
+      ref,
+      allLessons,
+    ) async {
+      final useCase = ref.watch(getFailedQuestionsUseCaseProvider);
+      return await useCase.call(allLessons);
     });

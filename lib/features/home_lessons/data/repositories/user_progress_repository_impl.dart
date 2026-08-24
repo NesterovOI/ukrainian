@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:drift/drift.dart';
 import 'package:ukrainian/features/home_lessons/data/local/app_database.dart';
 import 'package:ukrainian/features/home_lessons/domain/repositories/user_progress_repository.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
@@ -43,5 +46,32 @@ class UserProgressRepositoryImpl implements UserProgressRepository {
         accuratePercentage: (correct / total) * 100,
       );
     }).toList();
+  }
+
+  @override
+  Future<UserProgressEntity> getUserProgress() async {
+    final data = await _db.getUserProgress();
+    final List<dynamic> rawList = jsonDecode(data.completedLessonIds);
+    final completedIds = rawList.map((e) => e.toString()).toList();
+
+    return UserProgressEntity(
+      lives: data.lives,
+      score: data.score,
+      streakDays: 0,
+      isPremium: false,
+      completedLessonIds: completedIds,
+    );
+  }
+
+  @override
+  Future<void> saveUserProgress(UserProgressEntity progress) async {
+    await _db.updateUserProgress(
+      UserProgressTableCompanion(
+        lives: Value(progress.lives),
+        score: Value(progress.score),
+        completedLessonIds: Value(jsonEncode(progress.completedLessonIds)),
+        lastActiveDate: Value(DateTime.now()),
+      ),
+    );
   }
 }

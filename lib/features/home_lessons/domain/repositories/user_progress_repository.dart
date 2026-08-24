@@ -9,4 +9,7 @@ abstract class UserProgressRepository {
   });
 
   Future<List<SubcategoryAnalyticsEntity>> getSubcategoryAnalytics();
+
+  Future<UserProgressEntity> getUserProgress();
+  Future<void> saveUserProgress(UserProgressEntity progress);
 }

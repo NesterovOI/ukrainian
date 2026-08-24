@@ -66,6 +66,10 @@ abstract class AppStrings {
   static const String bagAnalyticsPage = 'Слабке місце (потрібно повторити)';
   static const String normalAnalyticsPage = 'Варто закріпити';
   static const String goodAnalyticsPage = 'Ви добре знаєте цю тему';
+  static const String workForErrors = 'Робота над помилками';
+  static const String faindError = 'Знайдено';
+  static const String weakQuestions = 'слабких питань';
+  static const String passTextButton = 'Пройти';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
