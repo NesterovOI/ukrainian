@@ -132,6 +132,13 @@ class QuizController
       isCorrect: isCorrect,
     );
 
+    final progressNotifier = ref.read(userProgressNotifierProvider.notifier);
+    if (isCorrect) {
+      progressNotifier.addScore(10);
+    } else {
+      progressNotifier.decreaseLife();
+    }
+
     state = state.copyWith(
       isAnswerCorrect: isCorrect,
       earnedScore: isCorrect ? state.earnedScore + 10 : state.earnedScore,
@@ -150,6 +157,9 @@ class QuizController
       );
       return false;
     } else {
+      ref
+          .read(userProgressNotifierProvider.notifier)
+          .markLessonCompleted(state.lesson.id);
       state = state.copyWith(
         step: QuizPageStep.result,
         clearAnswerCorrect: true,
