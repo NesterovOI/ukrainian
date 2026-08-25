@@ -1,14 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ukrainian/core/services/service.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
-import 'package:ukrainian/features/home_lessons/presentation/provider/home_controller.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 import 'package:ukrainian/features/home_lessons/presentation/widgets/widgets.dart';
 import 'package:ukrainian/features/home_lessons/presentation/dialogs/show_restore_lives_dilog.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
+
+  Future<void> _showRewardedAd(BuildContext context, WidgetRef ref) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppStrings.watchAdButton),
+        duration: const Duration(seconds: 1),
+      ),
+    );
+
+    final bool isRewarded = await AdService.showRewardedAd(context);
+    if (isRewarded) {
+      await ref.read(userProgressNotifierProvider.notifier).restoreLifeFromAd();
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppStrings.welcomLife),
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(AppStrings.notAdvertising)));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,6 +66,26 @@ class HomePage extends ConsumerWidget {
                   },
                 ),
                 const SizedBox(height: AppDimensions.spaceM),
+                FailedQuestionsBanner(
+                  allLessons: lessons,
+                  onStartQuiz: (failedLesson) {
+                    if (progress.lives <= 0) {
+                      showRestoreLivesDialog(
+                        context: context,
+                        onWatchAd: () => _showRewardedAd(context, ref),
+                      );
+                      return;
+                    }
+
+                    context.pushNamed(
+                      AppRouters.lessonQuizName,
+                      extra: failedLesson,
+                    );
+                  },
+                ),
+
+                const SizedBox(height: AppDimensions.spaceM),
+
                 QuoteCardWidget(
                   quote: homeState.quote,
                   onRefresh: () {
@@ -57,11 +107,6 @@ class HomePage extends ConsumerWidget {
                     final isCompleted = progress.completedLessonIds.contains(
                       lesson.id,
                     );
-                    final isPreviousCompleted =
-                        index == 0 ||
-                        progress.completedLessonIds.contains(
-                          lessons[index - 1].id,
-                        );
                     final isLocked =
                         index != 0 &&
                         !progress.completedLessonIds.contains(
@@ -94,6 +139,14 @@ class HomePage extends ConsumerWidget {
                           isLocked: isLocked,
                           isCompleted: isCompleted,
                           onTap: () {
+                            if (progress.lives <= 0) {
+                              showRestoreLivesDialog(
+                                context: context,
+                                onWatchAd: () => _showRewardedAd(context, ref),
+                              );
+                              return;
+                            }
+
                             context.pushNamed(
                               AppRouters.lessonQuizName,
                               extra: lesson,

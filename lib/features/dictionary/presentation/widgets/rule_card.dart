@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
-import 'package:ukrainian/features/dictionary/presentation/pages/pages.dart';
 
 class RuleCard extends StatelessWidget {
   final RuleEntity rule;
@@ -18,41 +17,43 @@ class RuleCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
       ),
       child: InkWell(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          onTap: () {
-              context.pushNamed(
-                AppRouters.ruleDetailName,
-                extra: rule,
-              );
-          },
+        borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+        onTap: () {
+          context.pushNamed(AppRouters.ruleDetailName, extra: rule);
+        },
         child: Padding(
-            padding: const EdgeInsets.all(AppDimensions.spaceM),
+          padding: const EdgeInsets.all(AppDimensions.spaceM),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                      Container(
-                        padding:  const EdgeInsets.symmetric(
-                          horizontal: AppDimensions.spaceS,
-                          vertical: AppDimensions.spaceXXS,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusS),
-                        ),
-                        child: Text(
-                          rule.categoryName,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppDimensions.spaceS,
+                      vertical: AppDimensions.spaceXXS,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusS,
                       ),
-                    const Icon(Icons.arrow_forward_ios, size: AppDimensions.iconSizeS,),
-                  ],
-                ),
-              const SizedBox(height: AppDimensions.spaceS,),
+                    ),
+                    child: Text(
+                      rule.categoryName,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: AppDimensions.iconSizeS,
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppDimensions.spaceS),
               Text(
-                  rule.title,
+                rule.title,
                 style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
