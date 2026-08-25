@@ -5,6 +5,7 @@ import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/home_controller.dart';
 import 'package:ukrainian/features/home_lessons/presentation/widgets/widgets.dart';
+import 'package:ukrainian/features/home_lessons/presentation/dialogs/show_restore_lives_dilog.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
