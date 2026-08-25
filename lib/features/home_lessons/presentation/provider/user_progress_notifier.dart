@@ -26,7 +26,7 @@ class UserProgressNotifier
             .inHours;
 
         if (hoursDifference >= 24 && progress.lives < progress.maxLives) {
-          progress.copyWith(
+          progress = progress.copyWith(
             lives: progress.maxLives,
             lastActiveDate: DateTime.now(),
           );
@@ -58,6 +58,22 @@ class UserProgressNotifier
     if (current == null) return;
     final progress = current.copyWith(
       score: current.score + points,
+      lastActiveDate: DateTime.now(),
+    );
+    state = AsyncValue.data(progress);
+    await _saveUserProgressUseCase.call(progress);
+  }
+
+  Future<void> addLife() async {
+    final current = state.value;
+    if (current == null) return;
+
+    if (current.lives >= current.maxLives) return;
+
+    final updatesLives = (current.lives + 1).clamp(0, current.maxLives);
+
+    final progress = current.copyWith(
+      lives: updatesLives,
       lastActiveDate: DateTime.now(),
     );
     state = AsyncValue.data(progress);
