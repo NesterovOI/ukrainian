@@ -25,7 +25,15 @@ class HomePage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomeHeaderWidget(progress: progress),
+                HomeHeaderWidget(
+                  progress: progress,
+                  onLivesTap: () {
+                    showRestoreLivesDialog(
+                      context: context,
+                      onWatchAd: () => _showRewardedAd(context, ref),
+                    );
+                  },
+                ),
                 const SizedBox(height: AppDimensions.spaceM),
                 QuoteCardWidget(
                   quote: homeState.quote,

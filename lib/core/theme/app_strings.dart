@@ -80,7 +80,7 @@ abstract class AppStrings {
   static const String outOfLivesSub =
       'Зачекай відновлення або подивись відео, щоб отримати +1 ❤️';
   static const String watchAdButton = 'Дивитися рекламу (+1 ❤️)';
-  static const String cancelButton = 'Повернутися на головну';
+  static const String cancelButton = 'Повернутися';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';

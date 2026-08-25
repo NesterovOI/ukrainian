@@ -17,6 +17,7 @@ abstract class AppDimensions {
   static const double radiusXS = 8.0;
   static const double radiusS = 12.0;
   static const double radiusM = 16.0; // Стандарт для картки/кнопки
+  static const double radiusXM = 20.0;
   static const double radiusL = 24.0;
   static const double radiusRound =
       999.0; // Повністю кругла форма (аватарка, серце)
