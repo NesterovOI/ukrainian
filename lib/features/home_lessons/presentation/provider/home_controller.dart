@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/home_providers.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/riverpod_providers_di.dart';
 
 class HomeState {
   final UserProgressEntity userProgress;
@@ -14,7 +15,7 @@ class HomeState {
     required this.lessons,
   });
 
-  HomeState copyWidth({
+  HomeState copyWith({
     UserProgressEntity? userProgress,
     QuoteEntity? quote,
     List<LessonEntity>? lessons,
@@ -32,7 +33,28 @@ class HomeController extends AsyncNotifier<HomeState> {
   FutureOr<HomeState> build() async {
     final repository = ref.watch(homeRepositoryProvider);
 
-    final userProgress = await repository.getUserProgress();
+    ref.listen<AsyncValue<UserProgressEntity>>(userProgressNotifierProvider, (
+      previous,
+      next,
+    ) {
+      if (next.hasValue && state.hasValue && next.value != null) {
+        state = AsyncValue.data(
+          state.value!.copyWith(userProgress: next.value!),
+        );
+      }
+    });
+
+    final userProgressAsync = ref.watch(userProgressNotifierProvider);
+
+    final userProgress =
+        userProgressAsync.value ??
+        const UserProgressEntity(
+          lives: 5,
+          score: 0,
+          streakDays: 0,
+          isPremium: false,
+          completedLessonIds: [],
+        );
     final quote = await repository.getRandomQuote();
     final lessons = await repository.getLessons();
 
@@ -48,15 +70,7 @@ class HomeController extends AsyncNotifier<HomeState> {
     final repository = ref.watch(homeRepositoryProvider);
     final newQuote = await repository.getRandomQuote();
 
-    state = state.whenData((data) => data.copyWidth(quote: newQuote));
-  }
-
-  // Оновлення прогресу (наприклад, зменшення життів або додавання балів)
-  Future<void> updateProgress(UserProgressEntity newProgress) async {
-    final repository = ref.read(homeRepositoryProvider);
-    await repository.updateUserProgress(newProgress);
-
-    state = state.whenData((data) => data.copyWidth(userProgress: newProgress));
+    state = state.whenData((data) => data.copyWith(quote: newQuote));
   }
 }
 

@@ -2,66 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ukrainian/core/services/service.dart';
+import 'package:ukrainian/core/utils/ad_helper.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 import 'package:ukrainian/features/home_lessons/presentation/widgets/widgets.dart';
-import 'package:ukrainian/features/home_lessons/presentation/dialogs/show_restore_lives_dilog.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  Future<void> _showRewardedAd(BuildContext context, WidgetRef ref) async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppStrings.watchAdButton),
-        duration: const Duration(seconds: 1),
-      ),
-    );
-
-    final bool isRewarded = await AdService.showRewardedAd(context);
-    if (isRewarded) {
-      await ref.read(userProgressNotifierProvider.notifier).restoreLifeFromAd();
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppStrings.welcomLife),
-            backgroundColor: AppColors.success,
-          ),
-        );
-      }
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(AppStrings.notAdvertising)));
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeStateAsync = ref.watch(homeControllerProvider);
+    final userProgressAsync = ref.watch(userProgressNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.appTitle), centerTitle: true),
       body: homeStateAsync.when(
         data: (homeState) {
-          final progress = homeState.userProgress;
+          final progress = userProgressAsync.value ?? homeState.userProgress;
           final lessons = homeState.lessons;
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(AppDimensions.spaceM),
+            padding: const EdgeInsets.all(AppDimensions.spaceS),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HomeHeaderWidget(
                   progress: progress,
                   onLivesTap: () {
-                    showRestoreLivesDialog(
+                    RestoreLivesDialog.show(
                       context: context,
-                      onWatchAd: () => _showRewardedAd(context, ref),
+                      onWatchAd: () =>
+                          showRewardedAdAndRestoreLive(context, ref),
                     );
                   },
                 ),
@@ -70,9 +43,10 @@ class HomePage extends ConsumerWidget {
                   allLessons: lessons,
                   onStartQuiz: (failedLesson) {
                     if (progress.lives <= 0) {
-                      showRestoreLivesDialog(
+                      RestoreLivesDialog.show(
                         context: context,
-                        onWatchAd: () => _showRewardedAd(context, ref),
+                        onWatchAd: () =>
+                            showRewardedAdAndRestoreLive(context, ref),
                       );
                       return;
                     }
@@ -140,9 +114,10 @@ class HomePage extends ConsumerWidget {
                           isCompleted: isCompleted,
                           onTap: () {
                             if (progress.lives <= 0) {
-                              showRestoreLivesDialog(
+                              RestoreLivesDialog.show(
                                 context: context,
-                                onWatchAd: () => _showRewardedAd(context, ref),
+                                onWatchAd: () =>
+                                    showRewardedAdAndRestoreLive(context, ref),
                               );
                               return;
                             }

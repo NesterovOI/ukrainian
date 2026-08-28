@@ -6,9 +6,9 @@ import 'package:lottie/lottie.dart';
 import 'package:ukrainian/core/services/service.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
-import 'package:ukrainian/features/home_lessons/presentation/provider/home_controller.dart';
-import 'package:ukrainian/features/home_lessons/presentation/provider/quiz_controller.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 import 'package:ukrainian/features/home_lessons/presentation/widgets/widgets.dart';
+import 'package:ukrainian/core/utils/ad_helper.dart';
 
 class LessonQuizPage extends ConsumerStatefulWidget {
   final LessonEntity lesson;
@@ -35,31 +35,17 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
   }
 
   void _showOutOfLivesModel() {
-    showDialog(
+    RestoreLivesDialog.show(
       context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => OutOfLivesDialog(
-        onWatchAd: () async {
-          Navigator.pop(dialogContext);
-          final success = await AdService.showRewardedAd(context);
-          if (success) {
-            final homeState = ref.read(homeControllerProvider).value;
-            if (homeState != null) {
-              ref
-                  .read(homeControllerProvider.notifier)
-                  .updateProgress(
-                    homeState.userProgress.copyWith(
-                      lives: homeState.userProgress.lives + 1,
-                    ),
-                  );
-            }
-          }
-        },
-        onCancel: () {
-          Navigator.pop(dialogContext);
-          Navigator.pop(context);
-        },
-      ),
+      onWatchAd: () async {
+        final success = await showRewardedAdAndRestoreLive(context, ref);
+        if (!success && mounted) {
+          context.pop();
+        }
+      },
+      onCancel: () {
+        context.pop();
+      },
     );
   }
 
@@ -69,7 +55,7 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
     final quizNotifier = ref.read(
       quizControllerProvider(widget.lesson).notifier,
     );
-    final homeState = ref.watch(homeControllerProvider).value;
+    final userProgress = ref.watch(userProgressNotifierProvider).value;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.lesson.title), centerTitle: true),
@@ -173,7 +159,7 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         height: AppDimensions.buttonHeight,
                         child: ElevatedButton(
                           onPressed: _isButtonEnabled(currentQ, quizState)
-                              ? () {
+                              ? () async {
                                   if (quizState.isAnswerCorrect == null) {
                                     // Перевіряємо відповідь
                                     final isCorrect = quizNotifier
@@ -182,66 +168,31 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                                       _audioService.playCorrect();
                                     } else {
                                       _audioService.playWrong();
-                                      // Знімаємо життя у користувача
-                                      if (homeState != null &&
-                                          !homeState.userProgress.isPremium) {
-                                        final currentLives =
-                                            homeState.userProgress.lives;
-                                        if (currentLives > 1) {
+                                      await ref
+                                          .read(
+                                            userProgressNotifierProvider
+                                                .notifier,
+                                          )
+                                          .decreaseLife();
+                                      // Перевіряємо чи незакінчилися життя
+                                      final currentLives =
                                           ref
                                               .read(
-                                                homeControllerProvider.notifier,
+                                                userProgressNotifierProvider,
                                               )
-                                              .updateProgress(
-                                                homeState.userProgress.copyWith(
-                                                  lives: currentLives - 1,
-                                                ),
-                                              );
-                                        } else {
-                                          // Життя закінчилися! Показуємо модальне вікно
-                                          ref
-                                              .read(
-                                                homeControllerProvider.notifier,
-                                              )
-                                              .updateProgress(
-                                                homeState.userProgress.copyWith(
-                                                  lives: 0,
-                                                ),
-                                              );
-                                          _showOutOfLivesModel();
-                                        }
+                                              .value
+                                              ?.lives ??
+                                          0;
+                                      if (currentLives <= 0) {
+                                        _showOutOfLivesModel();
                                       }
                                     }
                                   } else {
-                                    // Переходимо до наступного питання
+                                    // Переходимо далі (QuizController САМ зберігає виключно завершений урок)
                                     final isFinished = quizNotifier
                                         .nextQuestion();
                                     if (isFinished) {
                                       _audioService.playSuccess();
-                                      // Зберігаємо пройдений урок та додаємо бали
-                                      if (homeState != null) {
-                                        final updatedCompleted = {
-                                          ...homeState
-                                              .userProgress
-                                              .completedLessonIds,
-                                          widget.lesson.id,
-                                        }.toList();
-                                        ref
-                                            .read(
-                                              homeControllerProvider.notifier,
-                                            )
-                                            .updateProgress(
-                                              homeState.userProgress.copyWith(
-                                                score:
-                                                    homeState
-                                                        .userProgress
-                                                        .score +
-                                                    quizState.earnedScore,
-                                                completedLessonIds:
-                                                    updatedCompleted,
-                                              ),
-                                            );
-                                      }
                                     }
                                   }
                                 }
@@ -281,13 +232,8 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         const SizedBox(height: AppDimensions.spaceXL),
                         ElevatedButton(
                           onPressed: () async {
-                            if (homeState != null) {
-                              await AdService.showRewardedAd(context);
-                            }
-                            if (context.mounted) {
-                              _audioService.playClick();
-                              context.pop();
-                            }
+                            _audioService.playClick();
+                            context.pop();
                           },
                           child: const Text(AppStrings.nextLesson),
                         ),

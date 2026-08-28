@@ -16,7 +16,6 @@ class UserProgressNotifier
   }
 
   Future<void> loadProgress() async {
-    state = const AsyncValue.loading();
     try {
       var progress = await _getUserProgressUseCase.call();
       // Логіка відновлення життів за таймером
@@ -42,7 +41,7 @@ class UserProgressNotifier
   Future<void> decreaseLife() async {
     final current = state.value;
 
-    if (current == null || current.lives <= 0) return;
+    if (current == null || current.isPremium || current.lives <= 0) return;
 
     final progress = current.copyWith(
       lives: current.lives - 1,
@@ -85,10 +84,10 @@ class UserProgressNotifier
     if (current == null) return;
 
     if (!current.completedLessonIds.contains(lessonId)) {
-      final updatedList = List<String>.from(current.completedLessonIds)
+      final updatedLessons = List<String>.from(current.completedLessonIds)
         ..add(lessonId);
       final progress = current.copyWith(
-        completedLessonIds: updatedList,
+        completedLessonIds: updatedLessons,
         lastActiveDate: DateTime.now(),
       );
 
@@ -101,12 +100,21 @@ class UserProgressNotifier
     final current = state.value;
     if (current == null) return;
 
+    if (current.lives >= current.maxLives) return;
+
+    final updatedLives = (current.lives + 1).clamp(0, current.maxLives);
+
     final progress = current.copyWith(
-      lives: (current.lives + 1).clamp(0, current.maxLives),
+      lives: updatedLives,
       lastActiveDate: DateTime.now(),
     );
 
     state = AsyncValue.data(progress);
-    await _saveUserProgressUseCase.call(progress);
+
+    try {
+      await _saveUserProgressUseCase.call(progress);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
   }
 }

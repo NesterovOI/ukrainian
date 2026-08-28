@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class UserProgressEntity {
   final int lives;
   final int maxLives;
@@ -36,4 +38,27 @@ class UserProgressEntity {
       lastActiveDate: lastActiveDate ?? this.lastActiveDate,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserProgressEntity &&
+          runtimeType == other.runtimeType &&
+          lives == other.lives &&
+          maxLives == other.maxLives &&
+          score == other.score &&
+          streakDays == other.streakDays &&
+          isPremium == other.isPremium &&
+          listEquals(completedLessonIds, other.completedLessonIds);
+
+  @override
+  int get hashCode =>
+      lives.hashCode ^
+      maxLives.hashCode ^
+      score.hashCode ^
+      streakDays.hashCode ^
+      isPremium.hashCode ^
+      Object.hashAll(completedLessonIds);
+
+  int get displayLives => isPremium ? 999 : lives;
 }

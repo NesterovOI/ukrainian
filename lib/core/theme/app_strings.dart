@@ -52,7 +52,7 @@ abstract class AppStrings {
   static const String quoteDay = '💬 Цитата дня';
   static const String lessonProgram = 'Навчальна програма';
   static const String questionLesson = 'Питання';
-  static const String lessonEntityId = 'Файл запитання урока';
+  static const String lessonEntityId = 'failed_questions_virtual_lesson';
   static const String lessonEntityCategoryTitle = 'Робота над помилками';
   static const String lessonEntityTitle = 'Експрес-тренування слабких місць';
   static const String lessonEntityDescription =
@@ -76,7 +76,7 @@ abstract class AppStrings {
   static const String lessonFine = 'Урок успішно пройдено!';
   static const String lessonPoints = 'Зароблено балів: ';
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';
-  static const String outOfLivesTitle = 'Ой, життя закінчилися!';
+  static const String outOfLivesTitle = 'Життя закінчилися!';
   static const String outOfLivesSub =
       'Зачекай відновлення або подивись відео, щоб отримати +1 ❤️';
   static const String watchAdButton = 'Дивитися рекламу (+1 ❤️)';

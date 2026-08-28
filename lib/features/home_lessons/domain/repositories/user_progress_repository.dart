@@ -8,8 +8,8 @@ abstract class UserProgressRepository {
     required bool isCorrect,
   });
 
+  Future<List<String>> getFailedQuestionIds();
   Future<List<SubcategoryAnalyticsEntity>> getSubcategoryAnalytics();
-
   Future<UserProgressEntity> getUserProgress();
   Future<void> saveUserProgress(UserProgressEntity progress);
 }

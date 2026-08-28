@@ -8,21 +8,17 @@ class GetFailedQuestionsUseCase {
   GetFailedQuestionsUseCase(this._repository);
 
   Future<LessonEntity?> call(List<LessonEntity> allLessons) async {
-    final analitics = await _repository.getSubcategoryAnalytics();
+    final failedQuestionIds = await _repository.getFailedQuestionIds();
 
-    // Знаходимо назви тем, де accuracyPercentage < 70%
-    final weakSubcategoris = analitics
-        .where((item) => item.accuratePercentage < 70)
-        .map((item) => item.subcategoryId)
-        .toSet();
+    if (failedQuestionIds.isEmpty) return null;
 
-    if (weakSubcategoris.isEmpty) return null;
-
-    // Відбираємо питання тільки з цих проблемних тем
     final List<QuizQuestionEntity> failedQuestions = [];
+
     for (final lesson in allLessons) {
-      if (weakSubcategoris.contains(lesson.categoryTitle)) {
-        failedQuestions.addAll(lesson.questions);
+      for (final question in lesson.questions) {
+        if (failedQuestionIds.contains(question.id)) {
+          failedQuestions.add(question);
+        }
       }
     }
 

@@ -75,4 +75,29 @@ class UserProgressRepositoryImpl implements UserProgressRepository {
       ),
     );
   }
+
+  @override
+  Future<List<String>> getFailedQuestionIds() async {
+    final rows = await _db.select(_db.questionHistoryTable).get();
+
+    final Map<String, List<bool>> groupedByQuestion = {};
+    for (final row in rows) {
+      groupedByQuestion
+          .putIfAbsent(row.questionId, () => [])
+          .add(row.isCorrect);
+    }
+
+    final List<String> failedIds = [];
+    groupedByQuestion.forEach((questionId, history) {
+      final total = history.length;
+      final correct = history.where((isCorrect) => isCorrect).length;
+      final acurracy = (correct / total) * 100;
+
+      if (acurracy < 70) {
+        failedIds.add(questionId);
+      }
+    });
+
+    return failedIds;
+  }
 }

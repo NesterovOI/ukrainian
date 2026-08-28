@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/home_lessons/domain/usecases/export_usecases.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/riverpod_providers_di.dart';
+import 'package:ukrainian/core/theme/theme.dart';
 
 enum QuizPageStep { theory, questions, result }
 
@@ -132,7 +133,10 @@ class QuizController
       isCorrect: isCorrect,
     );
 
+    ref.invalidate(failedQuestionsFutureProvider);
+
     final progressNotifier = ref.read(userProgressNotifierProvider.notifier);
+
     if (isCorrect) {
       progressNotifier.addScore(10);
     } else {
@@ -157,9 +161,12 @@ class QuizController
       );
       return false;
     } else {
-      ref
-          .read(userProgressNotifierProvider.notifier)
-          .markLessonCompleted(state.lesson.id);
+      if (state.lesson.id != AppStrings.lessonEntityId) {
+        ref
+            .read(userProgressNotifierProvider.notifier)
+            .markLessonCompleted(state.lesson.id);
+      }
+
       state = state.copyWith(
         step: QuizPageStep.result,
         clearAnswerCorrect: true,
