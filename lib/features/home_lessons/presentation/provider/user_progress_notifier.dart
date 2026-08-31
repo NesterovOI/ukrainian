@@ -130,4 +130,30 @@ class UserProgressNotifier
     state = AsyncValue.data(progress);
     await _saveUserProgressUseCase.call(progress);
   }
+
+  Future<void> updateUserName(String name) async {
+    final current = state.value;
+    if (current == null) return;
+
+    final progress = current.copyWith(
+      userName: name,
+      lastActiveDate: DateTime.now(),
+    );
+
+    state = AsyncValue.data(progress);
+    await _saveUserProgressUseCase.call(progress);
+  }
+
+  Future<void> updateAvatar(String avatarPath) async {
+    final current = state.value;
+    if (current == null) return;
+
+    final progress = current.copyWith(
+      avatarPath: avatarPath,
+      lastActiveDate: DateTime.now(),
+    );
+
+    state = AsyncValue.data(progress);
+    await _saveUserProgressUseCase.call(progress);
+  }
 }
