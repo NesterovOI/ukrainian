@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:ukrainian/core/theme/theme.dart';
 
 class UserProgressEntity {
+  final String userName;
+  final String? avatarPath;
   final int lives;
   final int maxLives;
   final int score;
@@ -10,6 +13,8 @@ class UserProgressEntity {
   final DateTime? lastActiveDate;
 
   const UserProgressEntity({
+    this.userName = AppStrings.student,
+    this.avatarPath,
     required this.lives,
     this.maxLives = 5,
     required this.score,
@@ -20,6 +25,8 @@ class UserProgressEntity {
   });
 
   UserProgressEntity copyWith({
+    String? userName,
+    String? avatarPath,
     int? lives,
     int? maxLives,
     int? score,
@@ -29,6 +36,8 @@ class UserProgressEntity {
     DateTime? lastActiveDate,
   }) {
     return UserProgressEntity(
+      userName: userName ?? this.userName,
+      avatarPath: avatarPath ?? this.avatarPath,
       lives: lives ?? this.lives,
       maxLives: maxLives ?? this.maxLives,
       score: score ?? this.score,
@@ -44,6 +53,8 @@ class UserProgressEntity {
       identical(this, other) ||
       other is UserProgressEntity &&
           runtimeType == other.runtimeType &&
+          userName == other.userName &&
+          avatarPath == other.avatarPath &&
           lives == other.lives &&
           maxLives == other.maxLives &&
           score == other.score &&
@@ -53,6 +64,8 @@ class UserProgressEntity {
 
   @override
   int get hashCode =>
+      userName.hashCode ^
+      avatarPath.hashCode ^
       lives.hashCode ^
       maxLives.hashCode ^
       score.hashCode ^
