@@ -117,4 +117,17 @@ class UserProgressNotifier
       state = AsyncValue.error(e, st);
     }
   }
+
+  Future<void> updatePremiumStatus(bool isPremium) async {
+    final current = state.value;
+    if (current == null) return;
+
+    final progress = current.copyWith(
+      isPremium: isPremium,
+      lastActiveDate: DateTime.now(),
+    );
+
+    state = AsyncValue.data(progress);
+    await _saveUserProgressUseCase.call(progress);
+  }
 }
