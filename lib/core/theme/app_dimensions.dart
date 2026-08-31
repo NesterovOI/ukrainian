@@ -41,6 +41,9 @@ abstract class AppDimensions {
   static const double iconSizeXXL = 80.0;
   static const double sizeBoxHeight = 60;
   static const double sizeLottie = 120;
+  static const double avatarHeight = 512;
+  static const double avatarWeight = 512;
+  static const int avatarQuality = 80;
 
   // Прозорість Opacity
   static const double opacityXXXXS = 0.1;

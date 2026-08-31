@@ -71,6 +71,9 @@ abstract class AppStrings {
   static const String weakQuestions = 'слабких питань';
   static const String passTextButton = 'Пройти';
 
+  //ПРОФІЛЬ КОРИСТУВАЧА Profile
+  static const String student = 'Учень';
+
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
   static const String lessonFine = 'Урок успішно пройдено!';
