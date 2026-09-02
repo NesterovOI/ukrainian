@@ -66,6 +66,7 @@ final userProgressNotifierProvider =
         return UserProgressNotifier(
           ref.watch(getUserProgressUseCaseProvider),
           ref.watch(saveUserProgressUseCaseProvider),
+          ref.watch(purchaseServiceProvider),
         );
       },
     );

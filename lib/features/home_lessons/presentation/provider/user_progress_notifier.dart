@@ -2,15 +2,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/home_lessons/domain/usecases/save_user_progress_usecase.dart';
 import 'package:ukrainian/features/home_lessons/domain/usecases/get_user_progress_usecase.dart';
+import 'package:ukrainian/core/services/purchase_service.dart';
 
 class UserProgressNotifier
     extends StateNotifier<AsyncValue<UserProgressEntity>> {
   final GetUserProgressUseCase _getUserProgressUseCase;
   final SaveUserProgressUseCase _saveUserProgressUseCase;
+  final IPurchaseService _purchaseService;
 
   UserProgressNotifier(
     this._getUserProgressUseCase,
     this._saveUserProgressUseCase,
+    this._purchaseService,
   ) : super(const AsyncValue.loading()) {
     loadProgress();
   }
@@ -18,8 +21,19 @@ class UserProgressNotifier
   Future<void> loadProgress() async {
     try {
       var progress = await _getUserProgressUseCase.call();
+      final hasActiveSubscription = await _purchaseService
+          .checkSubscriptionStatus();
+
+      if (hasActiveSubscription != progress.isPremium) {
+        progress = progress.copyWith(
+          isPremium: hasActiveSubscription,
+          lastActiveDate: DateTime.now(),
+        );
+        await _saveUserProgressUseCase.call(progress);
+      }
+
       // Логіка відновлення життів за таймером
-      if (progress.lastActiveDate != null) {
+      if (!progress.isPremium && progress.lastActiveDate != null) {
         final hoursDifference = DateTime.now()
             .difference(progress.lastActiveDate!)
             .inHours;
@@ -155,5 +169,27 @@ class UserProgressNotifier
 
     state = AsyncValue.data(progress);
     await _saveUserProgressUseCase.call(progress);
+  }
+
+  // Метод купівлі підписки
+  Future<bool> buySubscription() async {
+    try {
+      final success = await _purchaseService.buySubscription();
+      if (success) {
+        await updatePremiumStatus(true);
+      }
+      return success;
+    } catch (e) {
+      // Handle purchase error
+      return false;
+    }
+  }
+
+  // Метод відновлення підписок
+  Future<void> restorePurchases() async {
+    await _purchaseService.restorePurchases();
+    final hasActiveSubscription = await _purchaseService
+        .checkSubscriptionStatus();
+    await updatePremiumStatus(hasActiveSubscription);
   }
 }
