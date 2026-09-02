@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukrainian/core/services/purchase_service.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 
 class ProfileController extends AsyncNotifier<void> {
@@ -27,7 +26,7 @@ class ProfileController extends AsyncNotifier<void> {
     }
   }
 
-  Future<void> restorePurchase() async {
+  Future<void> restorePurchases() async {
     state = AsyncValue.loading();
     try {
       final purchaseService = ref.read(purchaseServiceProvider);

@@ -8,8 +8,12 @@ part 'app_database.g.dart';
 
 class UserProgressTable extends Table {
   IntColumn get id => integer().autoIncrement()();
+  TextColumn get userName => text().withDefault(const Constant('Учень'))();
+  TextColumn get avatarPath => text().nullable()();
+  BoolColumn get isPremium => boolean().withDefault(const Constant(false))();
   IntColumn get lives => integer().withDefault(const Constant(5))();
   IntColumn get score => integer().withDefault(const Constant(0))();
+  IntColumn get streakDays => integer().withDefault(const Constant(0))();
   TextColumn get completedLessonIds =>
       text().withDefault(const Constant('[]'))();
   DateTimeColumn get lastActiveDate => dateTime().nullable()();
@@ -40,9 +44,14 @@ class AppDatabase extends _$AppDatabase {
 
     await into(userProgressTable).insert(
       UserProgressTableCompanion.insert(
+        userName: const Value('Учень'),
+        avatarPath: const Value(null),
+        isPremium: const Value(false),
         lives: const Value(5),
         score: const Value(0),
+        streakDays: const Value(0),
         completedLessonIds: const Value('[]'),
+        lastActiveDate: const Value(null),
       ),
     );
     return getUserProgress();

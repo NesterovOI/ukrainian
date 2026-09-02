@@ -55,10 +55,12 @@ class UserProgressRepositoryImpl implements UserProgressRepository {
     final completedIds = rawList.map((e) => e.toString()).toList();
 
     return UserProgressEntity(
+      userName: data.userName,
+      avatarPath: data.avatarPath,
       lives: data.lives,
       score: data.score,
-      streakDays: 0,
-      isPremium: false,
+      streakDays: data.streakDays,
+      isPremium: data.isPremium,
       completedLessonIds: completedIds,
       lastActiveDate: data.lastActiveDate,
     );
@@ -68,8 +70,12 @@ class UserProgressRepositoryImpl implements UserProgressRepository {
   Future<void> saveUserProgress(UserProgressEntity progress) async {
     await _db.updateUserProgress(
       UserProgressTableCompanion(
+        userName: Value(progress.userName),
+        avatarPath: Value(progress.avatarPath),
         lives: Value(progress.lives),
         score: Value(progress.score),
+        streakDays: Value(progress.streakDays),
+        isPremium: Value(progress.isPremium),
         completedLessonIds: Value(jsonEncode(progress.completedLessonIds)),
         lastActiveDate: Value(DateTime.now()),
       ),

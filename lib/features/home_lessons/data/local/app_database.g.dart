@@ -22,6 +22,44 @@ class $UserProgressTableTable extends UserProgressTable
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
+  static const VerificationMeta _userNameMeta = const VerificationMeta(
+    'userName',
+  );
+  @override
+  late final GeneratedColumn<String> userName = GeneratedColumn<String>(
+    'user_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('Учень'),
+  );
+  static const VerificationMeta _avatarPathMeta = const VerificationMeta(
+    'avatarPath',
+  );
+  @override
+  late final GeneratedColumn<String> avatarPath = GeneratedColumn<String>(
+    'avatar_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isPremiumMeta = const VerificationMeta(
+    'isPremium',
+  );
+  @override
+  late final GeneratedColumn<bool> isPremium = GeneratedColumn<bool>(
+    'is_premium',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_premium" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   static const VerificationMeta _livesMeta = const VerificationMeta('lives');
   @override
   late final GeneratedColumn<int> lives = GeneratedColumn<int>(
@@ -36,6 +74,18 @@ class $UserProgressTableTable extends UserProgressTable
   @override
   late final GeneratedColumn<int> score = GeneratedColumn<int>(
     'score',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _streakDaysMeta = const VerificationMeta(
+    'streakDays',
+  );
+  @override
+  late final GeneratedColumn<int> streakDays = GeneratedColumn<int>(
+    'streak_days',
     aliasedName,
     false,
     type: DriftSqlType.int,
@@ -69,8 +119,12 @@ class $UserProgressTableTable extends UserProgressTable
   @override
   List<GeneratedColumn> get $columns => [
     id,
+    userName,
+    avatarPath,
+    isPremium,
     lives,
     score,
+    streakDays,
     completedLessonIds,
     lastActiveDate,
   ];
@@ -89,6 +143,24 @@ class $UserProgressTableTable extends UserProgressTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('user_name')) {
+      context.handle(
+        _userNameMeta,
+        userName.isAcceptableOrUnknown(data['user_name']!, _userNameMeta),
+      );
+    }
+    if (data.containsKey('avatar_path')) {
+      context.handle(
+        _avatarPathMeta,
+        avatarPath.isAcceptableOrUnknown(data['avatar_path']!, _avatarPathMeta),
+      );
+    }
+    if (data.containsKey('is_premium')) {
+      context.handle(
+        _isPremiumMeta,
+        isPremium.isAcceptableOrUnknown(data['is_premium']!, _isPremiumMeta),
+      );
+    }
     if (data.containsKey('lives')) {
       context.handle(
         _livesMeta,
@@ -99,6 +171,12 @@ class $UserProgressTableTable extends UserProgressTable
       context.handle(
         _scoreMeta,
         score.isAcceptableOrUnknown(data['score']!, _scoreMeta),
+      );
+    }
+    if (data.containsKey('streak_days')) {
+      context.handle(
+        _streakDaysMeta,
+        streakDays.isAcceptableOrUnknown(data['streak_days']!, _streakDaysMeta),
       );
     }
     if (data.containsKey('completed_lesson_ids')) {
@@ -132,6 +210,18 @@ class $UserProgressTableTable extends UserProgressTable
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
+      userName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_name'],
+      )!,
+      avatarPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}avatar_path'],
+      ),
+      isPremium: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_premium'],
+      )!,
       lives: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}lives'],
@@ -139,6 +229,10 @@ class $UserProgressTableTable extends UserProgressTable
       score: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}score'],
+      )!,
+      streakDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}streak_days'],
       )!,
       completedLessonIds: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -160,14 +254,22 @@ class $UserProgressTableTable extends UserProgressTable
 class UserProgressTableData extends DataClass
     implements Insertable<UserProgressTableData> {
   final int id;
+  final String userName;
+  final String? avatarPath;
+  final bool isPremium;
   final int lives;
   final int score;
+  final int streakDays;
   final String completedLessonIds;
   final DateTime? lastActiveDate;
   const UserProgressTableData({
     required this.id,
+    required this.userName,
+    this.avatarPath,
+    required this.isPremium,
     required this.lives,
     required this.score,
+    required this.streakDays,
     required this.completedLessonIds,
     this.lastActiveDate,
   });
@@ -175,8 +277,14 @@ class UserProgressTableData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['user_name'] = Variable<String>(userName);
+    if (!nullToAbsent || avatarPath != null) {
+      map['avatar_path'] = Variable<String>(avatarPath);
+    }
+    map['is_premium'] = Variable<bool>(isPremium);
     map['lives'] = Variable<int>(lives);
     map['score'] = Variable<int>(score);
+    map['streak_days'] = Variable<int>(streakDays);
     map['completed_lesson_ids'] = Variable<String>(completedLessonIds);
     if (!nullToAbsent || lastActiveDate != null) {
       map['last_active_date'] = Variable<DateTime>(lastActiveDate);
@@ -187,8 +295,14 @@ class UserProgressTableData extends DataClass
   UserProgressTableCompanion toCompanion(bool nullToAbsent) {
     return UserProgressTableCompanion(
       id: Value(id),
+      userName: Value(userName),
+      avatarPath: avatarPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(avatarPath),
+      isPremium: Value(isPremium),
       lives: Value(lives),
       score: Value(score),
+      streakDays: Value(streakDays),
       completedLessonIds: Value(completedLessonIds),
       lastActiveDate: lastActiveDate == null && nullToAbsent
           ? const Value.absent()
@@ -203,8 +317,12 @@ class UserProgressTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return UserProgressTableData(
       id: serializer.fromJson<int>(json['id']),
+      userName: serializer.fromJson<String>(json['userName']),
+      avatarPath: serializer.fromJson<String?>(json['avatarPath']),
+      isPremium: serializer.fromJson<bool>(json['isPremium']),
       lives: serializer.fromJson<int>(json['lives']),
       score: serializer.fromJson<int>(json['score']),
+      streakDays: serializer.fromJson<int>(json['streakDays']),
       completedLessonIds: serializer.fromJson<String>(
         json['completedLessonIds'],
       ),
@@ -216,8 +334,12 @@ class UserProgressTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'userName': serializer.toJson<String>(userName),
+      'avatarPath': serializer.toJson<String?>(avatarPath),
+      'isPremium': serializer.toJson<bool>(isPremium),
       'lives': serializer.toJson<int>(lives),
       'score': serializer.toJson<int>(score),
+      'streakDays': serializer.toJson<int>(streakDays),
       'completedLessonIds': serializer.toJson<String>(completedLessonIds),
       'lastActiveDate': serializer.toJson<DateTime?>(lastActiveDate),
     };
@@ -225,14 +347,22 @@ class UserProgressTableData extends DataClass
 
   UserProgressTableData copyWith({
     int? id,
+    String? userName,
+    Value<String?> avatarPath = const Value.absent(),
+    bool? isPremium,
     int? lives,
     int? score,
+    int? streakDays,
     String? completedLessonIds,
     Value<DateTime?> lastActiveDate = const Value.absent(),
   }) => UserProgressTableData(
     id: id ?? this.id,
+    userName: userName ?? this.userName,
+    avatarPath: avatarPath.present ? avatarPath.value : this.avatarPath,
+    isPremium: isPremium ?? this.isPremium,
     lives: lives ?? this.lives,
     score: score ?? this.score,
+    streakDays: streakDays ?? this.streakDays,
     completedLessonIds: completedLessonIds ?? this.completedLessonIds,
     lastActiveDate: lastActiveDate.present
         ? lastActiveDate.value
@@ -241,8 +371,16 @@ class UserProgressTableData extends DataClass
   UserProgressTableData copyWithCompanion(UserProgressTableCompanion data) {
     return UserProgressTableData(
       id: data.id.present ? data.id.value : this.id,
+      userName: data.userName.present ? data.userName.value : this.userName,
+      avatarPath: data.avatarPath.present
+          ? data.avatarPath.value
+          : this.avatarPath,
+      isPremium: data.isPremium.present ? data.isPremium.value : this.isPremium,
       lives: data.lives.present ? data.lives.value : this.lives,
       score: data.score.present ? data.score.value : this.score,
+      streakDays: data.streakDays.present
+          ? data.streakDays.value
+          : this.streakDays,
       completedLessonIds: data.completedLessonIds.present
           ? data.completedLessonIds.value
           : this.completedLessonIds,
@@ -256,8 +394,12 @@ class UserProgressTableData extends DataClass
   String toString() {
     return (StringBuffer('UserProgressTableData(')
           ..write('id: $id, ')
+          ..write('userName: $userName, ')
+          ..write('avatarPath: $avatarPath, ')
+          ..write('isPremium: $isPremium, ')
           ..write('lives: $lives, ')
           ..write('score: $score, ')
+          ..write('streakDays: $streakDays, ')
           ..write('completedLessonIds: $completedLessonIds, ')
           ..write('lastActiveDate: $lastActiveDate')
           ..write(')'))
@@ -265,15 +407,28 @@ class UserProgressTableData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, lives, score, completedLessonIds, lastActiveDate);
+  int get hashCode => Object.hash(
+    id,
+    userName,
+    avatarPath,
+    isPremium,
+    lives,
+    score,
+    streakDays,
+    completedLessonIds,
+    lastActiveDate,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is UserProgressTableData &&
           other.id == this.id &&
+          other.userName == this.userName &&
+          other.avatarPath == this.avatarPath &&
+          other.isPremium == this.isPremium &&
           other.lives == this.lives &&
           other.score == this.score &&
+          other.streakDays == this.streakDays &&
           other.completedLessonIds == this.completedLessonIds &&
           other.lastActiveDate == this.lastActiveDate);
 }
@@ -281,35 +436,55 @@ class UserProgressTableData extends DataClass
 class UserProgressTableCompanion
     extends UpdateCompanion<UserProgressTableData> {
   final Value<int> id;
+  final Value<String> userName;
+  final Value<String?> avatarPath;
+  final Value<bool> isPremium;
   final Value<int> lives;
   final Value<int> score;
+  final Value<int> streakDays;
   final Value<String> completedLessonIds;
   final Value<DateTime?> lastActiveDate;
   const UserProgressTableCompanion({
     this.id = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.avatarPath = const Value.absent(),
+    this.isPremium = const Value.absent(),
     this.lives = const Value.absent(),
     this.score = const Value.absent(),
+    this.streakDays = const Value.absent(),
     this.completedLessonIds = const Value.absent(),
     this.lastActiveDate = const Value.absent(),
   });
   UserProgressTableCompanion.insert({
     this.id = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.avatarPath = const Value.absent(),
+    this.isPremium = const Value.absent(),
     this.lives = const Value.absent(),
     this.score = const Value.absent(),
+    this.streakDays = const Value.absent(),
     this.completedLessonIds = const Value.absent(),
     this.lastActiveDate = const Value.absent(),
   });
   static Insertable<UserProgressTableData> custom({
     Expression<int>? id,
+    Expression<String>? userName,
+    Expression<String>? avatarPath,
+    Expression<bool>? isPremium,
     Expression<int>? lives,
     Expression<int>? score,
+    Expression<int>? streakDays,
     Expression<String>? completedLessonIds,
     Expression<DateTime>? lastActiveDate,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (userName != null) 'user_name': userName,
+      if (avatarPath != null) 'avatar_path': avatarPath,
+      if (isPremium != null) 'is_premium': isPremium,
       if (lives != null) 'lives': lives,
       if (score != null) 'score': score,
+      if (streakDays != null) 'streak_days': streakDays,
       if (completedLessonIds != null)
         'completed_lesson_ids': completedLessonIds,
       if (lastActiveDate != null) 'last_active_date': lastActiveDate,
@@ -318,15 +493,23 @@ class UserProgressTableCompanion
 
   UserProgressTableCompanion copyWith({
     Value<int>? id,
+    Value<String>? userName,
+    Value<String?>? avatarPath,
+    Value<bool>? isPremium,
     Value<int>? lives,
     Value<int>? score,
+    Value<int>? streakDays,
     Value<String>? completedLessonIds,
     Value<DateTime?>? lastActiveDate,
   }) {
     return UserProgressTableCompanion(
       id: id ?? this.id,
+      userName: userName ?? this.userName,
+      avatarPath: avatarPath ?? this.avatarPath,
+      isPremium: isPremium ?? this.isPremium,
       lives: lives ?? this.lives,
       score: score ?? this.score,
+      streakDays: streakDays ?? this.streakDays,
       completedLessonIds: completedLessonIds ?? this.completedLessonIds,
       lastActiveDate: lastActiveDate ?? this.lastActiveDate,
     );
@@ -338,11 +521,23 @@ class UserProgressTableCompanion
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (avatarPath.present) {
+      map['avatar_path'] = Variable<String>(avatarPath.value);
+    }
+    if (isPremium.present) {
+      map['is_premium'] = Variable<bool>(isPremium.value);
+    }
     if (lives.present) {
       map['lives'] = Variable<int>(lives.value);
     }
     if (score.present) {
       map['score'] = Variable<int>(score.value);
+    }
+    if (streakDays.present) {
+      map['streak_days'] = Variable<int>(streakDays.value);
     }
     if (completedLessonIds.present) {
       map['completed_lesson_ids'] = Variable<String>(completedLessonIds.value);
@@ -357,8 +552,12 @@ class UserProgressTableCompanion
   String toString() {
     return (StringBuffer('UserProgressTableCompanion(')
           ..write('id: $id, ')
+          ..write('userName: $userName, ')
+          ..write('avatarPath: $avatarPath, ')
+          ..write('isPremium: $isPremium, ')
           ..write('lives: $lives, ')
           ..write('score: $score, ')
+          ..write('streakDays: $streakDays, ')
           ..write('completedLessonIds: $completedLessonIds, ')
           ..write('lastActiveDate: $lastActiveDate')
           ..write(')'))
@@ -811,16 +1010,24 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$UserProgressTableTableCreateCompanionBuilder =
     UserProgressTableCompanion Function({
       Value<int> id,
+      Value<String> userName,
+      Value<String?> avatarPath,
+      Value<bool> isPremium,
       Value<int> lives,
       Value<int> score,
+      Value<int> streakDays,
       Value<String> completedLessonIds,
       Value<DateTime?> lastActiveDate,
     });
 typedef $$UserProgressTableTableUpdateCompanionBuilder =
     UserProgressTableCompanion Function({
       Value<int> id,
+      Value<String> userName,
+      Value<String?> avatarPath,
+      Value<bool> isPremium,
       Value<int> lives,
       Value<int> score,
+      Value<int> streakDays,
       Value<String> completedLessonIds,
       Value<DateTime?> lastActiveDate,
     });
@@ -839,6 +1046,21 @@ class $$UserProgressTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get userName => $composableBuilder(
+    column: $table.userName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get avatarPath => $composableBuilder(
+    column: $table.avatarPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isPremium => $composableBuilder(
+    column: $table.isPremium,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<int> get lives => $composableBuilder(
     column: $table.lives,
     builder: (column) => ColumnFilters(column),
@@ -846,6 +1068,11 @@ class $$UserProgressTableTableFilterComposer
 
   ColumnFilters<int> get score => $composableBuilder(
     column: $table.score,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get streakDays => $composableBuilder(
+    column: $table.streakDays,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -874,6 +1101,21 @@ class $$UserProgressTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get userName => $composableBuilder(
+    column: $table.userName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get avatarPath => $composableBuilder(
+    column: $table.avatarPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isPremium => $composableBuilder(
+    column: $table.isPremium,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get lives => $composableBuilder(
     column: $table.lives,
     builder: (column) => ColumnOrderings(column),
@@ -881,6 +1123,11 @@ class $$UserProgressTableTableOrderingComposer
 
   ColumnOrderings<int> get score => $composableBuilder(
     column: $table.score,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get streakDays => $composableBuilder(
+    column: $table.streakDays,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -907,11 +1154,27 @@ class $$UserProgressTableTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
+  GeneratedColumn<String> get userName =>
+      $composableBuilder(column: $table.userName, builder: (column) => column);
+
+  GeneratedColumn<String> get avatarPath => $composableBuilder(
+    column: $table.avatarPath,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isPremium =>
+      $composableBuilder(column: $table.isPremium, builder: (column) => column);
+
   GeneratedColumn<int> get lives =>
       $composableBuilder(column: $table.lives, builder: (column) => column);
 
   GeneratedColumn<int> get score =>
       $composableBuilder(column: $table.score, builder: (column) => column);
+
+  GeneratedColumn<int> get streakDays => $composableBuilder(
+    column: $table.streakDays,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get completedLessonIds => $composableBuilder(
     column: $table.completedLessonIds,
@@ -965,28 +1228,44 @@ class $$UserProgressTableTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
+                Value<String> userName = const Value.absent(),
+                Value<String?> avatarPath = const Value.absent(),
+                Value<bool> isPremium = const Value.absent(),
                 Value<int> lives = const Value.absent(),
                 Value<int> score = const Value.absent(),
+                Value<int> streakDays = const Value.absent(),
                 Value<String> completedLessonIds = const Value.absent(),
                 Value<DateTime?> lastActiveDate = const Value.absent(),
               }) => UserProgressTableCompanion(
                 id: id,
+                userName: userName,
+                avatarPath: avatarPath,
+                isPremium: isPremium,
                 lives: lives,
                 score: score,
+                streakDays: streakDays,
                 completedLessonIds: completedLessonIds,
                 lastActiveDate: lastActiveDate,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
+                Value<String> userName = const Value.absent(),
+                Value<String?> avatarPath = const Value.absent(),
+                Value<bool> isPremium = const Value.absent(),
                 Value<int> lives = const Value.absent(),
                 Value<int> score = const Value.absent(),
+                Value<int> streakDays = const Value.absent(),
                 Value<String> completedLessonIds = const Value.absent(),
                 Value<DateTime?> lastActiveDate = const Value.absent(),
               }) => UserProgressTableCompanion.insert(
                 id: id,
+                userName: userName,
+                avatarPath: avatarPath,
+                isPremium: isPremium,
                 lives: lives,
                 score: score,
+                streakDays: streakDays,
                 completedLessonIds: completedLessonIds,
                 lastActiveDate: lastActiveDate,
               ),

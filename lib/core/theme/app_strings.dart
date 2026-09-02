@@ -31,6 +31,7 @@ abstract class AppStrings {
   static const String enterYourEmailCorrect = 'Введіть ваш Email';
   static const String cancel = 'Скасувати';
   static const String send = 'Надіслати';
+  static const String save = 'Зберегти';
   static const String errorSharedPreferences =
       'SharedPreferences не ініціалізовано';
 
@@ -73,6 +74,20 @@ abstract class AppStrings {
 
   //ПРОФІЛЬ КОРИСТУВАЧА Profile
   static const String student = 'Учень';
+  static const String fromGallery = 'Вибрати з галереї';
+  static const String fromCamera = 'Зробити фото';
+  static const String editName = 'Введіть нове ім\'я';
+  static const String premiumUser = 'PRO Підписка Активна';
+  static const String freeUser = 'Оформити PRO';
+  static const String premiumBenefits =
+      'У тебе нескінченні життя та відсутня реклама!';
+  static const String notPremiumBenefits =
+      'Отримай нескінченні життя, вимкни рекламу та підтримай застосунок.';
+  static const String premiumOK = 'PRO підписку успішно активовано!';
+  static const String bayPremium = 'Придбати PRO';
+  static const String settigs = 'Налаштування';
+  static const String resumePremium = 'Відновити покупки';
+  static const String verificationCompleted = 'Перевірку покупок завершено';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
