@@ -85,9 +85,15 @@ abstract class AppStrings {
       'Отримай нескінченні життя, вимкни рекламу та підтримай застосунок.';
   static const String premiumOK = 'PRO підписку успішно активовано!';
   static const String bayPremium = 'Придбати PRO';
-  static const String settigs = 'Налаштування';
+  static const String settings = 'Налаштування';
   static const String resumePremium = 'Відновити покупки';
   static const String verificationCompleted = 'Перевірку покупок завершено';
+  static const String themeSettings = 'Тема оформлення';
+  static const String themeSystem = 'Системна';
+  static const String themeLight = 'Світла';
+  static const String themeDark = 'Темна';
+  static const String rememberForStudy = 'Нагадування про навчання';
+  static const String everyDay = 'Щоденні сповіщення для підтримки серії';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';

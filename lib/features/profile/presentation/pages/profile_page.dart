@@ -7,6 +7,7 @@ import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/widgets/custom_text_from_field.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 import 'package:ukrainian/features/profile/presentation/providers/profile_controller.dart';
+import 'package:ukrainian/features/profile/presentation/providers/theme_provider.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -229,10 +230,45 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
                 // 3. Блок налаштувань
                 Text(
-                  AppStrings.settigs,
+                  AppStrings.settings,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: AppDimensions.spaceS),
+
+                //Налаштування теми
+                ListTile(
+                  leading: const Icon(Icons.palette_outlined),
+                  title: Text(AppStrings.themeSettings),
+                  trailing: DropdownButton<ThemeMode>(
+                    value: ThemeMode.system,
+                    onChanged: (mode) {
+                      ref.read(themeProvider.notifier).setTheme(mode);
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: ThemeMode.system,
+                        child: Text(AppStrings.themeSystem),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.light,
+                        child: Text(AppStrings.themeLight),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.dark,
+                        child: Text(AppStrings.themeDark),
+                      ),
+                    ],
+                  ),
+                ),
+
+                //Нагадування про навчання push
+                SwitchListTile(
+                  title: Text(AppStrings.rememberForStudy),
+                  value: true,
+                  onChanged: (enabled) {},
+                ),
+
+                //Відновлення покупки
                 ListTile(
                   leading: const Icon(Icons.restore),
                   title: Text(AppStrings.resumePremium),
