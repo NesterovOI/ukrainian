@@ -28,7 +28,7 @@ Future<bool> showRewardedAdAndRestoreLive(
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(AppStrings.welcomLife),
+          content: Text(AppStrings.welcomeLife),
           backgroundColor: AppColors.success,
         ),
       );

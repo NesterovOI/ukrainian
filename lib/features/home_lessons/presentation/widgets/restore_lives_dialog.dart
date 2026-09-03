@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ukrainian/core/theme/theme.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 
 class RestoreLivesDialog extends StatelessWidget {
   final VoidCallback onWatchAd;
@@ -61,6 +63,52 @@ class RestoreLivesDialog extends StatelessWidget {
         ],
       ),
       actions: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.errorShadow,
+              foregroundColor: AppColors.lightBackground,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+              ),
+            ),
+            onPressed: () {
+              onWatchAd();
+            },
+            label: Text(AppStrings.watchAdButton),
+            icon: const Icon(Icons.ondemand_video_rounded),
+          ),
+        ),
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+                  ),
+                ),
+                onPressed: () async {
+                  final success = await ref
+                      .read(userProgressNotifierProvider.notifier)
+                      .buySubscription();
+                  if (success && context.mounted) {
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppStrings.premiumOK),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                child: Text(AppStrings.premiumButton),
+              ),
+            );
+          },
+        ),
         TextButton(
           onPressed: () {
             if (onCancel != null) {
@@ -70,20 +118,6 @@ class RestoreLivesDialog extends StatelessWidget {
             }
           },
           child: Text(AppStrings.cancelButton),
-        ),
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.errorShadow,
-            foregroundColor: AppColors.lightBackground,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppDimensions.radiusS),
-            ),
-          ),
-          onPressed: () {
-            onWatchAd();
-          },
-          label: Text(AppStrings.watchAdButton),
-          icon: const Icon(Icons.ondemand_video_rounded),
         ),
       ],
     );

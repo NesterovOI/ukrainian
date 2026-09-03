@@ -22,6 +22,7 @@ class HomePage extends ConsumerWidget {
         data: (homeState) {
           final progress = userProgressAsync.value ?? homeState.userProgress;
           final lessons = homeState.lessons;
+          final isPremium = progress.isPremium;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(AppDimensions.spaceS),
@@ -42,7 +43,7 @@ class HomePage extends ConsumerWidget {
                 FailedQuestionsBanner(
                   allLessons: lessons,
                   onStartQuiz: (failedLesson) {
-                    if (progress.lives <= 0) {
+                    if (!isPremium && progress.lives <= 0) {
                       RestoreLivesDialog.show(
                         context: context,
                         onWatchAd: () =>
@@ -113,7 +114,7 @@ class HomePage extends ConsumerWidget {
                           isLocked: isLocked,
                           isCompleted: isCompleted,
                           onTap: () {
-                            if (progress.lives <= 0) {
+                            if (!isPremium && progress.lives <= 0) {
                               RestoreLivesDialog.show(
                                 context: context,
                                 onWatchAd: () =>
