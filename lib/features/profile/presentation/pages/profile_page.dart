@@ -227,7 +227,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 const SizedBox(height: AppDimensions.spaceL),
 
-                // 3. Блок налаштувань (ВИНИСЕНИЙ ЗА МЕЖІ CARD)
+                // 3. Блок налаштувань
                 Text(
                   AppStrings.settigs,
                   style: Theme.of(context).textTheme.titleMedium,

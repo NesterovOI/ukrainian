@@ -5,15 +5,17 @@ abstract class IPurchaseService {
 }
 
 class MockPurchaseService implements IPurchaseService {
+  bool _isPurchased = false;
+
   @override
   Future<bool> buySubscription() async {
-    await Future.delayed(const Duration(seconds: 1));
+    _isPurchased = true;
     return true;
   }
 
   @override
-  Future<bool> checkSubscriptionStatus() async => false;
+  Future<bool> checkSubscriptionStatus() async => _isPurchased;
 
   @override
-  Future<void> restorePurchases() async {}
+  Future<void> restorePurchases() async => _isPurchased = true;
 }

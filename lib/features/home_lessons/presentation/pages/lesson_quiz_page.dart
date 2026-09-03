@@ -55,7 +55,6 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
     final quizNotifier = ref.read(
       quizControllerProvider(widget.lesson).notifier,
     );
-    final userProgress = ref.watch(userProgressNotifierProvider).value;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.lesson.title), centerTitle: true),

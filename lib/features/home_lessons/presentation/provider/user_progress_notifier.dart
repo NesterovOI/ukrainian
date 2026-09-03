@@ -24,9 +24,10 @@ class UserProgressNotifier
       final hasActiveSubscription = await _purchaseService
           .checkSubscriptionStatus();
 
-      if (hasActiveSubscription != progress.isPremium) {
+      if (hasActiveSubscription && !progress.isPremium) {
         progress = progress.copyWith(
-          isPremium: hasActiveSubscription,
+          isPremium: true,
+          lives: progress.maxLives,
           lastActiveDate: DateTime.now(),
         );
         await _saveUserProgressUseCase.call(progress);
@@ -138,11 +139,16 @@ class UserProgressNotifier
 
     final progress = current.copyWith(
       isPremium: isPremium,
+      lives: isPremium ? current.maxLives : current.lives,
       lastActiveDate: DateTime.now(),
     );
 
     state = AsyncValue.data(progress);
-    await _saveUserProgressUseCase.call(progress);
+    try {
+      await _saveUserProgressUseCase.call(progress);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
   }
 
   Future<void> updateUserName(String name) async {
@@ -173,16 +179,11 @@ class UserProgressNotifier
 
   // Метод купівлі підписки
   Future<bool> buySubscription() async {
-    try {
-      final success = await _purchaseService.buySubscription();
-      if (success) {
-        await updatePremiumStatus(true);
-      }
-      return success;
-    } catch (e) {
-      // Handle purchase error
-      return false;
+    final success = await _purchaseService.buySubscription();
+    if (success) {
+      await updatePremiumStatus(true);
     }
+    return success;
   }
 
   // Метод відновлення підписок

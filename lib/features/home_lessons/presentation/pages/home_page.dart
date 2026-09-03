@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ukrainian/core/services/service.dart';
 import 'package:ukrainian/core/utils/ad_helper.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
