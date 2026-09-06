@@ -11,5 +11,5 @@ class ProfileSettingsRepositoryImpl implements ProfileSettingsRepository {
   Future<bool> saveSettings(SettingsEntity settings) =>
       _source.saveSettings(settings);
   @override
-  Future<SettingsEntity?> getSettingPush() => _source.getSettings();
+  Future<SettingsEntity?> getSetting() => _source.getSettings();
 }

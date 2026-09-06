@@ -6,5 +6,5 @@ class GetSettingsUseCase {
 
   GetSettingsUseCase(this._repository);
 
-  Future<SettingsEntity?> call() async => await _repository.getSettingPush();
+  Future<SettingsEntity?> call() async => await _repository.getSetting();
 }
