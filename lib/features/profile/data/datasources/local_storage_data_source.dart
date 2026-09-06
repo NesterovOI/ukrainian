@@ -4,36 +4,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ukrainian/features/profile/domain/entities/settings_entity.dart';
 import 'package:ukrainian/features/profile/data/models/settings_model.dart';
 
-const String _keyTheme = 'keyTheme';
-const String _keyPush = 'keyPush';
+const String _keySettings = 'keySettings';
 
 class LocalStorageDataSource {
-  Future<bool> saveTheme(SettingsEntity value) async {
+  Future<bool> saveSettings(SettingsEntity settings) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final model = SettingsModel(theme: value.theme, push: value.push);
+    final model = SettingsModel(theme: settings.theme, push: settings.push);
     final jsonString = jsonEncode(model.toJson());
-    return await prefs.setString(_keyTheme, jsonString);
+    return await prefs.setString(_keySettings, jsonString);
   }
 
-  Future<bool> savePush(SettingsEntity value) async {
+  Future<SettingsEntity?> getSettings() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final model = SettingsModel(theme: value.theme, push: value.push);
-    final jsonString = jsonEncode(model.toJson());
-    return await prefs.setString(_keyPush, jsonString);
-  }
-
-  Future<SettingsEntity?> getTheme() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString(_keyTheme);
-    if (jsonString == null) return null;
-
-    final Map<String, dynamic> json = jsonDecode(jsonString);
-    return SettingsModel.fromJson(json);
-  }
-
-  Future<SettingsEntity?> getPush() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString(_keyPush);
+    final jsonString = prefs.getString(_keySettings);
     if (jsonString == null) return null;
 
     final Map<String, dynamic> json = jsonDecode(jsonString);
