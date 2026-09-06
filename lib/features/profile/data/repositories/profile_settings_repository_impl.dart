@@ -7,15 +7,15 @@ class ProfileSettingsRepositoryImpl implements ProfileSettingsRepository {
 
   ProfileSettingsRepositoryImpl(this._source);
   @override
-  Future<bool?> getSettingPush() => _source.getPush();
+  Future<SettingsEntity?> getSettingPush() => _source.getPush();
 
   @override
-  Future<bool?> getSettingTheme() => _source.getTheme();
+  Future<SettingsEntity?> getSettingTheme() => _source.getTheme();
 
   @override
-  Future<void> saveSettingPush(SettingsEntity value) => _source.savePush(value);
+  Future<bool> saveSettingPush(SettingsEntity value) => _source.savePush(value);
 
   @override
-  Future<void> saveSettingTheme(SettingsEntity value) =>
+  Future<bool> saveSettingTheme(SettingsEntity value) =>
       _source.saveTheme(value);
 }

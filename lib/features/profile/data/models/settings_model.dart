@@ -9,4 +9,6 @@ class SettingsModel extends SettingsEntity {
       push: json['push'] as bool? ?? false,
     );
   }
+
+  Map<String, dynamic> toJson() => {'theme': theme, 'push': push};
 }
