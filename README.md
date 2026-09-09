@@ -1,16 +1,57 @@
-# ukrainian
+# Ukrainian
 
-A new Flutter project.
+Flutter mobile application for learning Ukrainian language.
+
+## Features
+
+- Authentication
+- Interactive Ukrainian language lessons
+- Progress tracking
+- Lives system
+- Leaderboard
+- Dictionary
+- Dark / Light theme
+- Local database
+- Cloud backend
+- Subscription
+- Ads
+
+## Architecture
+
+Clean Architecture
+Feature-first structure
+
+## Tech Stack
+
+Flutter
+Dart
+Riverpod
+Firebase
+Drift / SQLite
+GoRouter
+RevenueCat
+Google Mobile Ads
+
+## Screenshots
+
+...
+
+## Architecture
+
+lib/
+├── core/
+└── features/
+    ├── auth/
+    ├── dictionary/
+    ├── home_lessons/
+    ├── leaderboard/
+    ├── main_navigation/
+    └── profile/
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+...
 
-A few resources to get you started if this is your first Flutter project:
+## Roadmap
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+...
