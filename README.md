@@ -1,6 +1,6 @@
 # Ukrainian
 
-Flutter mobile application for learning Ukrainian language.
+A Flutter application for learning Ukrainian language through interactive lessons and exercises.
 
 ## Features
 
