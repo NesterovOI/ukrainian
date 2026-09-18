@@ -1,28 +1,37 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ukrainian/features/profile/domain/entities/settings_entity.dart';
+import 'package:ukrainian/features/profile/domain/usecases/export_usecases.dart';
+import 'package:ukrainian/features/profile/presentation/providers/riverpod_providers_di.dart';
 
-class ThemeProvider extends StateNotifier<ThemeMode> {
-  ThemeProvider() : super(ThemeMode.light);
+class ThemeProvider extends AsyncNotifier<SettingsEntity> {
+  late GetSettingsUseCase _getSettingsUseCase;
+  late SaveSettingsUseCase _saveSettingsUseCase;
 
-  void setTheme(ThemeMode? mode) {
-    if (mode == ThemeMode.system) {
-      state = ThemeMode.system;
-    } else if (mode == ThemeMode.light) {
-      state = ThemeMode.light;
-    } else {
-      state = ThemeMode.dark;
-    }
+  @override
+  Future<SettingsEntity> build() async {
+    _getSettingsUseCase = ref.watch(getSettingsUseCase);
+    _saveSettingsUseCase = ref.watch(saveSettingsUseCase);
+
+    final settings = await _getSettingsUseCase();
+    return settings ?? SettingsEntity(theme: false, push: false);
   }
 
-  void toggleTheme() {
-    if (state == ThemeMode.light) {
-      state = ThemeMode.dark;
-    } else {
-      state = ThemeMode.light;
-    }
+  Future<void> toggleTheme(bool isDark) async {
+    final currentSetting = state.value;
+    if (currentSetting == null) return;
+
+    final updateSettings = currentSetting.copyWith(theme: isDark);
+    state = AsyncLoading<SettingsEntity>().copyWithPrevious(state);
+
+    state = await AsyncValue.guard(() async {
+      await _saveSettingsUseCase(updateSettings);
+      return updateSettings;
+    });
   }
 }
 
-final themeProvider = StateNotifierProvider<ThemeProvider, ThemeMode>((ref) {
-  return ThemeProvider();
-});
+final themeProvider = AsyncNotifierProvider<ThemeProvider, SettingsEntity>(
+  () => ThemeProvider(),
+);
