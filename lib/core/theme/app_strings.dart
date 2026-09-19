@@ -96,6 +96,7 @@ abstract class AppStrings {
   static const String themeDark = 'Темна';
   static const String rememberForStudy = 'Нагадування про навчання';
   static const String everyDay = 'Щоденні сповіщення для підтримки серії';
+  static const String errorLoading = 'Помилка завантаження: ';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
