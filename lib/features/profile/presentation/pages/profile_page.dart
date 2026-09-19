@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ukrainian/core/services/image_picker_service.dart';
+import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/widgets/custom_text_from_field.dart';
 import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
@@ -276,7 +278,43 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   leading: const Icon(Icons.privacy_tip_outlined),
                   title: Text(AppStrings.privacyPolicy),
                   onTap: () {
-                    //
+                    context.goNamed(
+                      AppRouters.profileMarkdownViewerName,
+                      extra: {
+                        'title': AppStrings.privacyPolicy,
+                        'filePath': AppAssets.mdPrivacyPolicy,
+                      },
+                    );
+                  },
+                ),
+
+                //Про застосунок
+                ListTile(
+                  leading: const Icon(Icons.article),
+                  title: Text(AppStrings.aboutApp),
+                  onTap: () {
+                    context.goNamed(
+                      AppRouters.profileMarkdownViewerName,
+                      extra: {
+                        'title': AppStrings.aboutApp,
+                        'filePath': AppAssets.mdAboutApp,
+                      },
+                    );
+                  },
+                ),
+
+                //Про розробника
+                ListTile(
+                  leading: const Icon(Icons.info_outline),
+                  title: Text(AppStrings.aboutDeveloper),
+                  onTap: () {
+                    context.goNamed(
+                      AppRouters.profileMarkdownViewerName,
+                      extra: {
+                        'title': AppStrings.aboutDeveloper,
+                        'filePath': AppAssets.mdAboutDeveloper,
+                      },
+                    );
                   },
                 ),
 

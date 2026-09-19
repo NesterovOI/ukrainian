@@ -14,6 +14,7 @@ abstract class AppAssets {
   //MD
   static const String mdAboutApp = '$_dataPath/about_app.md';
   static const String mdPrivacyPolicy = '$_dataPath/privacy_policy.md';
+  static const String mdAboutDeveloper = '$_dataPath/about_developer.md';
   //ІКОНКИ
   static const String iconCoin = '$_iconsPath/coin.svg';
   static const String iconCrown = '$_iconsPath/crown.svg';

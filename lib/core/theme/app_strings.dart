@@ -98,6 +98,8 @@ abstract class AppStrings {
   static const String everyDay = 'Щоденні сповіщення для підтримки серії';
   static const String errorLoading = 'Помилка завантаження: ';
   static const String privacyPolicy = 'Політика конфіденційності';
+  static const String aboutApp = 'Про застосунок';
+  static const String aboutDeveloper = 'Про розробника';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';

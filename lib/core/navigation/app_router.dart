@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:ukrainian/features/auth/presentation/pages/pages.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_state_provider.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
@@ -25,9 +24,8 @@ class AppRouters {
   static const String leaderboard = '/leaderboard_page';
   static const String mainPage = '/main_page';
   static const String profilePage = '/profile_page';
-  static const String profileMarkdownViewerPage =
-      'profile_markdown_viewer_page';
-  static const String profilePah = '/markdown/:title/:content';
+  static const String profileMarkdownViewerPath = 'markdown';
+  static const String profileMarkdownViewerName = 'profileMarkdownViewer';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -105,14 +103,13 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const ProfilePage(),
                 routes: [
                   GoRoute(
-                    name: AppRouters.profileMarkdownViewerPage,
-                    path: AppRouters.profilePah,
+                    name: AppRouters.profileMarkdownViewerName,
+                    path: AppRouters.profileMarkdownViewerPath,
                     builder: (context, state) {
-                      final title = state.pathParameters['title'] ?? '';
-                      final filePath = state.pathParameters['filePath'] ?? '';
+                      final data = state.extra as Map<String, String>;
                       return MarkdownViewerPage(
-                        title: title,
-                        filePath: filePath,
+                        title: data['title'] ?? '',
+                        filePath: data['filePath'] ?? '',
                       );
                     },
                   ),

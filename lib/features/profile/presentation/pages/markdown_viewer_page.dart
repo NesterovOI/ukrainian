@@ -18,6 +18,7 @@ class MarkdownViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(title), centerTitle: true),
       body: FutureBuilder<String>(
@@ -35,6 +36,24 @@ class MarkdownViewerPage extends StatelessWidget {
 
           return Markdown(
             data: snapshot.data ?? '',
+
+            styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
+              p: theme.textTheme.bodyMedium?.copyWith(
+                height: AppDimensions.opasityM,
+              ),
+              h1: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
+              h2: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              a: TextStyle(
+                color: theme.colorScheme.primary,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+
             onTapLink: (text, href, title) async {
               if (href != null) {
                 final uri = Uri.parse(href);
