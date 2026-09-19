@@ -89,6 +89,8 @@ abstract class AppStrings {
   static const String resumePremium = 'Відновити покупки';
   static const String verificationCompleted = 'Перевірку покупок завершено';
   static const String themeSettings = 'Тема оформлення';
+  static const String themeError = 'Помилка теми: ';
+  static const String themeLoading = 'Завантаження теми...';
   static const String themeSystem = 'Системна';
   static const String themeLight = 'Світла';
   static const String themeDark = 'Темна';

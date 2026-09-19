@@ -77,6 +77,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     final userProgressAsync = ref.watch(userProgressNotifierProvider);
     final profileState = ref.watch(profileControllerProvider);
+    final isThemeAndPush = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.navProfile), centerTitle: true),
@@ -236,36 +237,36 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 const SizedBox(height: AppDimensions.spaceS),
 
                 //Налаштування теми
-                ListTile(
-                  leading: const Icon(Icons.palette_outlined),
-                  title: Text(AppStrings.themeSettings),
-                  trailing: DropdownButton<ThemeMode>(
-                    value: ThemeMode.system,
-                    onChanged: (mode) {
-                      ref.read(themeProvider.notifier).setTheme(mode);
+                isThemeAndPush.when(
+                  data: (settings) => SwitchListTile(
+                    secondary: const Icon(Icons.palette_outlined),
+                    title: Text(AppStrings.themeSettings),
+                    value: settings.theme,
+                    onChanged: (value) {
+                      ref.read(themeProvider.notifier).toggleTheme(value);
                     },
-                    items: [
-                      DropdownMenuItem(
-                        value: ThemeMode.system,
-                        child: Text(AppStrings.themeSystem),
-                      ),
-                      DropdownMenuItem(
-                        value: ThemeMode.light,
-                        child: Text(AppStrings.themeLight),
-                      ),
-                      DropdownMenuItem(
-                        value: ThemeMode.dark,
-                        child: Text(AppStrings.themeDark),
-                      ),
-                    ],
+                  ),
+                  loading: () => const ListTile(
+                    leading: const Icon(Icons.play_lesson_outlined),
+                    title: Text(AppStrings.themeLoading),
+                    trailing: CircularProgressIndicator(),
+                  ),
+                  error: (error, stackTrace) => ListTile(
+                    leading: const Icon(Icons.error_outlined),
+                    title: Text(AppStrings.themeError + error.toString()),
                   ),
                 ),
 
                 //Нагадування про навчання push
-                SwitchListTile(
-                  title: Text(AppStrings.rememberForStudy),
-                  value: true,
-                  onChanged: (enabled) {},
+                isThemeAndPush.when(
+                  data: (settings) => SwitchListTile(
+                    value: settings.push,
+                    onChanged: (value) {
+                      ref.read(themeProvider.notifier).togglePush(value);
+                    },
+                  ),
+                  loading: () => const SizedBox.shrink(),
+                  error: (_, __) => const SizedBox.shrink(),
                 ),
 
                 //Відновлення покупки

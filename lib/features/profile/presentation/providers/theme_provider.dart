@@ -30,6 +30,19 @@ class ThemeProvider extends AsyncNotifier<SettingsEntity> {
       return updateSettings;
     });
   }
+
+  Future<void> togglePush(bool enablePush) async {
+    final currentSetting = state.value;
+    if (currentSetting == null) return;
+
+    final updateSettings = currentSetting.copyWith(push: enablePush);
+    state = AsyncLoading<SettingsEntity>().copyWithPrevious(state);
+
+    state = await AsyncValue.guard(() async {
+      await _saveSettingsUseCase(updateSettings);
+      return updateSettings;
+    });
+  }
 }
 
 final themeProvider = AsyncNotifierProvider<ThemeProvider, SettingsEntity>(
