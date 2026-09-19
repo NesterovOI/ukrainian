@@ -271,6 +271,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   error: (_, __) => const SizedBox.shrink(),
                 ),
 
+                //Політика конфіденційності
+                ListTile(
+                  leading: const Icon(Icons.privacy_tip_outlined),
+                  title: Text(AppStrings.privacyPolicy),
+                  onTap: () {
+                    //
+                  },
+                ),
+
                 //Відновлення покупки
                 ListTile(
                   leading: const Icon(Icons.restore),

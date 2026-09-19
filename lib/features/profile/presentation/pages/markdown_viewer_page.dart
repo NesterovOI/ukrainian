@@ -4,6 +4,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 
+///Віджет для читання файлвів в стилі markdown
+
 class MarkdownViewerPage extends StatelessWidget {
   final String title;
   final String filePath;

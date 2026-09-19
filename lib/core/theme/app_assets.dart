@@ -1,4 +1,3 @@
-
 abstract class AppAssets {
   // ШЛЯХ ДО ІКОНОК, ЗОБРАЖЕННЯ, АНІМАЦІЇ, МУЗИКИ, JSON
   static const String _iconsPath = 'assets/icons';
@@ -12,6 +11,9 @@ abstract class AppAssets {
   static const String jsonLessons = '$_dataPath/lessons.json';
   static const String jsonRules = '$_dataPath/rules.json';
 
+  //MD
+  static const String mdAboutApp = '$_dataPath/about_app.md';
+  static const String mdPrivacyPolicy = '$_dataPath/privacy_policy.md';
   //ІКОНКИ
   static const String iconCoin = '$_iconsPath/coin.svg';
   static const String iconCrown = '$_iconsPath/crown.svg';
@@ -35,17 +37,24 @@ abstract class AppAssets {
 
   //Анімації
   static const String animationCat = '$_animationPath/cat.json';
-  static const String animationCatChattingLottieAnimation = '$_animationPath/cat_chatting_lottie_animation.json';
-  static const String animationCatLookingAtList = '$_animationPath/cat_looking_at_list.json';
+  static const String animationCatChattingLottieAnimation =
+      '$_animationPath/cat_chatting_lottie_animation.json';
+  static const String animationCatLookingAtList =
+      '$_animationPath/cat_looking_at_list.json';
   static const String animationCatRating = '$_animationPath/cat_rating.json';
-  static const String animationCatThinkingAnimation = '$_animationPath/cat_thinking_animation.json';
-  static const String animationCelebrationCat = '$_animationPath/celebration_cat.json';
+  static const String animationCatThinkingAnimation =
+      '$_animationPath/cat_thinking_animation.json';
+  static const String animationCelebrationCat =
+      '$_animationPath/celebration_cat.json';
   static const String animationCoolCat = '$_animationPath/cool_cat.json';
-  static const String animationMagnifyingGlasses = '$_animationPath/magnifying_glasses.json';
+  static const String animationMagnifyingGlasses =
+      '$_animationPath/magnifying_glasses.json';
   static const String animationOrangeCat = '$_animationPath/orange_cat.json';
   static const String animationOrangeCat2 = '$_animationPath/orange_cat2.json';
   static const String animationScholarCat = '$_animationPath/scholar_cat.json';
-  static const String animationThankYouAnimation = '$_animationPath/thank_you_animation.json';
-  static const String animationTreasureBox = '$_animationPath/treasure_box.json';
+  static const String animationThankYouAnimation =
+      '$_animationPath/thank_you_animation.json';
+  static const String animationTreasureBox =
+      '$_animationPath/treasure_box.json';
   static const String animationTrophy = '$_animationPath/trophy.json';
 }
