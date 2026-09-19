@@ -260,6 +260,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 //Нагадування про навчання push
                 isThemeAndPush.when(
                   data: (settings) => SwitchListTile(
+                    secondary: const Icon(Icons.notification_add_outlined),
+                    title: Text(AppStrings.rememberForStudy),
                     value: settings.push,
                     onChanged: (value) {
                       ref.read(themeProvider.notifier).togglePush(value);
