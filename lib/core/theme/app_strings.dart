@@ -106,6 +106,7 @@ abstract class AppStrings {
       'Сповіщення для щоденних тренувань мови';
   static const String timeStudy = 'Час вивчати українську! 📚';
   static const String studyFifeMin = 'Приділіть 5 хвилин сьогоднішньому уроку.';
+  static const String timeReminder = 'Час нагадування';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';

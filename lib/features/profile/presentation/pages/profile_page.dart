@@ -261,13 +261,44 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
                 //Нагадування про навчання push
                 isThemeAndPush.when(
-                  data: (settings) => SwitchListTile(
-                    secondary: const Icon(Icons.notification_add_outlined),
-                    title: Text(AppStrings.rememberForStudy),
-                    value: settings.push,
-                    onChanged: (value) {
-                      ref.read(themeProvider.notifier).togglePush(value);
-                    },
+                  data: (settings) => Column(
+                    children: [
+                      SwitchListTile(
+                        secondary: const Icon(Icons.notification_add_outlined),
+                        title: Text(AppStrings.rememberForStudy),
+                        value: settings.push,
+                        onChanged: (value) {
+                          ref.read(themeProvider.notifier).togglePush(value);
+                        },
+                      ),
+                      // Показуємо час нагадування як окремий ListTile, якщо PUSH увімкнено
+                      if (settings.push)
+                        ListTile(
+                          leading: const Icon(Icons.access_time),
+                          title: Text(AppStrings.timeReminder),
+                          trailing: Text(
+                            '${settings.reminderHour.toString().padLeft(2, '0')}:${settings.reminderMinute.toString().padLeft(2, '0')}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          onTap: () async {
+                            final TimeOfDay? picked = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay(
+                                hour: settings.reminderHour,
+                                minute: settings.reminderMinute,
+                              ),
+                            );
+                            if (picked != null) {
+                              ref
+                                  .read(themeProvider.notifier)
+                                  .updateReminderTime(
+                                    picked.hour,
+                                    picked.minute,
+                                  );
+                            }
+                          },
+                        ),
+                    ],
                   ),
                   loading: () => const SizedBox.shrink(),
                   error: (_, __) => const SizedBox.shrink(),
