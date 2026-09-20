@@ -9,7 +9,12 @@ const String _keySettings = 'keySettings';
 class LocalStorageDataSource {
   Future<bool> saveSettings(SettingsEntity settings) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final model = SettingsModel(theme: settings.theme, push: settings.push);
+    final model = SettingsModel(
+      theme: settings.theme,
+      push: settings.push,
+      reminderHour: settings.reminderHour,
+      reminderMinute: settings.reminderMinute,
+    );
     final jsonString = jsonEncode(model.toJson());
     return await prefs.setString(_keySettings, jsonString);
   }
