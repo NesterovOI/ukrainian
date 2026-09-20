@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/profile/domain/entities/settings_entity.dart';
 import 'package:ukrainian/features/profile/domain/usecases/export_usecases.dart';
+import 'package:ukrainian/core/services/notification_service.dart';
 import 'package:ukrainian/features/profile/presentation/providers/riverpod_providers_di.dart';
 
 class ThemeProvider extends AsyncNotifier<SettingsEntity> {
@@ -34,6 +35,18 @@ class ThemeProvider extends AsyncNotifier<SettingsEntity> {
   Future<void> togglePush(bool enablePush) async {
     final currentSetting = state.value;
     if (currentSetting == null) return;
+
+    if (enablePush) {
+      final hasPermission = await NotificationService().requestPermissions();
+
+      if (!hasPermission) return;
+      await NotificationService().scheduleDailyNotification(
+        hour: 19,
+        minute: 0,
+      );
+    } else {
+      await NotificationService().cancelAllNotifications();
+    }
 
     final updateSettings = currentSetting.copyWith(push: enablePush);
     state = AsyncLoading<SettingsEntity>().copyWithPrevious(state);

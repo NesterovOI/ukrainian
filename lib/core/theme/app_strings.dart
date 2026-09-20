@@ -100,6 +100,12 @@ abstract class AppStrings {
   static const String privacyPolicy = 'Політика конфіденційності';
   static const String aboutApp = 'Про застосунок';
   static const String aboutDeveloper = 'Про розробника';
+  static const String pushDailyStudyChannel = 'daily_study_channel';
+  static const String pushRemember = 'Нагадування про навчання';
+  static const String pushChanelDescription =
+      'Сповіщення для щоденних тренувань мови';
+  static const String timeStudy = 'Час вивчати українську! 📚';
+  static const String studyFifeMin = 'Приділіть 5 хвилин сьогоднішньому уроку.';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';

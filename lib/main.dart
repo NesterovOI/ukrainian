@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ukrainian/core/services/service.dart';
 import 'firebase_options.dart';
 import 'package:ukrainian/core/provider/shared_preferences_provider.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
@@ -11,6 +12,7 @@ import 'package:ukrainian/features/profile/presentation/providers/theme_provider
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().initNotification();
   final prefs = await SharedPreferences.getInstance();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
