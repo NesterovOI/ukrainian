@@ -7,8 +7,8 @@ class SettingsEntity {
   SettingsEntity({
     required this.theme,
     required this.push,
-    required this.reminderHour,
-    required this.reminderMinute,
+    this.reminderHour = 19,
+    this.reminderMinute = 0,
   });
 
   SettingsEntity copyWith({
