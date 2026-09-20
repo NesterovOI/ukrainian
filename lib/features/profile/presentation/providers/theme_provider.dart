@@ -56,6 +56,29 @@ class ThemeProvider extends AsyncNotifier<SettingsEntity> {
       return updateSettings;
     });
   }
+
+  Future<void> updateReminderTime(int hour, int minute) async {
+    final currentSettings = state.value;
+    if (currentSettings == null) return;
+
+    final updateSettings = currentSettings.copyWith(
+      reminderHour: hour,
+      reminderMinute: minute,
+    );
+
+    if (updateSettings.push) {
+      await NotificationService().scheduleDailyNotification(
+        hour: hour,
+        minute: minute,
+      );
+    }
+
+    state = AsyncLoading<SettingsEntity>().copyWithPrevious(state);
+    state = await AsyncValue.guard(() async {
+      await _saveSettingsUseCase(updateSettings);
+      return updateSettings;
+    });
+  }
 }
 
 final themeProvider = AsyncNotifierProvider<ThemeProvider, SettingsEntity>(
