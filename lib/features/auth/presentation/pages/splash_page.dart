@@ -40,7 +40,10 @@ class _SplashPageState extends State<SplashPage> {
             SizedBox(
               width: screenWith * 0.5,
               height: screenWith * 0.5,
-              child: Lottie.asset(AppAssets.animationCat, fit: BoxFit.contain),
+              child: Lottie.asset(
+                AppAssets.animationCatThinkingAnimation,
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(height: AppDimensions.spaceL),
             Text(AppStrings.appTitle, style: theme.textTheme.titleLarge),
