@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ukrainian/core/services/image_picker_service.dart';
+import 'package:ukrainian/core/services/notification_service.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
 import 'package:ukrainian/core/theme/theme.dart';
 import 'package:ukrainian/core/widgets/custom_text_from_field.dart';
@@ -72,6 +73,29 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     showDialog(
       context: context,
       builder: (context) => _EditNameDialog(initialName: currentName),
+    );
+  }
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(AppStrings.notificationOff),
+        content: Text(AppStrings.settingPermission),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppStrings.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              NotificationService().openSettings();
+            },
+            child: Text(AppStrings.settings),
+          ),
+        ],
+      ),
     );
   }
 
@@ -267,8 +291,24 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         secondary: const Icon(Icons.notification_add_outlined),
                         title: Text(AppStrings.rememberForStudy),
                         value: settings.push,
-                        onChanged: (value) {
-                          ref.read(themeProvider.notifier).togglePush(value);
+                        onChanged: (value) async {
+                          final success = await ref
+                              .read(themeProvider.notifier)
+                              .togglePush(value);
+                          if (value && !success && context.mounted) {
+                            final isPermanentlyDenied =
+                                await NotificationService()
+                                    .isNotificationPermanentlyDenied();
+                            if (isPermanentlyDenied) {
+                              _showPermissionDialog(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(AppStrings.settingsRemember),
+                                ),
+                              );
+                            }
+                          }
                         },
                       ),
                       // Показуємо час нагадування як окремий ListTile, якщо PUSH увімкнено

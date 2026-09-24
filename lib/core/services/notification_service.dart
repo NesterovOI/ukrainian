@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:ukrainian/core/theme/theme.dart';
@@ -14,9 +16,16 @@ class NotificationService {
   Future<void> initNotification() async {
     tz.initializeTimeZones();
 
+    try {
+      final String timeZoneName = await FlutterTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(timeZoneName));
+    } catch (e) {
+      tz.setLocalLocation(tz.getLocation('Europe/Kyiv'));
+    }
+
     //Settings for Android
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('ic_notification');
 
     //Settings for IOS
     const DarwinInitializationSettings initializationSettingsDarwin =
@@ -41,12 +50,16 @@ class NotificationService {
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
         >();
+
     final bool? grantedNotification = await androidImplementation
         ?.requestNotificationsPermission();
-    return grantedNotification ?? false;
+
+    final bool? grantedExactAlarm = await androidImplementation
+        ?.requestExactAlarmsPermission();
+    return (grantedNotification ?? false) && (grantedExactAlarm ?? true);
   }
 
-  //Миттжве сповіщення
+  //Миттєве сповіщення
   Future<void> showInstantNotification({
     required String title,
     required String body,
@@ -99,6 +112,17 @@ class NotificationService {
       matchDateTimeComponents: DateTimeComponents.time,
       scheduledDate: _nextInstanceOfTime(hour, minute),
     );
+  }
+
+  //Перевіряємо чи дозвіл заблоковано остаточно
+  Future<bool> isNotificationPermanentlyDenied() async {
+    final status = await Permission.notification.status;
+    return status.isPermanentlyDenied;
+  }
+
+  //Відкриваємо налаштування телефона
+  Future<void> openSettings() async {
+    await openAppSettings();
   }
 
   Future<void> cancelAllNotifications() async {

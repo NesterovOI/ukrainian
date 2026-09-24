@@ -12,8 +12,8 @@ class SettingsModel extends SettingsEntity {
     return SettingsModel(
       theme: json['theme'] as bool? ?? false,
       push: json['push'] as bool? ?? false,
-      reminderHour: json['reminderHour'],
-      reminderMinute: json['reminderMinute'],
+      reminderHour: json['reminderHour'] as int? ?? 19,
+      reminderMinute: json['reminderMinute'] as int? ?? 0,
     );
   }
 

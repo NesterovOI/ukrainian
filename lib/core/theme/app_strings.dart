@@ -107,10 +107,17 @@ abstract class AppStrings {
   static const String timeStudy = 'Час вивчати українську! 📚';
   static const String studyFifeMin = 'Приділіть 5 хвилин сьогоднішньому уроку.';
   static const String timeReminder = 'Час нагадування';
+  static const String notificationOff = 'Сповіщення вимкнено';
+  static const String settingPermission =
+      'Дозвіл на сповіщення вимкнено. Щоб отримувати нагадування, увімкніть їх у налаштуваннях пристрою.';
+  static const String settingsRemember =
+      'Для нагадувань потрібен дозвіл на сповіщення.';
 
   //  ТЕСТИ ТА ГРА
   static const String correctAnswers = 'Чудово! Правильно';
   static const String lessonFine = 'Урок успішно пройдено!';
+  static const String lessonNotFine =
+      'Ви допустили багато помилок, зверніть увагу на матеріал урока!';
   static const String lessonPoints = 'Зароблено балів: ';
   static const String wrongAnswer = 'Неправильно. Правильна відповідь:';
   static const String outOfLivesTitle = 'Життя закінчилися!';

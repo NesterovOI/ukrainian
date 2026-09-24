@@ -212,17 +212,32 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Lottie.asset(
-                          AppAssets.animationCelebrationCat,
-                          width: 200,
-                          height: 200,
-                          repeat: true,
-                        ),
-                        const SizedBox(height: AppDimensions.spaceM),
-                        Text(
-                          AppStrings.lessonFine,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                        if (quizState.earnedScore >= 20) ...[
+                          Lottie.asset(
+                            AppAssets.animationCelebrationCat,
+                            width: 200,
+                            height: 200,
+                            repeat: true,
+                          ),
+                          const SizedBox(height: AppDimensions.spaceM),
+                          Text(
+                            AppStrings.lessonFine,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ] else ...[
+                          Lottie.asset(
+                            AppAssets.animationOrangeCat,
+                            width: 200,
+                            height: 200,
+                            repeat: true,
+                          ),
+                          const SizedBox(height: AppDimensions.spaceM),
+                          Text(
+                            AppStrings.lessonNotFine,
+                            style: Theme.of(context).textTheme.titleLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                         const SizedBox(height: AppDimensions.spaceS),
                         Text(
                           '${AppStrings.lessonPoints} +${quizState.earnedScore}',
@@ -232,7 +247,13 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         ElevatedButton(
                           onPressed: () async {
                             _audioService.playClick();
-                            context.pop();
+                            await ref
+                                .read(userProgressNotifierProvider.notifier)
+                                .updateStreakOnLessonCompleted();
+
+                            if (context.mounted) {
+                              context.pop();
+                            }
                           },
                           child: const Text(AppStrings.nextLesson),
                         ),

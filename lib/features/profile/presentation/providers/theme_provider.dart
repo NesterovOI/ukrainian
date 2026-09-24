@@ -32,17 +32,19 @@ class ThemeProvider extends AsyncNotifier<SettingsEntity> {
     });
   }
 
-  Future<void> togglePush(bool enablePush) async {
+  Future<bool> togglePush(bool enablePush) async {
     final currentSetting = state.value;
-    if (currentSetting == null) return;
+    if (currentSetting == null) return false;
 
     if (enablePush) {
       final hasPermission = await NotificationService().requestPermissions();
 
-      if (!hasPermission) return;
+      if (!hasPermission) {
+        return false;
+      }
       await NotificationService().scheduleDailyNotification(
-        hour: 19,
-        minute: 0,
+        hour: currentSetting.reminderHour,
+        minute: currentSetting.reminderMinute,
       );
     } else {
       await NotificationService().cancelAllNotifications();
@@ -55,6 +57,7 @@ class ThemeProvider extends AsyncNotifier<SettingsEntity> {
       await _saveSettingsUseCase(updateSettings);
       return updateSettings;
     });
+    return true;
   }
 
   Future<void> updateReminderTime(int hour, int minute) async {

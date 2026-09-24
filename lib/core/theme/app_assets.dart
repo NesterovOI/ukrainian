@@ -52,7 +52,7 @@ abstract class AppAssets {
       '$_animationPath/magnifying_glasses.json';
   static const String animationOrangeCat = '$_animationPath/orange_cat.json';
   static const String animationOrangeCat2 = '$_animationPath/orange_cat2.json';
-  static const String animationScholarCat = '$_animationPath/scholar_cat.json';
+  static const String animationTeacherCat = '$_animationPath/scholar_cat.json';
   static const String animationThankYouAnimation =
       '$_animationPath/thank_you_animation.json';
   static const String animationTreasureBox =

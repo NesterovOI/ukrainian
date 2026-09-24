@@ -53,6 +53,44 @@ class UserProgressNotifier
     }
   }
 
+  Future<void> updateStreakOnLessonCompleted() async {
+    final current = state.value;
+    if (current == null) return;
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    int newStreak = current.streakDays;
+    final lastActive = current.lastActiveDate;
+
+    if (lastActive == null) {
+      newStreak = 1;
+    } else {
+      final lastActiveDay = DateTime(
+        lastActive.year,
+        lastActive.month,
+        lastActive.day,
+      );
+      final differenceIDays = today.difference(lastActiveDay).inDays;
+
+      if (differenceIDays == 1) {
+        newStreak += 1;
+      } else if (differenceIDays > 1) {
+        newStreak = 1;
+      }
+    }
+    final updateProgress = current.copyWith(
+      streakDays: newStreak,
+      lastActiveDate: now,
+    );
+    state = AsyncValue.data(updateProgress);
+    try {
+      await _saveUserProgressUseCase.call(updateProgress);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
   Future<void> decreaseLife() async {
     final current = state.value;
 
