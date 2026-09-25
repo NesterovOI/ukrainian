@@ -247,9 +247,13 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                         ElevatedButton(
                           onPressed: () async {
                             _audioService.playClick();
-                            await ref
-                                .read(userProgressNotifierProvider.notifier)
-                                .updateStreakOnLessonCompleted();
+                            final notifier = ref.read(
+                              userProgressNotifierProvider.notifier,
+                            );
+                            if (quizState.earnedScore > 0) {
+                              await notifier.addScore(quizState.earnedScore);
+                            }
+                            await notifier.updateStreakOnLessonCompleted();
 
                             if (context.mounted) {
                               context.pop();

@@ -63,6 +63,9 @@ abstract class AppStrings {
   static const String titleAppBarAnaluticsPage = 'Аналітика ваших помилок';
   static const String testAnalyticsPage =
       'Пройдіть хоча б один тест,\n щоб тут з з\'явився аналіз ваших слабких місць.';
+  static const String titleShowInstantsNotification = '💔 Серію днів скинуто';
+  static const String bodyShowInstantsNotification =
+      'Ви пропустили декілька днів. Пройдіть урок зараз, щоб почати нову серію!';
   static const String errorAnalyticsPage = 'Помилка завантаження:';
   static const String bagAnalyticsPage = 'Слабке місце (потрібно повторити)';
   static const String normalAnalyticsPage = 'Варто закріпити';

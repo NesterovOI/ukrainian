@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 import 'package:ukrainian/features/home_lessons/domain/usecases/save_user_progress_usecase.dart';
 import 'package:ukrainian/features/home_lessons/domain/usecases/get_user_progress_usecase.dart';
-import 'package:ukrainian/core/services/purchase_service.dart';
+import 'package:ukrainian/core/services/service.dart';
+import 'package:ukrainian/core/theme/theme.dart';
 
 class UserProgressNotifier
     extends StateNotifier<AsyncValue<UserProgressEntity>> {
@@ -31,6 +32,29 @@ class UserProgressNotifier
           lastActiveDate: DateTime.now(),
         );
         await _saveUserProgressUseCase.call(progress);
+      }
+
+      //Перевіряємо стріку якщо пропущено більше 1 дня скидаємо стріку 0 (або 1 при активності)
+      final lastActive = progress.lastActiveDate;
+      if (lastActive != null) {
+        final now = DateTime.now();
+        final today = DateTime(now.year, now.month, now.day);
+        final lastActiveDay = DateTime(
+          lastActive.year,
+          lastActive.month,
+          lastActive.day,
+        );
+
+        final diffDays = today.difference(lastActiveDay).inDays;
+        if (diffDays > 1) {
+          progress = progress.copyWith(streakDays: 0);
+          await _saveUserProgressUseCase.call(progress);
+
+          NotificationService().showInstantNotification(
+            title: AppStrings.titleShowInstantsNotification,
+            body: AppStrings.bodyShowInstantsNotification,
+          );
+        }
       }
 
       // Логіка відновлення життів за таймером
@@ -77,6 +101,8 @@ class UserProgressNotifier
         newStreak += 1;
       } else if (differenceIDays > 1) {
         newStreak = 1;
+      } else if (differenceIDays == 0 && newStreak == 0) {
+        newStreak = 1;
       }
     }
     final updateProgress = current.copyWith(
@@ -87,7 +113,7 @@ class UserProgressNotifier
     try {
       await _saveUserProgressUseCase.call(updateProgress);
     } catch (e, st) {
-      state = AsyncError(e, st);
+      state = AsyncValue.error(e, st);
     }
   }
 
