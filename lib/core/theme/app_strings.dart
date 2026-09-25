@@ -136,7 +136,7 @@ abstract class AppStrings {
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
   static const String navDictionary = 'Правила';
-  static const String navLeaderboard = 'Рейтинг';
+  static const String navExam = 'Екзамен';
   static const String navProfile = 'Профіль';
 
   // ОБРОБКА ПОМИЛОК АВТОРИЗАЦІЇ

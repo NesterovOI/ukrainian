@@ -6,7 +6,7 @@ import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
 import 'package:ukrainian/features/dictionary/presentation/pages/pages.dart';
 import 'package:ukrainian/features/home_lessons/presentation/pages/pages.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
-import 'package:ukrainian/features/leaderboard/presentation/pages/leaderboard_page.dart';
+import 'package:ukrainian/features/exam/presentation/pages/exam_page.dart';
 import 'package:ukrainian/features/main_navigation/presentation/pages/main_page.dart';
 import 'package:ukrainian/features/profile/presentation/pages/pages.dart';
 
@@ -21,7 +21,7 @@ class AppRouters {
   static const String dictionaryName = 'dictionary';
   static const String detailPath = 'detail';
   static const String ruleDetailName = 'ruleDetail';
-  static const String leaderboard = '/leaderboard_page';
+  static const String exam = '/leaderboard_page';
   static const String mainPage = '/main_page';
   static const String profilePage = '/profile_page';
   static const String profileMarkdownViewerPath = 'markdown';
@@ -91,8 +91,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRouters.leaderboard,
-                builder: (context, state) => const LeaderboardPage(),
+                path: AppRouters.exam,
+                builder: (context, state) => const ExamPage(),
               ),
             ],
           ),
