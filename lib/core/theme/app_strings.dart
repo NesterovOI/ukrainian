@@ -133,6 +133,10 @@ abstract class AppStrings {
   static const String cancelButton = 'Повернутися';
   static const String premiumButton = 'Отримати PRO';
 
+  //Екзамен
+  static const String not_id = 'невідомий id';
+  static const String not_title = 'назва відсутня';
+
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
   static const String navDictionary = 'Правила';
