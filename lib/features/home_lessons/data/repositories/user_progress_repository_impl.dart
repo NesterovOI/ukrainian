@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
-import 'package:ukrainian/features/home_lessons/data/local/app_database.dart';
+import 'package:ukrainian/core/database/app_database.dart';
 import 'package:ukrainian/features/home_lessons/domain/repositories/user_progress_repository.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
 
