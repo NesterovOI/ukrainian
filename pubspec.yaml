@@ -92,6 +92,7 @@ flutter:
      - assets/sounds/
      - assets/animations/
      - assets/data/
+     - assets/exams/
 
 flutter_launcher_icons:
   android: true
