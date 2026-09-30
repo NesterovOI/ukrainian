@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukrainian/features/exam/domain/entities/exam_question_entity.dart';
 import 'package:ukrainian/features/exam/domain/entities/export_exam.dart';
-import 'package:ukrainian/features/exam/domain/repositories/exam_repository.dart';
 import 'package:ukrainian/features/exam/domain/usecases/export_usecase.dart';
 import 'package:ukrainian/features/exam/presentation/providers/exam_state.dart';
 import 'package:ukrainian/core/services/nmt_score_calculator.dart';
