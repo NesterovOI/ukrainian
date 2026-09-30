@@ -136,7 +136,7 @@ abstract class AppStrings {
   //Екзамен
   static const String not_id = 'невідомий id';
   static const String not_title = 'назва відсутня';
-  static const String notLoadExam = 'Не вдалося завантажити екзамен з id:';
+  static const String notLoadExam = 'Не вдалося завантажити екзамен';
   static const String errorExam = 'Помилка:';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
