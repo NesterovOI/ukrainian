@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 enum ExamQuestionType { singleChoice, matching, textAnalysis }
 
 class QuestionAnswer {
