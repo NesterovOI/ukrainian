@@ -138,6 +138,7 @@ abstract class AppStrings {
   static const String not_title = 'назва відсутня';
   static const String notLoadExam = 'Не вдалося завантажити екзамен';
   static const String errorExam = 'Помилка:';
+  static const String match = 'Установіть відповідність:';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
