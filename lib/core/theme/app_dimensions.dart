@@ -7,10 +7,12 @@ abstract class AppDimensions {
   static const double spaceXS = 8.0;
   static const double spaceS = 12.0;
   static const double spaceM = 16.0; // Стандартний базовий відступ
+  static const double spaceML = 18.0;
   static const double spaceL = 24.0; // Великий відступ між блоками
   static const double spaceXL = 32.0;
   static const double spaceXXL = 40.0;
   static const double spaceXXXL = 48.0;
+  static const double spaceXXXM = 60.0;
 
   //  ЗАОКРУГЛЕННЯ (Border Radius)
   static const double radiusXXS = 4.0;

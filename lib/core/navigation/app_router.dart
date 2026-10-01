@@ -92,7 +92,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRouters.exam,
-                builder: (context, state) => const ExamPage(),
+                builder: (context, state) {
+                  final examId = state.extra as String;
+                  return ExamPage(examId: examId);
+                },
               ),
             ],
           ),

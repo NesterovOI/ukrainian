@@ -139,6 +139,12 @@ abstract class AppStrings {
   static const String notLoadExam = 'Не вдалося завантажити екзамен';
   static const String errorExam = 'Помилка:';
   static const String match = 'Установіть відповідність:';
+  static const String errorMessage = 'Щось пішло не так';
+  static const String nmtExamen = 'НМТ Екзамен';
+  static const String questionNull = 'Питання відсутнє';
+  static const String back = 'Назад';
+  static const String exitTest = 'Завершити тест';
+  static const String forward = 'Вперед';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
