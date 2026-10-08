@@ -32,7 +32,7 @@ class ExamLocalDataSourceImpl extends ExamLocalDataSource {
 
   @override
   Future<List<ExamModel>> loadAllExamsJson() async {
-    final demoExam = await loadExamJson('nmt_2024_demo_1');
+    final demoExam = await loadExamJson('nmt_2024_demo');
     return [demoExam];
   }
 }

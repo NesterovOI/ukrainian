@@ -145,6 +145,14 @@ abstract class AppStrings {
   static const String back = 'Назад';
   static const String exitTest = 'Завершити тест';
   static const String forward = 'Вперед';
+  static const String exitExamTitle = 'Завершити тест?';
+  static const String exitExamContent =
+      'Ви впевнені, що хочете завершити тест? Ваш прогрес не буде збережено.';
+  static const String exitExamConfirm = 'Завершити';
+  static const String exitExamCancel = 'Продовжити';
+  static const String resultExamTitle = 'Результат іспиту';
+  static const String velcomeExam = 'Вітаємо! Ви успішно склали іспит!';
+  static const String notVelcomeExam = 'Тест не складено';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';

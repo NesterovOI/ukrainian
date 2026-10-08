@@ -4,9 +4,10 @@ import 'package:ukrainian/features/auth/presentation/pages/pages.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_state_provider.dart';
 import 'package:ukrainian/features/dictionary/domain/entities/rule_entity.dart';
 import 'package:ukrainian/features/dictionary/presentation/pages/pages.dart';
+import 'package:ukrainian/features/exam/domain/entities/export_exam.dart';
 import 'package:ukrainian/features/home_lessons/presentation/pages/pages.dart';
 import 'package:ukrainian/features/home_lessons/domain/entities/export_entities.dart';
-import 'package:ukrainian/features/exam/presentation/pages/exam_page.dart';
+import 'package:ukrainian/features/exam/presentation/pages/pages.dart';
 import 'package:ukrainian/features/main_navigation/presentation/pages/main_page.dart';
 import 'package:ukrainian/features/profile/presentation/pages/pages.dart';
 
@@ -21,7 +22,10 @@ class AppRouters {
   static const String dictionaryName = 'dictionary';
   static const String detailPath = 'detail';
   static const String ruleDetailName = 'ruleDetail';
-  static const String exam = '/leaderboard_page';
+  static const String exam = '/exam_selection_page';
+  static const String examPagePath = '/exam_page';
+  static const String examResultPagePath = '/exam_result_page';
+  static const String examResultName = 'examResult';
   static const String mainPage = '/main_page';
   static const String profilePage = '/profile_page';
   static const String profileMarkdownViewerPath = 'markdown';
@@ -44,6 +48,24 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRouters.loginPage,
         builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: AppRouters.examPagePath,
+        builder: (context, state) {
+          final examId = state.extra as String? ?? 'nmt_2024_demo';
+          return ExamPage(examId: examId);
+        },
+        routes: [
+          GoRoute(
+            path: AppRouters.examResultPagePath,
+            name: AppRouters.examResultName,
+            builder: (context, state) {
+              final extraData = state.extra as (ExamResultEntity, ExamEntity);
+
+              return ExamResultPage(result: extraData.$1, exam: extraData.$2);
+            },
+          ),
+        ],
       ),
 
       StatefulShellRoute.indexedStack(
@@ -92,10 +114,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRouters.exam,
-                builder: (context, state) {
-                  final examId = state.extra as String;
-                  return ExamPage(examId: examId);
-                },
+                builder: (context, state) => const ExamSelectionPage(),
               ),
             ],
           ),
