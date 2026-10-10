@@ -153,6 +153,13 @@ abstract class AppStrings {
   static const String resultExamTitle = 'Результат іспиту';
   static const String velcomeExam = 'Вітаємо! Ви успішно склали іспит!';
   static const String notVelcomeExam = 'Тест не складено';
+  static const String examScore = 'Тестовий бал:';
+  static const String examNMT = 'Бал НМТ:';
+  static const String examTime = 'Час:';
+  static const String examResponseAnalysis = 'Аналіз відповідей:';
+  static const String examFullQuestions = 'Повний текст питання:';
+  static const String examExplanation = 'Пояснення:';
+  static const String examFinish = 'Завершити та повернутися';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';
