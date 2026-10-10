@@ -4,6 +4,7 @@ import 'package:ukrainian/features/exam/data/datasources/exam_local_data_source.
 import 'package:ukrainian/features/exam/data/repositories/exam_repository_impl.dart';
 import 'package:ukrainian/features/exam/domain/repositories/exam_repository.dart';
 import 'package:ukrainian/features/exam/domain/usecases/export_usecase.dart';
+import 'package:ukrainian/features/exam/domain/entities/export_exam.dart';
 import 'package:ukrainian/features/exam/presentation/providers/exam_controller.dart';
 import 'package:ukrainian/features/exam/presentation/providers/exam_state.dart';
 
@@ -27,6 +28,17 @@ final getExamUseCaseProvider = Provider<GetExamUseCase>(
 final saveExamResultUseCaseProvider = Provider<SaveExamResultUseCase>(
   (ref) => SaveExamResultUseCase(ref.watch(examRepositoryProvider)),
 );
+
+final getExamResultsUseCaseProvider = Provider<GetExamResultsUseCase>(
+  (ref) => GetExamResultsUseCase(ref.watch(examRepositoryProvider)),
+);
+
+final examHistoryProvider = FutureProvider.autoDispose<List<ExamResultEntity>>((
+  ref,
+) async {
+  final getExamResultsUseCase = ref.watch(getExamResultsUseCaseProvider);
+  return await getExamResultsUseCase();
+});
 
 final examControllerProvider =
     StateNotifierProvider.autoDispose<ExamController, ExamState>(
