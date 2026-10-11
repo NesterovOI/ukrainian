@@ -4,6 +4,10 @@ abstract class AppAssets {
   static const String _soundPath = 'sounds';
   static const String _animationPath = 'assets/animations';
   static const String _dataPath = 'assets/data';
+  static const String _examsPath = 'assets/exams';
+
+  // ЕКЗАМЕНИ
+  static const String exam1 = '$_examsPath/nmt_2024_demo';
 
   //JSON
   static const String jsonQuotes = '$_dataPath/quotes.json';
