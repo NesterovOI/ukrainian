@@ -47,6 +47,8 @@ abstract class AppDimensions {
   static const double sizeLottie = 120;
   static const double avatarHeight = 512;
   static const double avatarWeight = 512;
+  static const double heightCardExamTest = 160;
+  static const double weightCardExamTest = 220;
   static const int avatarQuality = 80;
 
   // Прозорість Opacity

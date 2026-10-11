@@ -162,11 +162,13 @@ abstract class AppStrings {
   static const String examFinish = 'Завершити та повернутися';
   static const String examPreparation = 'Підготовка до НМТ';
   static const String examOptions = 'Варіанти до НМТ';
+  static const String examVariableTest = 'Доступні варіанти тестів:';
   static const String examDetails = 'Українська мова • 60 хв • 45 завдань';
   static const String examStart = 'Розпочати тест';
   static const String examHistory = 'Історія проходження:';
   static const String examNotTest = 'Ви ще не проходили жодного тесту.';
   static const String examData = 'Дата: ';
+  static const String examBegin = 'Почати';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';

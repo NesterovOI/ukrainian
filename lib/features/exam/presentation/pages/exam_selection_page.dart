@@ -15,6 +15,7 @@ class ExamSelectionPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final historyAsync = ref.watch(examHistoryProvider);
+    final examAsync = ref.watch(availableExamsProvider);
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.examPreparation)),
       body: Padding(
@@ -22,41 +23,81 @@ class ExamSelectionPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              elevation: AppDimensions.spaceXXS,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-                side: BorderSide(color: AppColors.primary, width: 1),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(AppDimensions.spaceM),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppStrings.examOptions,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: AppDimensions.spaceXXS),
-                    const Text(AppStrings.examDetails),
-                    const SizedBox(height: AppDimensions.spaceM),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          context.push(
-                            AppRouters.examPagePath,
-                            extra: 'nmt_2024_demo',
-                          );
-                        },
-                        icon: const Icon(Icons.play_arrow),
-                        label: const Text(AppStrings.examStart),
-                      ),
-                    ),
-                  ],
+            Text(
+              AppStrings.examVariableTest,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: AppDimensions.spaceS),
+
+            // Список доступних тестів з JSON
+            SizedBox(
+              height: AppDimensions.heightCardExamTest,
+              child: examAsync.when(
+                data: (exams) {
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: exams.length,
+                    itemBuilder: (context, index) {
+                      final exam = exams[index];
+                      return Container(
+                        width: AppDimensions.weightCardExamTest,
+                        margin: const EdgeInsets.only(
+                          right: AppDimensions.spaceS,
+                        ),
+                        child: Card(
+                          elevation: AppDimensions.spaceXXXS,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.spaceM,
+                            ),
+                            side: BorderSide(
+                              color: AppColors.primary,
+                              width: AppDimensions.spaceXXXS,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(AppDimensions.spaceM),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  exam.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '${exam.question.length} завдань • ${exam.timeLimitMinutes} хв',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      context.push(
+                                        AppRouters.examPagePath,
+                                        extra: exam.id,
+                                      );
+                                    },
+                                    child: const Text(AppStrings.examBegin),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                error: (error, _) => Center(
+                  child: Text(AppStrings.errorExam + error.toString()),
                 ),
+                loading: () => Center(child: CircularProgressIndicator()),
               ),
             ),
 
