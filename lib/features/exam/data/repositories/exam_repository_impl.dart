@@ -55,7 +55,7 @@ class ExamRepositoryImpl implements ExamRepository {
 
     return rows.map((row) {
       final Map<String, dynamic> rawAnswers =
-          jsonEncode(row.answersJson) as Map<String, dynamic>;
+          jsonDecode(row.answersJson) as Map<String, dynamic>;
 
       final userAnswers = rawAnswers.map((key, value) {
         final valMap = value as Map<String, dynamic>;

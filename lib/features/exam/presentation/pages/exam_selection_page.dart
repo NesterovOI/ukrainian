@@ -26,6 +26,7 @@ class ExamSelectionPage extends ConsumerWidget {
               elevation: AppDimensions.spaceXXS,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                side: BorderSide(color: AppColors.primary, width: 1),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(AppDimensions.spaceM),
@@ -47,7 +48,7 @@ class ExamSelectionPage extends ConsumerWidget {
                         onPressed: () {
                           context.push(
                             AppRouters.examPagePath,
-                            extra: AppAssets.exam1,
+                            extra: 'nmt_2024_demo',
                           );
                         },
                         icon: const Icon(Icons.play_arrow),

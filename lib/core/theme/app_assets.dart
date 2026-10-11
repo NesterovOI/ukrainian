@@ -7,7 +7,7 @@ abstract class AppAssets {
   static const String _examsPath = 'assets/exams';
 
   // ЕКЗАМЕНИ
-  static const String exam1 = '$_examsPath/nmt_2024_demo';
+  static const String exam1 = '$_examsPath/nmt_2024_demo.json';
 
   //JSON
   static const String jsonQuotes = '$_dataPath/quotes.json';
