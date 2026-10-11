@@ -40,6 +40,13 @@ final examHistoryProvider = FutureProvider.autoDispose<List<ExamResultEntity>>((
   return await getExamResultsUseCase();
 });
 
+final availableExamsProvider = FutureProvider.autoDispose<List<ExamEntity>>((
+  ref,
+) async {
+  final dataSource = ref.watch(examLocalDataSourceProvider);
+  return await dataSource.loadAllExamsJson();
+});
+
 final examControllerProvider =
     StateNotifierProvider.autoDispose<ExamController, ExamState>(
       (ref) => ExamController(
