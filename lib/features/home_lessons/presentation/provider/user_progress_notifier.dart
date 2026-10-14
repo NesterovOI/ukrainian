@@ -11,12 +11,14 @@ class UserProgressNotifier
   final SaveUserProgressUseCase _saveUserProgressUseCase;
   final IPurchaseService _purchaseService;
 
+  late final Future<void> _initialLoad;
+
   UserProgressNotifier(
     this._getUserProgressUseCase,
     this._saveUserProgressUseCase,
     this._purchaseService,
   ) : super(const AsyncValue.loading()) {
-    loadProgress();
+    _initialLoad = loadProgress();
   }
 
   Future<void> loadProgress() async {
@@ -221,12 +223,19 @@ class UserProgressNotifier
     if (normalizedName.isEmpty) return;
 
     try {
+      // Чекаємо завершення початкового завантаження.
+      await _initialLoad;
+
+      // Читаємо актуальний запис із Drift.
       final current = await _getUserProgressUseCase.call();
 
+      // Змінюємо тільки ім'я.
       final updatedProgress = current.copyWith(userName: normalizedName);
 
+      // Зберігаємо зміни в Drift.
       await _saveUserProgressUseCase.call(updatedProgress);
 
+      // Оновлюємо стан Riverpod після успішного збереження.
       state = AsyncValue.data(updatedProgress);
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
