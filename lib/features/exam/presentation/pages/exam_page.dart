@@ -296,7 +296,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
             Container(
               padding: const EdgeInsets.all(AppDimensions.spaceM),
               decoration: BoxDecoration(
-                color: AppColors.lightBackground,
+                color: Theme.of(context).cardTheme.color,
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.darkBackground,
@@ -317,7 +317,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
                     icon: const Icon(Icons.arrow_back),
                   ),
                   ElevatedButton(
-                    onPressed: () => _onFinishPressed,
+                    onPressed: _onFinishPressed,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.error,
                     ),

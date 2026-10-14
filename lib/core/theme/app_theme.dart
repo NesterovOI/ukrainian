@@ -111,9 +111,7 @@ abstract class AppTheme {
           }
         }),
       ),
-      chipTheme: ChipThemeData(
-        backgroundColor: AppColors.lightBorder,
-      ),
+      chipTheme: ChipThemeData(backgroundColor: AppColors.lightBorder),
     );
   }
 
@@ -223,9 +221,7 @@ abstract class AppTheme {
           }
         }),
       ),
-      chipTheme: ChipThemeData(
-        backgroundColor: AppColors.darkBorder,
-      ),
+      chipTheme: ChipThemeData(backgroundColor: AppColors.darkBorder),
     );
   }
 }

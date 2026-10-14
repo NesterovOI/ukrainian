@@ -33,17 +33,14 @@ class ExamLocalDataSourceImpl extends ExamLocalDataSource {
   @override
   Future<List<ExamModel>> loadAllExamsJson() async {
     List<ExamModel> exams = [];
-    for (int i = 1; i <= 50; i++) {
+
+    for (int i = 1; i <= 59; i++) {
       try {
         final exam = await loadExamJson('nmt_ukrainian_test$i');
         exams.add(exam);
       } catch (_) {
-        break;
+        continue;
       }
-    }
-    if (exams.isEmpty) {
-      final demo = await loadExamJson('nmt_2024_demo');
-      exams.add(demo);
     }
 
     return exams;

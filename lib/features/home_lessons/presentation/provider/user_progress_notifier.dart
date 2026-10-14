@@ -100,7 +100,7 @@ class UserProgressNotifier
       if (differenceIDays == 1) {
         newStreak += 1;
       } else if (differenceIDays > 1) {
-        newStreak = 1;
+        newStreak += 1;
       } else if (differenceIDays == 0 && newStreak == 0) {
         newStreak = 1;
       }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukrainian/features/auth/presentation/provider/auth_providers.dart';
-import 'package:ukrainian/features/auth/presentation/provider/user_name_provider.dart';
+import 'package:ukrainian/features/home_lessons/presentation/provider/export_provider.dart';
 
 class AuthController extends AsyncNotifier<void> {
   @override
@@ -17,7 +17,9 @@ class AuthController extends AsyncNotifier<void> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => signUpUseCase(name, email, password));
     if (!state.hasError) {
-      await ref.read(userNameProvider.notifier).setUserName(name);
+      await ref
+          .read(userProgressNotifierProvider.notifier)
+          .updateUserName(name);
     }
   }
 
@@ -36,10 +38,12 @@ class AuthController extends AsyncNotifier<void> {
   Future<void> sendPasswordResetEmail({required String email}) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
-            () => ref.read(authRepositoryProvider).sendPasswordResetEmail(email: email),
+      () =>
+          ref.read(authRepositoryProvider).sendPasswordResetEmail(email: email),
     );
   }
 }
 
-final authControllerProvider =
-AsyncNotifierProvider<AuthController, void>(AuthController.new);
+final authControllerProvider = AsyncNotifierProvider<AuthController, void>(
+  AuthController.new,
+);

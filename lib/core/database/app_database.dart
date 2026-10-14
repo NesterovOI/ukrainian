@@ -81,6 +81,15 @@ class AppDatabase extends _$AppDatabase {
     )..where((tbl) => tbl.id.equals(1))).write(companion);
   }
 
+  //Оновити тільки ім'я користувача (для id = 1)
+  Future<void> updateUserName(String name) async {
+    await getUserProgress();
+
+    await (update(userProgressTable)..where((tbl) => tbl.id.equals(1))).write(
+      UserProgressTableCompanion(userName: Value(name)),
+    );
+  }
+
   /// Зберегти новий результат НМТ
   Future<int> insertExamResult(ExamResultsTableCompanion entry) async {
     return await into(examResultsTable).insert(entry);
