@@ -100,7 +100,7 @@ class UserProgressNotifier
       if (differenceIDays == 1) {
         newStreak += 1;
       } else if (differenceIDays > 1) {
-        newStreak += 1;
+        newStreak = 1;
       } else if (differenceIDays == 0 && newStreak == 0) {
         newStreak = 1;
       }
@@ -216,16 +216,22 @@ class UserProgressNotifier
   }
 
   Future<void> updateUserName(String name) async {
-    final current = state.value;
-    if (current == null) return;
+    final normalizedName = name.trim();
 
-    final progress = current.copyWith(
-      userName: name,
-      lastActiveDate: DateTime.now(),
-    );
+    if (normalizedName.isEmpty) return;
 
-    state = AsyncValue.data(progress);
-    await _saveUserProgressUseCase.call(progress);
+    try {
+      final current = await _getUserProgressUseCase.call();
+
+      final updatedProgress = current.copyWith(userName: normalizedName);
+
+      await _saveUserProgressUseCase.call(updatedProgress);
+
+      state = AsyncValue.data(updatedProgress);
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+      rethrow;
+    }
   }
 
   Future<void> updateAvatar(String avatarPath) async {
