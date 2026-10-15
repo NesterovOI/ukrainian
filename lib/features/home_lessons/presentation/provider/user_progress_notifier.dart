@@ -97,16 +97,24 @@ class UserProgressNotifier
         lastActive.month,
         lastActive.day,
       );
-      final differenceIDays = today.difference(lastActiveDay).inDays;
+      final differenceDays = today.difference(lastActiveDay).inDays;
 
-      if (differenceIDays == 1) {
+      if (differenceDays == 0) {
+        // Користувач вже виконував урок сьогодні — стрік за цей день вже зараховано, не чіпаємо його.
+        // Але оновлюємо час останньої активності.
+        final updateProgress = current.copyWith(lastActiveDate: now);
+        state = AsyncValue.data(updateProgress);
+        await _saveUserProgressUseCase.call(updateProgress);
+        return;
+      } else if (differenceDays == 1) {
+        // Користувач заходив учора і продовжує серію — додаємо +1 день!
         newStreak += 1;
-      } else if (differenceIDays > 1) {
-        newStreak = 1;
-      } else if (differenceIDays == 0 && newStreak == 0) {
+      } else {
+        // Пройшло 2 і більше днів — серію збито, починаємо нову з 1
         newStreak = 1;
       }
     }
+
     final updateProgress = current.copyWith(
       streakDays: newStreak,
       lastActiveDate: now,
@@ -177,6 +185,11 @@ class UserProgressNotifier
     }
   }
 
+  Future<void> completeLessonWithStreak(String lessonId) async {
+    await markLessonCompleted(lessonId);
+    await updateStreakOnLessonCompleted();
+  }
+
   Future<void> restoreLifeFromAd() async {
     final current = state.value;
     if (current == null) return;
@@ -228,7 +241,6 @@ class UserProgressNotifier
 
       // Читаємо актуальний запис із Drift.
       final current = await _getUserProgressUseCase.call();
-
       // Змінюємо тільки ім'я.
       final updatedProgress = current.copyWith(userName: normalizedName);
 

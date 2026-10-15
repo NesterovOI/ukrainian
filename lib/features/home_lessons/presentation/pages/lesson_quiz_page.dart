@@ -250,10 +250,16 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                             final notifier = ref.read(
                               userProgressNotifierProvider.notifier,
                             );
+                            // 1. Додаємо бали, якщо вони є
                             if (quizState.earnedScore > 0) {
                               await notifier.addScore(quizState.earnedScore);
                             }
-                            await notifier.updateStreakOnLessonCompleted();
+                            final currentLessonId = widget.lesson.id;
+                            if (currentLessonId != null) {
+                              await notifier.completeLessonWithStreak(
+                                currentLessonId,
+                              );
+                            }
 
                             if (context.mounted) {
                               context.pop();
