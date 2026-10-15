@@ -169,6 +169,7 @@ abstract class AppStrings {
   static const String examNotTest = 'Ви ще не проходили жодного тесту.';
   static const String examData = 'Дата: ';
   static const String examBegin = 'Почати';
+  static const String examAdvertising = 'Завантаження реклами...';
 
   //  НИЖНЯ ПАНЕЛЬ (Bottom Nav)
   static const String navHome = 'Головна';

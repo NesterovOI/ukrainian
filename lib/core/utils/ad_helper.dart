@@ -43,3 +43,31 @@ Future<bool> showRewardedAdAndRestoreLive(
     return false;
   }
 }
+
+Future<bool> showRewardedAdAndFinishExam(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final isPremium =
+      ref.read(userProgressNotifierProvider).value?.isPremium ?? false;
+  if (isPremium) return true;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text(AppStrings.examAdvertising),
+      duration: Duration(seconds: 1),
+    ),
+  );
+
+  final bool isRewarded = await AdService.showRewardedAd(context);
+  if (isRewarded) {
+    return true;
+  } else {
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text(AppStrings.notAdvertising)));
+    }
+    return false;
+  }
+}

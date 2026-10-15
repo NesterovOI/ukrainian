@@ -81,8 +81,14 @@ class UserProgressNotifier
 
   Future<void> updateStreakOnLessonCompleted() async {
     final current = state.value;
-    if (current == null) return;
+    if (current == null) {
+      print('DEBUG STREAK ПОМИЛКА: current state є NULL!');
+      return;
+    }
 
+    print(
+      'DEBUG STREAK: Поточний стрік = ${current.streakDays}, остання активність = ${current.lastActiveDate}',
+    );
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
@@ -91,6 +97,7 @@ class UserProgressNotifier
 
     if (lastActive == null) {
       newStreak = 1;
+      print('DEBUG STREAK: lastActive == null, встановлюємо стрік = 1');
     } else {
       final lastActiveDay = DateTime(
         lastActive.year,
@@ -98,20 +105,29 @@ class UserProgressNotifier
         lastActive.day,
       );
       final differenceDays = today.difference(lastActiveDay).inDays;
+      print(
+        'DEBUG STREAK: Різниця в днях між сьогодні і останньою активністю = $differenceDays',
+      );
 
       if (differenceDays == 0) {
-        // Користувач вже виконував урок сьогодні — стрік за цей день вже зараховано, не чіпаємо його.
-        // Але оновлюємо час останньої активності.
-        final updateProgress = current.copyWith(lastActiveDate: now);
-        state = AsyncValue.data(updateProgress);
-        await _saveUserProgressUseCase.call(updateProgress);
-        return;
+        if (newStreak == 0) {
+          newStreak = 1;
+          print(
+            'DEBUG STREAK: Сьогодні стрік був 0, встановлюємо у 1 за перший пройдений урок.',
+          );
+        } else {
+          print(
+            'DEBUG STREAK: Користувач вже виконував уроки сьогодні і стрік вже є. Не змінюємо.',
+          );
+        }
       } else if (differenceDays == 1) {
         // Користувач заходив учора і продовжує серію — додаємо +1 день!
-        newStreak += 1;
+        newStreak = newStreak == 0 ? 1 : newStreak + 1;
+        print('DEBUG STREAK: Наступний день! Збільшуємо стрік до $newStreak');
       } else {
-        // Пройшло 2 і більше днів — серію збито, починаємо нову з 1
+        // Пройшло 1 і більше днів — серію збито, починаємо нову з 1
         newStreak = 1;
+        print('DEBUG STREAK: Пропущено більше 1 дня. Скидаємо стрік до 1');
       }
     }
 
@@ -122,7 +138,11 @@ class UserProgressNotifier
     state = AsyncValue.data(updateProgress);
     try {
       await _saveUserProgressUseCase.call(updateProgress);
+      print(
+        'DEBUG STREAK: Успішно збережено новий стрік ($newStreak) у БД Drift!',
+      );
     } catch (e, st) {
+      print('DEBUG STREAK ПОМИЛКА збереження: $e\n$st');
       state = AsyncValue.error(e, st);
     }
   }
@@ -186,6 +206,9 @@ class UserProgressNotifier
   }
 
   Future<void> completeLessonWithStreak(String lessonId) async {
+    print(
+      'DEBUG STREAK: Викликано completeLessonWithStreak для уроку: $lessonId',
+    );
     await markLessonCompleted(lessonId);
     await updateStreakOnLessonCompleted();
   }

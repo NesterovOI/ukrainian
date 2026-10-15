@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ukrainian/core/services/nmt_score_calculator.dart';
 import 'package:ukrainian/core/navigation/app_router.dart';
+import 'package:ukrainian/core/utils/ad_helper.dart';
 import 'package:ukrainian/features/exam/domain/entities/exam_result_entity.dart';
 import 'package:ukrainian/features/exam/presentation/providers/exam_providers.dart';
 import 'package:ukrainian/core/theme/theme.dart';
@@ -58,7 +59,11 @@ class _ExamPageState extends ConsumerState<ExamPage> {
 
   void _onFinishPressed() async {
     final shouldFinish = await _showExitConfirmationDialog(context);
-    if (shouldFinish && mounted) {
+    if (!shouldFinish || !mounted) return;
+
+    final canProceed = await showRewardedAdAndFinishExam(context, ref);
+
+    if (canProceed && mounted) {
       ref.read(examControllerProvider.notifier).finishExam();
     }
   }
@@ -119,8 +124,11 @@ class _ExamPageState extends ConsumerState<ExamPage> {
         if (didPop) return;
         final shouldExit = await _showExitConfirmationDialog(context);
         if (shouldExit && context.mounted) {
-          controller.finishExam();
-          Navigator.of(context).pop();
+          final canProceed = await showRewardedAdAndFinishExam(context, ref);
+          if (canProceed && context.mounted) {
+            controller.finishExam();
+            Navigator.of(context).pop();
+          }
         }
       },
       child: Scaffold(

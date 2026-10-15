@@ -255,6 +255,9 @@ class _LessonQuizPageState extends ConsumerState<LessonQuizPage> {
                               await notifier.addScore(quizState.earnedScore);
                             }
                             final currentLessonId = widget.lesson.id;
+                            print(
+                              'DEBUG UI: натиснуто кнопку далі, ID уроку = $currentLessonId',
+                            );
                             if (currentLessonId != null) {
                               await notifier.completeLessonWithStreak(
                                 currentLessonId,
