@@ -59,15 +59,9 @@ Future<bool> showRewardedAdAndFinishExam(
     ),
   );
 
-  final bool isRewarded = await AdService.showRewardedAd(context);
-  if (isRewarded) {
-    return true;
-  } else {
-    if (context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text(AppStrings.notAdvertising)));
-    }
-    return false;
-  }
+  // Навіть якщо метод поверне false (закрив раніше), ми все одно повертаємо true,
+  // щоб не блокувати користувача, але рекламу йому показали.
+  await AdService.showRewardedAd(context);
+
+  return true;
 }

@@ -58,13 +58,66 @@ class _ExamPageState extends ConsumerState<ExamPage> {
   }
 
   void _onFinishPressed() async {
+    print('DEBUG EXAM UI: Натиснуто кнопку завершення іспиту.');
+
     final shouldFinish = await _showExitConfirmationDialog(context);
+    print(
+      'DEBUG EXAM UI: Відповідь у діалозі виходу: shouldFinish = $shouldFinish',
+    );
+
     if (!shouldFinish || !mounted) return;
 
+    print('DEBUG EXAM UI: Викликаємо showRewardedAdAndFinishExam...');
     final canProceed = await showRewardedAdAndFinishExam(context, ref);
+    print(
+      'DEBUG EXAM UI: Результат canProceed = $canProceed, mounted = $mounted',
+    );
 
     if (canProceed && mounted) {
-      ref.read(examControllerProvider.notifier).finishExam();
+      print('DEBUG EXAM UI: Завершуємо іспит та переходимо на результати...');
+
+      final controllerNotifier = ref.read(examControllerProvider.notifier);
+      controllerNotifier.finishExam();
+
+      final examState = ref.read(examControllerProvider);
+      final exam = examState.exam;
+
+      if (exam != null) {
+        final timeSpent =
+            (exam.timeLimitMinutes * 60) - examState.timeRemainingSeconds;
+
+        int rawScore = 0;
+        for (int i = 0; i < exam.question.length; i++) {
+          final question = exam.question[i];
+          final userAnswer = examState.userAnswer[i];
+          if (userAnswer != null) {
+            rawScore += question.calculateScore(userAnswer);
+          }
+        }
+
+        final nmtScore = NmtScoreCalculator.calculateNMTScore(rawScore);
+        final resultEntity = ExamResultEntity(
+          examId: exam.id,
+          examTitle: exam.title,
+          rawScore: rawScore,
+          nmtScore: nmtScore,
+          maxRawScore: exam.maxRawScore,
+          timeSpendSeconds: timeSpent,
+          completedAt: DateTime.now(),
+          userAnswer: examState.userAnswer,
+        );
+
+        print(
+          'DEBUG EXAM UI: Виконуємо context.goNamed на ${AppRouters.examResultName}',
+        );
+        context.goNamed(AppRouters.examResultName, extra: (resultEntity, exam));
+      } else {
+        print('DEBUG EXAM UI ПОМИЛКА: exam == null!');
+      }
+    } else {
+      print(
+        'DEBUG EXAM UI: Не вдалося продовжити (canProceed = $canProceed, mounted = $mounted)',
+      );
     }
   }
 
@@ -127,7 +180,6 @@ class _ExamPageState extends ConsumerState<ExamPage> {
           final canProceed = await showRewardedAdAndFinishExam(context, ref);
           if (canProceed && context.mounted) {
             controller.finishExam();
-            Navigator.of(context).pop();
           }
         }
       },
